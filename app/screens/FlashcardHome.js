@@ -37,7 +37,10 @@ export default function FlashcardHome({ navigation }) {
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity style={[styles.button, styles.test]}>
+              <TouchableOpacity
+                style={[styles.button, styles.test]}
+                onPress={() => navigation.push("TestFlashcard")}
+              >
                 <Text style={styles.learnLabel}>{"Kiểm tra"}</Text>
               </TouchableOpacity>
             </View>

@@ -11,6 +11,7 @@ import FlashcardHome from "./app/screens/FlashcardHome";
 import Flashcards from "./app/screens/Flashcards";
 import LearnFlashcard from "./app/screens/LearnFlashcard";
 import EditFlashcard from "./app/screens/EditFlashcard";
+import TestFlashcard from "./app/screens/TestFlashcard";
 
 import Home from "./app/screens/Home";
 import Game from "./app/screens/Game";
@@ -36,10 +37,12 @@ const FlashcardStackScreen = () => (
 )
 
 const FlashcardHomeStackScreen = () => (
+  
   <FlashcardHomeStack.Navigator>
     <FlashcardHomeStack.Screen name="FlashcardHome" component={FlashcardHome} />
     <FlashcardHomeStack.Screen name="LearnFlashcard" component={LearnFlashcard}/>
     <FlashcardHomeStack.Screen name="EditFlashcard" component={EditFlashcard}/>
+    <FlashcardHomeStack.Screen name="TestFlashcard" component={TestFlashcard}/>
   </FlashcardHomeStack.Navigator>
 )
 

@@ -17,7 +17,7 @@ import font_styles from "../font/font";
 
 export default function EditFlashcard() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/**title page */}
       <ScrollView>
         <View>
@@ -66,7 +66,7 @@ export default function EditFlashcard() {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
