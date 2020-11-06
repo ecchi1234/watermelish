@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AddFlashcard from "./app/screens/AddFlashcard";
 import FlashcardHome from "./app/screens/FlashcardHome";
 import Flashcards from "./app/screens/Flashcards";
+import LearnFlashcard from "./app/screens/LearnFlashcard";
 
 import Home from "./app/screens/Home";
 import Game from "./app/screens/Game";
@@ -20,9 +21,27 @@ import ListIcons from "./app/components/ListIcons";
 const HomeStack = createStackNavigator();
 const GameStack = createStackNavigator();
 const FlashcardStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
+const ProfileStack = createStackNavigator()
+const FlashcardHomeStack = createStackNavigator();
 
 const Tabs = createBottomTabNavigator();
+
+const FlashcardStackScreen = () => (
+  <FlashcardStack.Navigator>
+    <FlashcardStack.Screen name="Flashcards" component={Flashcards}/>
+    <FlashcardStack.Screen name="AddFlashcard" component={AddFlashcard}/>
+    <FlashcardStack.Screen name="FlashcardHome" component={FlashcardHomeStackScreen}/>
+    <FlashcardStack.Screen name="LearnFlashcard" component={LearnFlashcard}/>
+  </FlashcardStack.Navigator>
+)
+
+const FlashcardHomeStackScreen = () => (
+  <FlashcardHomeStack.Navigator>
+    <FlashcardHomeStack.Screen name="FlashcardHome" component={FlashcardHome} />
+    <FlashcardHomeStack.Screen name="LearnFlashcard" component={LearnFlashcard}/>
+  </FlashcardHomeStack.Navigator>
+)
+
 
 export default function App() {
   return (
@@ -53,11 +72,15 @@ export default function App() {
             return <Image source={iconName} />;
           },
         })}
+        tabBarOptions={{
+          activeTintColor: '#84D037',
+          inactiveTintColor: 'gray',
+        }}
       >
         <Tabs.Screen name="Home" component={Home} />
         <Tabs.Screen name="Game" component={Game} />
         <Tabs.Screen name="Profile" component={Profile} />
-        <Tabs.Screen name="Flashcard" component={Flashcards} />
+        <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
       </Tabs.Navigator>
     </NavigationContainer>
   );

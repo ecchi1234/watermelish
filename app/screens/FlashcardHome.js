@@ -16,11 +16,11 @@ import {
 import font_styles from "../font/font";
 import EachCardList from "../components/EachCardList";
 
-export default function FlashcardHome() {
+export default function FlashcardHome({navigation}) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {/**title page */}
-      <ScrollView>
+      <ScrollView style={styles.scroll}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
 
@@ -29,7 +29,7 @@ export default function FlashcardHome() {
           </Text>
           <View style={styles.buttonHeaderGroup}>
             <View style={{ marginRight: 10, borderRadius: 10 }}>
-              <TouchableOpacity style={[styles.button, styles.learn]}>
+              <TouchableOpacity style={[styles.button, styles.learn]} onPress={() => navigation.push("LearnFlashcard")}>
                 <Text style={styles.learnLabel}>{"Học"}</Text>
               </TouchableOpacity>
             </View>
@@ -49,8 +49,8 @@ export default function FlashcardHome() {
           <Image source={require("../img/edit-button.png")}></Image>
         </View>
 
-        <View>
-          <Image source={require("../img/flashcard-back.png")}></Image>
+        <View style={{margin: 30}}>
+          <Image style={{flex: 1}} source={require("../img/flashcard-back.png")}></Image>
         </View>
 
         <View>
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
-    paddingTop: Platform.OS === "android" ? 20 : 0,
+    justifyContent: "center",
+    alignItems: "center"
   },
   pageTitle: {
     color: "#ffffff",
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     position: "absolute",
-    top: 90,
+    top: 80,
     left: 10,
   },
 
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     height: 34,
     backgroundColor: "#2D2727",
     borderRadius: 4,
+    justifyContent: "center"
   },
 
   test: {
@@ -108,9 +110,14 @@ const styles = StyleSheet.create({
   learnLabel: {
     color: "#fff",
     textAlign: "center",
+    
   },
 
   imageBackground: {
     resizeMode: "contain"
   },
+
+  scroll: {
+    // paddingTop: Platform.OS === "android" ? 20 : 0,
+  }
 });
