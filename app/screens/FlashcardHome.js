@@ -16,7 +16,7 @@ import {
 import font_styles from "../font/font";
 import EachCardList from "../components/EachCardList";
 
-export default function FlashcardHome({navigation}) {
+export default function FlashcardHome({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/**title page */}
@@ -29,7 +29,10 @@ export default function FlashcardHome({navigation}) {
           </Text>
           <View style={styles.buttonHeaderGroup}>
             <View style={{ marginRight: 10, borderRadius: 10 }}>
-              <TouchableOpacity style={[styles.button, styles.learn]} onPress={() => navigation.push("LearnFlashcard")}>
+              <TouchableOpacity
+                style={[styles.button, styles.learn]}
+                onPress={() => navigation.push("LearnFlashcard")}
+              >
                 <Text style={styles.learnLabel}>{"Học"}</Text>
               </TouchableOpacity>
             </View>
@@ -46,11 +49,16 @@ export default function FlashcardHome({navigation}) {
           >
             Chỉnh sửa
           </Text>
-          <Image source={require("../img/edit-button.png")}></Image>
+          <TouchableOpacity onPress={() => navigation.push("EditFlashcard")}>
+            <Image source={require("../img/edit-button.png")}></Image>
+          </TouchableOpacity>
         </View>
 
-        <View style={{margin: 30}}>
-          <Image style={{flex: 1}} source={require("../img/flashcard-back.png")}></Image>
+        <View style={{ margin: 30 }}>
+          <Image
+            style={{ flex: 1 }}
+            source={require("../img/flashcard-back.png")}
+          ></Image>
         </View>
 
         <View>
@@ -66,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   pageTitle: {
     color: "#ffffff",
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     height: 34,
     backgroundColor: "#2D2727",
     borderRadius: 4,
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   test: {
@@ -110,14 +118,13 @@ const styles = StyleSheet.create({
   learnLabel: {
     color: "#fff",
     textAlign: "center",
-    
   },
 
   imageBackground: {
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
 
   scroll: {
     // paddingTop: Platform.OS === "android" ? 20 : 0,
-  }
+  },
 });

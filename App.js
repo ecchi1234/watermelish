@@ -5,12 +5,12 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Ionicons } from "@expo/vector-icons";
 
 import AddFlashcard from "./app/screens/AddFlashcard";
 import FlashcardHome from "./app/screens/FlashcardHome";
 import Flashcards from "./app/screens/Flashcards";
 import LearnFlashcard from "./app/screens/LearnFlashcard";
+import EditFlashcard from "./app/screens/EditFlashcard";
 
 import Home from "./app/screens/Home";
 import Game from "./app/screens/Game";
@@ -39,6 +39,7 @@ const FlashcardHomeStackScreen = () => (
   <FlashcardHomeStack.Navigator>
     <FlashcardHomeStack.Screen name="FlashcardHome" component={FlashcardHome} />
     <FlashcardHomeStack.Screen name="LearnFlashcard" component={LearnFlashcard}/>
+    <FlashcardHomeStack.Screen name="EditFlashcard" component={EditFlashcard}/>
   </FlashcardHomeStack.Navigator>
 )
 
