@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   View,
@@ -12,6 +12,7 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
+import FlipCard from "react-native-flip-card";
 
 import font_styles from "../font/font";
 
@@ -26,36 +27,62 @@ export default function LearnFlashcard() {
             Bộ từ: Spring
           </Text>
         </View>
-
-        <View style={{ margin: 30 }}>
-          <Image
-            style={{ flex: 1 }}
-            source={require("../img/flashcard-back.png")}
-          ></Image>
-        </View>
-
-        <View style={{ alignItems: "center" }}>
-          <View style={[styles.english, styles.word]}>
-            <Text style={[font_styles.font, { color: "#fff", fontWeight: "bold", fontSize: 30 }]}>
-              festival
-            </Text>
-            <Text style={[font_styles.font, { color: "#fff" }]}>
-                (n)
-            </Text>
+        <FlipCard flipVertical={true}>
+          <View style={{ margin: 30 }}>
             <Image
-              source={require("../img/sound.png")}
-              style={styles.soundButton}
+              style={{ flex: 1 }}
+              source={require("../img/flashcard-back.png")}
             ></Image>
           </View>
+
+          <View style={{ margin: 30 }}>
+            <Image
+              style={{ flex: 1 }}
+              source={require("../img/autumn.png")}
+            ></Image>
+          </View>
+        </FlipCard>
+        <View>
+          <FlipCard style={{ alignItems: "center" }} flipVertical={true} friction={8}>
+            <View style={[styles.english, styles.word]}>
+              <Text
+                style={[
+                  font_styles.font,
+                  { color: "#fff", fontWeight: "bold", fontSize: 30 },
+                ]}
+              >
+                festival
+              </Text>
+              <Text style={[font_styles.font, { color: "#fff" }]}>(n)</Text>
+              <Image
+                source={require("../img/sound.png")}
+                style={styles.soundButton}
+              ></Image>
+            </View>
+
+            <View style={[styles.vietnamese, styles.word]}>
+              <Text
+                style={[
+                  font_styles.font,
+                  { color: "#fff", fontWeight: "bold", fontSize: 30 },
+                ]}
+              >
+                lễ hội
+              </Text>
+            </View>
+          </FlipCard>
+
           <View style={styles.arrow}>
-            <Image
-              source={require("../img/left.png")}
-              style={{ position: "absolute", top: -100, left: -170 }}
-            />
-            <Image
-              source={require("../img/right.png")}
-              style={{ position: "absolute", top: -100, right: -170 }}
-            />
+            <TouchableOpacity style={{ position: "absolute", top: -110, left: 30 }} onPress={() => console.log("prev")}>
+              <Image
+                source={require("../img/left.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ position: "absolute", top: -105, right: 30}} onPress={() => console.log("next")}>
+              <Image
+                source={require("../img/right.png")}
+              />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -109,6 +136,10 @@ const styles = StyleSheet.create({
 
   english: {
     backgroundColor: "#84D037",
+  },
+
+  vietnamese: {
+    backgroundColor: "#E84118",
   },
 
   arrow: {
