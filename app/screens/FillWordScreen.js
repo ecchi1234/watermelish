@@ -16,8 +16,8 @@ export default function FillWordScreen({navigation}) {
     <SafeAreaView style={StyleSheet.container}>
         <ScrollView style={styles.scrollView} >
             {/* <View > */}
-                <ScoreTime style={{flex: 1}} score="0" time="1:30"/>
-                <QuestionChoice style={{flex: 2}} question="festi_al"></QuestionChoice>
+                <ScoreTime score="0" time="1:30"/>
+                <QuestionChoice question="festi_al"></QuestionChoice>
                 {/* <ScrollView style={styles.scrollView, {flex: 5}}> */}
                 <View style={styles.box}>
                     <View style={{ flex: 1, marginRight: 55, borderRadius: 10 }}>

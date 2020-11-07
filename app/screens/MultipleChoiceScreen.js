@@ -5,21 +5,34 @@ Text,
 TouchableOpacity,
 ScrollView,
 StyleSheet,
+SafeAreaView,
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
 import QuestionChoice from '../components/QuestionChoice';
+import AnswerChoice from '../components/AnswerChoice';
+
+
 
 export default function MultipleChoiceScreen() {
     return (
-        <View style={styles.container}>
-            <ScoreTime style={{flex: 1}} score="0" time="1:30"/>
-            <QuestionChoice style={{flex: 1}} question="festival"></QuestionChoice>
-            <ScrollView style={styles.scrollView, {flex: 5}}>
+        <SafeAreaView style={StyleSheet.container}>
+            <ScrollView style={styles.scrollView} >
+                <ScoreTime score="0" time="1:30"/>
+                <QuestionChoice question="festival"/>
                 <View>
+                    <AnswerChoice stt="A" answer="lễ hội" key="true"></AnswerChoice>
                 </View>
+                <View>
+                    <AnswerChoice stt="B" answer="chúc mừng năm mới"></AnswerChoice>
+                </View>
+                <View>
+                    <AnswerChoice stt="C" answer="hoa đào"></AnswerChoice>
+                </View>
+                
+                
             </ScrollView>
-        </View>
+        </SafeAreaView>    
     )
 }
 
