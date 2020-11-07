@@ -1,28 +1,6 @@
-import React from 'react';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import {StyleSheet} from 'react-native';
 
-
-export default function Answer(props){
-    return (
-        <View style={{flex: 3}}>
-            <View style={{flex: 1}}>
-              <Text style={styles.title}>Trắc nghiệm</Text>
-            </View>
-            <View style={styles.game}>
-              <View style={{flex: 4}}>
-                <Image style={styles.image}  />
-              </View>
-              <View style={{flex: 5}}>
-                <Text style={styles.textScore}>Điểm cao</Text>
-                <Text style={styles.textScore}>300</Text>
-              </View>
-            </View>
-        </View>
-    );
-        
-}
-
-const styles = StyleSheet.create({
+const icon_styles = StyleSheet.create({
     title: {
         fontSize: 15,
         lineHeight: 40,
@@ -32,14 +10,14 @@ const styles = StyleSheet.create({
         color: '#2D2727',
     },
     game: {
-        flex: 4,
+        // flex: 4,
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: "#8E8888",
         borderRadius: 10,
     },
     image: {
-        flex: 1,
+        // flex: 1,
         resizeMode: 'stretch',
         borderTopLeftRadius:10,
         borderTopRightRadius:10,
@@ -52,7 +30,7 @@ const styles = StyleSheet.create({
         // height: 114,
         // left: 185,
         // top: 404,
-        marginTop: 30,
+        marginTop: 20,
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'normal',
@@ -62,4 +40,6 @@ const styles = StyleSheet.create({
         color: '#84D037',
     },
 });
-  
+
+
+export default icon_styles;
