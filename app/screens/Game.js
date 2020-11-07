@@ -1,13 +1,9 @@
 import React from "react";
 import {
   View,
-  Text,
-  Image,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Platform,
-  StatusBar,
 } from "react-native";
 
 import MultipleChoice from "../components/MultipleChoice";

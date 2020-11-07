@@ -1,10 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {  
+View,
+Text,
+TouchableOpacity,
+ScrollView,
+StyleSheet,
+} from 'react-native';
+
+import ScoreTime from '../components/ScoreAndTime';
 
 export default function MatchWordScreen() {
     return (
         <View style={styles.container}>
-            <Text>Game ghép chữ</Text>
+            <ScoreTime score="0" time="1:30"></ScoreTime>
         </View>
     )
 }
