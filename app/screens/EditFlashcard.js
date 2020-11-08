@@ -9,46 +9,63 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert
 } from "react-native";
 
 import InputArea from "../components/InputArea";
 import EachWordRow from "../components/EachWordRow";
 import font_styles from "../font/font";
+import MyAppText from "../components/MyAppText";
 
-export default function EditFlashcard() {
+export default function EditFlashcard({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       {/**title page */}
       <ScrollView>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
-          <Text style={[font_styles.font, styles.pageTitle]}>
-            Chỉnh sửa bộ từ
-          </Text>
+          <MyAppText content="Chỉnh sửa bộ từ" format="bold" size={25} style={[styles.pageTitle]}>
+            Chỉnh sửa bộ tư
+          </MyAppText>
           {/**button save */}
         </View>
 
         <View style={styles.saveGroup}>
-          <Text style={[font_styles.font, styles.saveText]}>Lưu lại</Text>
-          <Image
-            resizeMode={"contain"}
-            source={require("../img/save-button.png")}
-          ></Image>
+          <MyAppText content="Lưu lại" format="italic" size={15} style={{}}>Lưu lại</MyAppText>
+          <TouchableOpacity
+            onPress={() => {
+              return Alert.alert("Thông báo", "Bạn đã thêm thành công", [
+                {
+                  text: "Back to home",
+                  onPress: () => navigation.goBack(),
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("cancel"),
+                },
+              ]);
+            }}
+          >
+            <Image
+              resizeMode={"contain"}
+              source={require("../img/save-button.png")}
+            ></Image>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.content}>
           {/**name of flashcard word*/}
 
           <View>
-            <Text style={[font_styles.font, styles.titleText]}>Tên bộ từ</Text>
+            <MyAppText content="Tên bộ từ" format="regular" size={15} style={[styles.titleText]}></MyAppText>
             <InputArea></InputArea>
           </View>
           {/** choose display image of flashcard */}
-          <View style={{marginBottom: 10}}>
-            <Text style={[font_styles.font, styles.titleText]}>Background</Text>
+          <View style={{ marginBottom: 10 }}>
+            <MyAppText content="Background" format="regular" size={15} style={[styles.titleText]}>Background</MyAppText>
             <View style={styles.chooseImageGroup}>
               <Button title={"Chọn ảnh"} color={"black"}></Button>
-              <Text style={styles.fileName}>spring.jpg</Text>
+              <MyAppText content="spring.jpg" format="regular" size={15} style={styles.fileName}>spring.jpg</MyAppText>
             </View>
           </View>
           <View>
@@ -59,7 +76,7 @@ export default function EditFlashcard() {
           </View>
 
           <View>
-            <Text style={font_styles.font}>Thêm từ vựng</Text>
+            <MyAppText content="Thêm từ vựng" format="regular" size={15} style={{}}></MyAppText>
             <TouchableOpacity onPress={() => console.log("tapped")}>
               <Image source={require("../img/add-button.png")}></Image>
             </TouchableOpacity>
@@ -77,11 +94,9 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     position: "absolute",
-    top: 50,
+    top: 30,
     marginLeft: 20,
-    fontSize: 25,
     color: "#fff",
-    fontWeight: "bold",
   },
   saveGroup: {
     flexDirection: "row",

@@ -13,89 +13,110 @@ import {
   StatusBar,
 } from "react-native";
 import FlipCard from "react-native-flip-card";
-
+import { Audio } from "expo-av";
 import font_styles from "../font/font";
+import MyAppText from "../components/MyAppText";
 
 export default function LearnFlashcard() {
+  async function playSound() {
+    const soundObject = new Audio.Sound();
+
+    try {
+      await soundObject.loadAsync(require("../sound/festival.mp3"));
+      await soundObject.playAsync();
+      // Your sound is playing!
+    } catch (error) {
+      // An error occurred!
+      console.log(error);
+    }
+  }
+
   return (
     <SafeAreaView>
       <ScrollView>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
 
-          <Text style={[font_styles.font, styles.pageTitle]}>
+          <MyAppText content="Bộ từ: Spring" format="bold" size={25} style={[styles.pageTitle]}>
             Bộ từ: Spring
-          </Text>
+          </MyAppText>
         </View>
         <FlipCard flipVertical={true}>
           <View style={{ margin: 30 }}>
             <Image
-              style={{ flex: 1 }}
+              resizeMode="contain"
+              style={[styles.imageBackground, {}]} 
               source={require("../img/flashcard-back.png")}
             ></Image>
           </View>
 
           <View style={{ margin: 30 }}>
             <Image
-              style={{ flex: 1 }}
+              style={styles.imageBackground}
               source={require("../img/autumn.png")}
             ></Image>
           </View>
         </FlipCard>
         <View>
-          <FlipCard style={{ alignItems: "center" }} flipVertical={true} friction={8}>
+          <FlipCard
+            style={{ alignItems: "center" }}
+            flipVertical={true}
+            friction={8}
+          >
             <View style={[styles.english, styles.word]}>
-              <Text
+              <MyAppText content="festival" format="bold"
                 style={[
-                  font_styles.font,
-                  { color: "#fff", fontWeight: "bold", fontSize: 30 },
+                  { color: "#fff"},
                 ]}
               >
                 festival
-              </Text>
-              <Text style={[font_styles.font, { color: "#fff" }]}>(n)</Text>
-              <Image
-                source={require("../img/sound.png")}
+              </MyAppText>
+              <MyAppText content="(n)" format="regular" size={15} style={[{ color: "#fff" }]}>(n)</MyAppText>
+              <TouchableOpacity
                 style={styles.soundButton}
-              ></Image>
+                onPress={() => playSound()}
+              >
+                <Image source={require("../img/sound.png")}></Image>
+              </TouchableOpacity>
             </View>
 
             <View style={[styles.vietnamese, styles.word]}>
-              <Text
+              <MyAppText content="lễ hội" format="bold" 
                 style={[
-                  font_styles.font,
-                  { color: "#fff", fontWeight: "bold", fontSize: 30 },
+                  { color: "#fff",},
                 ]}
               >
                 lễ hội
-              </Text>
+              </MyAppText>
             </View>
           </FlipCard>
 
           <View style={styles.arrow}>
-            <TouchableOpacity style={{ position: "absolute", top: -110, left: 30 }} onPress={() => console.log("prev")}>
-              <Image
-                source={require("../img/left.png")}
-              />
+            <TouchableOpacity
+              style={{ position: "absolute", top: -110, left: 30 }}
+              onPress={() => console.log("prev")}
+            >
+              <Image source={require("../img/left.png")} />
             </TouchableOpacity>
-            <TouchableOpacity style={{ position: "absolute", top: -105, right: 30}} onPress={() => console.log("next")}>
-              <Image
-                source={require("../img/right.png")}
-              />
+            <TouchableOpacity
+              style={{ position: "absolute", top: -105, right: 30 }}
+              onPress={() => console.log("next")}
+            >
+              <Image source={require("../img/right.png")} />
             </TouchableOpacity>
           </View>
         </View>
 
-        <View style={{ alignItems: "center", marginBottom: 20 }}>
-          <Text style={[font_styles.font, { fontStyle: "italic" }]}>
+        <View style={{margin: 20, flexWrap: "wrap", alignContent: "center"}}>
+          <MyAppText content="Nhấn mũi tên để di chuyển qua các thẻ" format="italic" size={15} style={{alignSelf: "center"}}>
             Nhấn mũi tên để di chuyển qua các thẻ
-          </Text>
-          <Text style={[font_styles.font, { fontStyle: "italic" }]}>
+          </MyAppText>
+          <MyAppText content="Nhấn loa để nghe phát âm" format="italic" size={15} style={{}}>
             Nhấn loa để nghe phát âm
-          </Text>
-          <Text style={[font_styles.font, { fontStyle: "italic" }]}>
+          </MyAppText>
+          <MyAppText content="Nhấn vào thẻ để lật thẻ" format="italic" size={15} style={{}}>
             Nhấn vào thẻ để lật thẻ
-          </Text>
+          </MyAppText>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -111,11 +132,9 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     position: "absolute",
-    top: 50,
+    top: 30,
     marginLeft: 20,
-    fontSize: 25,
     color: "#fff",
-    fontWeight: "bold",
   },
 
   word: {
@@ -146,5 +165,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  imageBackground: {
+    width: "100%",
+    flex: 1,
+    resizeMode: "contain",
   },
 });

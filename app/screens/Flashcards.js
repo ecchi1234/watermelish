@@ -10,15 +10,16 @@ import {
   StatusBar,
 } from "react-native";
 import FlashcardRow from "../components/FlashcardRow";
+import MyAppText from "../components/MyAppText";
 
 export default function Flashcards({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={{ marginBottom: 20 }}>
-          <Text style={{ color: "#84D037", fontWeight: "bold", fontSize: 20 }}>
+          <MyAppText content="Thêm mới bộ từ" format="bold" style={{ color: "#84D037"}}>
             Thêm mới bộ từ
-          </Text>
+          </MyAppText>
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate("AddFlashcard")}
@@ -31,9 +32,9 @@ export default function Flashcards({ navigation }) {
           </View>
         </View>
         <View>
-          <Text style={{ color: "#84D037", fontWeight: "bold", fontSize: 20 }}>
+          <MyAppText content="Các bộ từ" format="bold" style={{ color: "#84D037"}}>
             Các bộ từ
-          </Text>
+          </MyAppText>
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate("FlashcardHome")}
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
 
   scrollView: {
     // padding: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    width: "100%",
     padding: 20,
   },
 });

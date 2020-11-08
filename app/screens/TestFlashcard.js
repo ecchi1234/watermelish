@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import font_styles from "../font/font";
+import MyAppText from "../components/MyAppText";
 
 export default function TestFlashcard() {
   const [point, setPoint] = useState(0);
@@ -24,24 +25,22 @@ export default function TestFlashcard() {
       <ScrollView>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
-          <Text style={[font_styles.font, styles.pageTitle]}>
+          <MyAppText content="Kiểm tra bộ từ" format="bold" size={25} style={[styles.pageTitle]}>
             Kiểm tra bộ từ
-          </Text>
+          </MyAppText>
           {/**button save */}
         </View>
 
         <View style={styles.content}>
-          <Text
+          <MyAppText content={point + "/10"} format="bold"
             style={{
               color: "red",
               position: "absolute",
               right: 30,
-              fontSize: 25,
-              fontWeight: "bold",
             }}
           >
             {point + "/10"}
-          </Text>
+          </MyAppText>
           <View
             style={{
               marginTop: 20,
@@ -56,18 +55,19 @@ export default function TestFlashcard() {
             }}
           >
             <View style={{ flexDirection: "row" }}>
-              <Text style={{ fontWeight: "bold", fontSize: 30 }}>festi</Text>
+              <MyAppText content="festi" format="bold" size={30} style={{}}>festi</MyAppText>
               <TextInput
                 style={{
                   fontSize: 30,
                   fontWeight: "bold",
                   borderBottomWidth: 2,
                   borderBottomColor: "black",
+                  color: "#E84118"
                 }}
                 onChangeText={(text) => onChangeText(text)}
                 value={value}
               ></TextInput>
-              <Text style={{ fontWeight: "bold", fontSize: 30 }}>al</Text>
+              <MyAppText content="al" format="bold" size={30} style={{ }}>al</MyAppText>
             </View>
           </View>
           <TouchableOpacity
@@ -76,6 +76,9 @@ export default function TestFlashcard() {
               borderRadius: 10,
               width: 150,
               height: 45,
+              alignItems: "center",
+              justifyContent: "center",
+              
             }}
             onPress={() => {
               setPoint((prev) => {
@@ -97,22 +100,19 @@ export default function TestFlashcard() {
               });
             }}
           >
-            <Text
+            <MyAppText content="Submit" format="regular" size={15}
               style={{
                 color: "#fff",
-                textAlign: "center",
-                textAlignVertical: "center",
-                fontSize: 20,
               }}
             >
               Submit
-            </Text>
+            </MyAppText>
           </TouchableOpacity>
-          <Text
-            style={[styles.review]}
+          <MyAppText content={review} format="bold" size={25}
+            style={[styles.review, styles.true]}
           >
             {review}
-          </Text>
+          </MyAppText>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -129,11 +129,9 @@ const styles = StyleSheet.create({
 
   pageTitle: {
     position: "absolute",
-    top: 50,
+    top: 30,
     marginLeft: 20,
-    fontSize: 25,
     color: "#fff",
-    fontWeight: "bold",
   },
 
   content: {
@@ -142,16 +140,15 @@ const styles = StyleSheet.create({
   },
 
   review: {
-    fontSize: 30,
     marginTop: 30,
-    fontWeight: "bold",
-  },
-
-  false: {
-    color: "#84D037",
+    textAlign: "center"
   },
 
   true: {
+    color: "#84D037",
+  },
+
+  false: {
     color: "#E84118",
   }
 });
