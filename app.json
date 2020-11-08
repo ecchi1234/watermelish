@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Learning english vocabulary by flashcard ",
+    "githubUrl": "https://github.com/ecchi1234/watermelish"
   }
 }
