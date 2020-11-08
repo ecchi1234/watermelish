@@ -17,17 +17,17 @@ import MultipleChoiceScreen from "./app/screens/MultipleChoiceScreen";
 import MatchWordScreen from "./app/screens/MatchWordScreen";
 import FillWordScreen from "./app/screens/FillWordScreen";
 
-
 import Home from "./app/screens/Home";
 import Game from "./app/screens/Game";
 import Profile from "./app/screens/Profile";
+import Result from "./app/screens/Result";
 
 import ListIcons from "./app/components/ListIcons";
 
 const HomeStack = createStackNavigator();
 const GameStack = createStackNavigator();
 const FlashcardStack = createStackNavigator();
-const ProfileStack = createStackNavigator()
+const ProfileStack = createStackNavigator();
 const FlashcardHomeStack = createStackNavigator();
 
 const Tabs = createBottomTabNavigator();
@@ -40,8 +40,6 @@ const GameStackGame = () => (
     <GameStack.Screen name="FillWordScreen" component={FillWordScreen}/>
   </GameStack.Navigator>
 )
-
-
 
 const FlashcardStackScreen = () => (
   <FlashcardStack.Navigator>
@@ -60,6 +58,13 @@ const FlashcardHomeStackScreen = () => (
     <FlashcardHomeStack.Screen name="EditFlashcard" component={EditFlashcard}/>
     <FlashcardHomeStack.Screen name="TestFlashcard" component={TestFlashcard}/>
   </FlashcardHomeStack.Navigator>
+)
+
+const HomeStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Home" component={Home}/>
+    <HomeStack.Screen name="Result" component={Result}/>
+  </HomeStack.Navigator>
 )
 
 
@@ -97,8 +102,8 @@ export default function App() {
           inactiveTintColor: 'gray',
         }}
       >
-        <Tabs.Screen name="Home" component={Home} />
-        <Tabs.Screen name="Game" component={GameStackGame} />
+        <Tabs.Screen name="Home" component={HomeStackScreen} />
+        <Tabs.Screen name="Game" component={Game} />
         <Tabs.Screen name="Profile" component={Profile} />
         <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
       </Tabs.Navigator>
@@ -114,3 +119,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+

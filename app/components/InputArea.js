@@ -1,28 +1,29 @@
-import React, { Component } from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
+import MyAppText from "../components/MyAppText";
 
-const InputArea = () => {
-  const [value, onChangeText] = React.useState('Spring');
-
+export default function FlashcardRow(props) {
   return (
-    <TextInput
-      style={styles.inputField}
-      onChangeText={text => onChangeText(text)}
-      value={value}
-    />
+    <View style={styles.container}>
+      <MyAppText content={props.name} format="bold" size={15} style={{  }}></MyAppText>
+        <Image
+          resizeMode="cover"
+          source={require("../img/autumn.png")}
+          style={styles.imageBackground}
+        ></Image>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  inputField: {
-    height: 40, 
-    backgroundColor: '#f1f1f1',
-    borderRadius: 5, 
-    marginBottom: 10, 
-    padding: 5,
-    fontSize: 15
+  container: {
+    flex: 1,
+    marginBottom: 20,
+  },
+
+  imageBackground: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "contain"
   }
-})
-
-export default InputArea;
-
+});
