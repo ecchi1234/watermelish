@@ -103,7 +103,7 @@ export default function App() {
         }}
       >
         <Tabs.Screen name="Home" component={HomeStackScreen} />
-        <Tabs.Screen name="Game" component={Game} />
+        <Tabs.Screen name="Game" component={GameStackGame} />
         <Tabs.Screen name="Profile" component={Profile} />
         <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
       </Tabs.Navigator>
