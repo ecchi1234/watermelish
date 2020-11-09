@@ -94,7 +94,7 @@ export default function App() {
             }
 
             // You can return any component that you like here!
-            return <Image source={iconName} />;
+            return <Image source={iconName} style={{width: 27, height: 27}}/>;
           },
         })}
         tabBarOptions={{
@@ -103,9 +103,9 @@ export default function App() {
         }}
       >
         <Tabs.Screen name="Home" component={HomeStackScreen} />
+        <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
         <Tabs.Screen name="Game" component={GameStackGame} />
         <Tabs.Screen name="Profile" component={Profile} />
-        <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
       </Tabs.Navigator>
     </NavigationContainer>
   );

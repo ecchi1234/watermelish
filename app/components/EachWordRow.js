@@ -20,8 +20,8 @@ export default function EachWordRow() {
        */}
 
       <View>
-        <InputArea>{/* <MyAppText>festival(n)</MyAppText> */}</InputArea>
-        <InputArea>{/* <MyAppText>Mùa xuân</MyAppText> */}</InputArea>
+        <InputArea type="Tieng anh">{/* <MyAppText>festival(n)</MyAppText> */}</InputArea>
+        <InputArea type="Tieng viet">{/* <MyAppText>Mùa xuân</MyAppText> */}</InputArea>
       </View>
     </View>
   );

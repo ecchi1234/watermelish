@@ -58,7 +58,7 @@ export default function EditFlashcard({navigation}) {
 
           <View>
             <MyAppText content="Tên bộ từ" format="regular" size={15} style={[styles.titleText]}></MyAppText>
-            <InputArea></InputArea>
+            <InputArea type="Ten bo tu"></InputArea>
           </View>
           {/** choose display image of flashcard */}
           <View style={{ marginBottom: 10 }}>
@@ -78,7 +78,7 @@ export default function EditFlashcard({navigation}) {
           <View>
             <MyAppText content="Thêm từ vựng" format="regular" size={15} style={{}}></MyAppText>
             <TouchableOpacity onPress={() => console.log("tapped")}>
-              <Image source={require("../img/add-button.png")}></Image>
+              <Image source={require("../img/add-button.png")} style={{width: 45, height: 45}}></Image>
             </TouchableOpacity>
           </View>
         </View>

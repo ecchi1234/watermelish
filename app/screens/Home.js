@@ -13,7 +13,7 @@ import {
 import MyAppText from "../components/MyAppText";
 
 export default function Home({ navigation }) {
-  const [value, onChangeText] = useState("I'm looking for... ");
+  const [value, onChangeText] = useState("");
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
@@ -30,6 +30,8 @@ export default function Home({ navigation }) {
             style={styles.inputField}
             onChangeText={(text) => onChangeText(text)}
             value={value}
+            placeholder="I'm looking for... "
+            placeholderTextColor="grey"
           />
           <TouchableOpacity
             style={styles.seachButton}
