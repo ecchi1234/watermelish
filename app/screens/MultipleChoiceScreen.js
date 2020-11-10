@@ -14,7 +14,7 @@ import AnswerChoice from '../components/AnswerChoice';
 
 
 
-export default function MultipleChoiceScreen() {
+export default function MultipleChoiceScreen({ navigation }) {
     return (
         <SafeAreaView style={StyleSheet.container}>
             <ScrollView style={styles.scrollView} >
@@ -29,8 +29,6 @@ export default function MultipleChoiceScreen() {
                 <View>
                     <AnswerChoice stt="C" answer="hoa đào"></AnswerChoice>
                 </View>
-                
-                
             </ScrollView>
         </SafeAreaView>    
     )

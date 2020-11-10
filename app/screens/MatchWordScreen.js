@@ -9,7 +9,7 @@ SafeAreaView,
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
-import Match from '../components/Match';
+import BoxMatch from '../components/BoxMatch';
 
 
 
@@ -19,16 +19,16 @@ export default function MultipleChoiceScreen() {
             <ScrollView style={styles.scrollView} >
                 <ScoreTime score="0" time="1:30"/>
                 <View style={styles.box}>
-                    <Match value="Hello"/>
-                    <Match value="Choi Hyun Suk"/>
+                    <BoxMatch value="Hello"/>
+                    <BoxMatch value="Choi Hyun Suk"/>
                 </View>
                 <View style={styles.box}>
-                    <Match value="Bạn của Teume"/>
-                    <Match value="Kho báu"/>
+                    <BoxMatch value="Bạn của Teume"/>
+                    <BoxMatch value="Kho báu"/>
                 </View>
                 <View style={styles.box}>
-                    <Match value="Xin chào"/>
-                    <Match value="Treasure"/>
+                    <BoxMatch value="Xin chào"/>
+                    <BoxMatch value="Treasure"/>
                 </View>
             </ScrollView>
         </SafeAreaView>    
