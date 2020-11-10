@@ -18,7 +18,7 @@ export default function FillWordScreen({navigation}) {
     const [index, setIndex] = useState(0);
     const [result, setResult] = useState("");
     const [value, onChangeText] = useState("");
-    const [check, setCheck] = useState(0);
+    // const [check, setCheck] = useState(0);
     
 
     function isTrue(v) {
