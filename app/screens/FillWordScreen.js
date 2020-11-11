@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import {  
 View,
 Text,
@@ -7,6 +7,7 @@ ScrollView,
 StyleSheet,
 SafeAreaView,
 TextInput,
+Alert,
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
@@ -18,8 +19,16 @@ export default function FillWordScreen({navigation}) {
     const [index, setIndex] = useState(0);
     const [result, setResult] = useState("");
     const [value, onChangeText] = useState("");
-    // const [check, setCheck] = useState(0);
+    const [time, setTime] = useState(20);
     
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if(time>0) setTime(time - 1);
+        }, 1000);
+        // clearing interval
+        return () => clearInterval(timer);
+    });
+
 
     function isTrue(v) {
         let a = words[index][3];
@@ -31,31 +40,28 @@ export default function FillWordScreen({navigation}) {
         return a == (words.length - 1);
     }
 
+    function isTimeout(){
+        return time == 0;
+    }
+
+    if(isTimeout()){
+        Alert.alert("Đã hết thời gian, vui lòng chuyển sang câu hỏi khác");
+        // navigation.navigate("Game");
+    }  
+
     return (
         <SafeAreaView style={StyleSheet.container}>
             <ScrollView style={styles.scrollView} >
-                <ScoreTime score={point} time="1:30"/>
+                <ScoreTime score={point} time={time}/>
                 <View style={styles.question}>
                     <Text style={styles.value}>{words[index].slice(0,3)}</Text>    
                     <TextInput 
                         style={styles.input}
-                        onChangeText={(text) =>
-                            // setCheck((prev) =>{
-                            //     if(value === "") prev = 0;
-                            //     else prev = 1; 
-                            // });
-                            // if(check!=1) 
-                            onChangeText(text)
-                            // else onChangeText(value);
-                            // }
-                        }
+                        onChangeText={(text) => onChangeText(text)}
                         value={value}>
                     </TextInput>
                     <Text style={styles.value}>{words[index].slice(4)}</Text>   
                 </View>
-        
-                {/* <QuestionChoice question="festi_al"></QuestionChoice> */}
-                {/* <ScrollView style={styles.scrollView, {flex: 5}}> */}
         
                 <View style={styles.box}>
                     <View style={{ flex: 1, marginRight: 55, borderRadius: 10 }}>
@@ -64,19 +70,43 @@ export default function FillWordScreen({navigation}) {
                             onPress={() =>{
                                 const test = isTrue(value);
                                 const check = isIndex(index);
-                                setPoint((prev) => {
-                                    const test = isTrue(value);
-                                    if (test) return (prev + 10);
-                                    else return prev;
-                                });
-                                setIndex((prev) => {
-                                    if (test && !check) return (prev + 1);
-                                    else return prev;
-                                });
-                                setResult(() => {
-                                    if (!test ) return "Bạn đã trả lời sai!";
-                                })
+                                const checkTime = isTimeout();
+                                
+                                if(checkTime ){
+                                    setIndex((prev) => {
+                                        if (!check ){
+                                            onChangeText("");
+                                            return (prev + 1);
+                                        } 
+                                        else {
+                                            onChangeText("");
+                                            return prev;
+                                        }
+                                    });
+                                    setTime(() => setTime(20));
+                                }  
+                                else {
+                                    setPoint((prev) => {
+                                        if (test && !checkTime) return (prev + 10);
+                                        else return prev;
+                                    });
+                                    setIndex((prev) => {
+                                        if (test && !check ){
+                                            onChangeText("");
+                                            return (prev + 1);
+                                        } 
+                                        else {
+                                            onChangeText("");
+                                            return prev;
+                                        }
+                                    });
+                                    setResult(() => {
+                                        if (!test && !checkTime ) return "Bạn đã trả lời sai!";
+                                    });
+    
+                                }
                                 if (check) navigation.navigate("Game");
+                                
                         }}>
                             <Text style={styles.text}>{"Submit"}</Text>
                         </TouchableOpacity>
@@ -85,10 +115,12 @@ export default function FillWordScreen({navigation}) {
                         <TouchableOpacity style={[styles.button, styles.skip]}
                             onPress={()=>{
                                 const check = isIndex(index);
+                                const checkTime = isTimeout();
                                 setIndex((prev) => {
                                     if (!check) return (prev + 1);
                                     else return prev;
                                 })
+                                setTime(() => setTime(20));
                                 if (check) navigation.navigate("Game");
                                 // setResult(() => {"Câu hỏi kế tiếp!"})
                             }}>
@@ -96,8 +128,8 @@ export default function FillWordScreen({navigation}) {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <View><Text style={styles.result}>{result}</Text></View>
                 
-                <Text style={styles.result}>{result}</Text>
             </ScrollView>
         </SafeAreaView>    
     )

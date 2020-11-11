@@ -29,12 +29,11 @@ export default function AnswerChoice(props) {
                 <View style={{flex: 1}, styles.stt}>
                     <Text style={styles.text} >{props.stt}</Text>  
                 </View>
-                <View style={styles.answer}>
+                <View style={{flex: 1},styles.answer, props.changeStyle}>
                     <Text style={styles.text} >{props.answer}</Text>  
                 </View>
             </View>
         );
-    // }
     
 }
 
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     stt: {
-        flex: 1,
+        // flex: 1,
         borderWidth: 1,
         width: 50,
         borderColor: "#8E8888",
@@ -56,8 +55,8 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
     },
     answer: {
-        flex: 5,
-        backgroundColor: "#fff",
+        // flex: 5,
+        // backgroundColor: "#fff",
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
     },

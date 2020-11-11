@@ -26,6 +26,7 @@ export default function MultipleChoiceScreen({ navigation }) {
     const [index, setIndex] = useState(0);
     // const [key, setKey] = useState(answer[0][3])
     const [result, setResult] = useState("");
+    const [style, setStyle]= useState("styles.test");
 
     function isTrue(a, i){
         return a === answer[i][3];
@@ -56,9 +57,12 @@ export default function MultipleChoiceScreen({ navigation }) {
                         });
                         setResult(() => {
                             if (!test ) return "Bạn đã trả lời sai!";
+                        });
+                        setStyle(()=>{
+                            if(!test) return "styles.styleA";
                         })
                 }}>
-                    <AnswerChoice stt="A" answer ={answer[index][0]} ></AnswerChoice>
+                    <AnswerChoice style ={style}  stt="A" answer ={answer[index][0]} ></AnswerChoice>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = {() => {
@@ -74,9 +78,12 @@ export default function MultipleChoiceScreen({ navigation }) {
                         });
                         setResult(() => {
                             if (!test ) return "Bạn đã trả lời sai!";
+                        });
+                        setStyle(()=>{
+                            if(!test) return "styles.styleB";
                         })
                 }}>
-                    <AnswerChoice stt="B" answer={answer[index][1]}></AnswerChoice>
+                    <AnswerChoice style ={style}  stt="B" answer={answer[index][1]}></AnswerChoice>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress = {() => {
@@ -92,11 +99,16 @@ export default function MultipleChoiceScreen({ navigation }) {
                         });
                         setResult(() => {
                             if (!test ) return "Bạn đã trả lời sai!";
+                        });
+                        setStyle(()=>{
+                            if(!test) return "styles.styleC";
                         })
+                        console.log(style);
                 }}>
-                    <AnswerChoice stt="C" answer={answer[index][2]}></AnswerChoice>
+                    <AnswerChoice 
+                        changeStyle ={style} stt="C" answer={answer[index][2]}></AnswerChoice>
                 </TouchableOpacity>
-                <Text style={styles.value}>{result}</Text>
+                {/* <Text style={styles.value}>{result}</Text> */}
             </ScrollView>
         </SafeAreaView>    
     )
@@ -132,5 +144,5 @@ const styles = StyleSheet.create({
         fontSize: 30,
         // fontWeight: 'bold',
         color: '#2D2727',
-    },
+    }
 })
