@@ -21,6 +21,11 @@ import Home from "./app/screens/Home";
 import Game from "./app/screens/Game";
 import Profile from "./app/screens/Profile";
 import Result from "./app/screens/Result";
+import EditProfile from "./app/screens/EditProfile";
+// Test Login
+import Login from "./app/screens/Login";
+import Signup from "./app/screens/Signup";
+import SetTarget from "./app/screens/SetTarget";
 
 import ListIcons from "./app/components/ListIcons";
 
@@ -31,6 +36,17 @@ const ProfileStack = createStackNavigator();
 const FlashcardHomeStack = createStackNavigator();
 
 const Tabs = createBottomTabNavigator();
+
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen name="Profile" component={Profile}/>
+    <ProfileStack.Screen name="EditProfile" component={EditProfile}/>
+    <ProfileStack.Screen name="SetTarget" component={SetTarget}/>
+    {/* Test Login */}
+    <ProfileStack.Screen name="Login" component={Login}/>
+    <ProfileStack.Screen name="Signup" component={Signup}/>
+  </ProfileStack.Navigator>
+)
 
 const GameStackGame = () => (
   <GameStack.Navigator>
@@ -105,7 +121,7 @@ export default function App() {
         <Tabs.Screen name="Home" component={HomeStackScreen} />
         <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
         <Tabs.Screen name="Game" component={GameStackGame} />
-        <Tabs.Screen name="Profile" component={Profile} />
+        <Tabs.Screen name="Profile" component={ProfileStackScreen} />
       </Tabs.Navigator>
     </NavigationContainer>
   );

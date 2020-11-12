@@ -12,7 +12,7 @@ import {
 
 import MyAppText from "../components/MyAppText";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scroll}>
@@ -24,6 +24,7 @@ export default function Profile() {
                 content="Nguyen Duc Toi"
                 format="bold"
                 style={{ color: "#84D037" }}
+                size={25}
               ></MyAppText>
             </View>
             <View
@@ -39,7 +40,11 @@ export default function Profile() {
                 size={15}
                 style={styles.joinTime}
               ></MyAppText>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("EditProfile");
+              }}
+              >
                 <Image source={require("../img/edit-button.png")}></Image>
               </TouchableOpacity>
             </View>
@@ -80,7 +85,9 @@ export default function Profile() {
               ></MyAppText>
             </View>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {navigation.navigate("SetTarget")}}
+              >
                 <Image source={require("../img/edit-button.png")}></Image>
               </TouchableOpacity>
             </View>
@@ -90,7 +97,13 @@ export default function Profile() {
             <MyAppText content="155" format="bold" size={15}></MyAppText>
           </View>
         </View>
-        <TouchableOpacity style={{width: "70%", }}>
+        <TouchableOpacity
+          style={{width: "70%", }}
+          onPress={() => {
+            // Test Login
+            navigation.navigate("Login");
+          }}
+        >
           <View
             style={{
               flex: 1,
