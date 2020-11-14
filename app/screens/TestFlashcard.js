@@ -22,7 +22,7 @@ export default function TestFlashcard() {
 
   return (
     <SafeAreaView style={StyleSheet.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
           <MyAppText content="Kiểm tra bộ từ" format="bold" size={25} style={[styles.pageTitle]}>

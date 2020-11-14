@@ -21,7 +21,7 @@ export default function AddFlashcard({navigation}) {
   return (
     <View style={styles.container}>
       {/**title page */}
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
           <MyAppText content="Thêm mới bộ từ" format="bold" size={25} style={[styles.pageTitle]}>

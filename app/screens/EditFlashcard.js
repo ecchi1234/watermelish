@@ -21,7 +21,7 @@ export default function EditFlashcard({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       {/**title page */}
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
           <MyAppText content="Chỉnh sửa bộ từ" format="bold" size={25} style={[styles.pageTitle]}>

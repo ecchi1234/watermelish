@@ -15,7 +15,7 @@ import MyAppText from "../components/MyAppText";
 export default function Flashcards({ navigation }) {
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={{ marginBottom: 20 }}>
           <MyAppText content="Thêm mới bộ từ" format="bold" style={{ color: "#84D037"}}>
             Thêm mới bộ từ

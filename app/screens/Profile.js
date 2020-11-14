@@ -10,12 +10,16 @@ import {
   StatusBar,
 } from "react-native";
 
+import { AuthContext } from "../screens/Context";
+
 import MyAppText from "../components/MyAppText";
 
 export default function Profile({ navigation }) {
+  const { Logout } = React.useContext(AuthContext);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image source={require("../img/profile-avatar.png")}></Image>
           <View style={{}}>
@@ -42,7 +46,7 @@ export default function Profile({ navigation }) {
               ></MyAppText>
               <TouchableOpacity
               onPress={() => {
-                navigation.navigate("EditProfile");
+                navigation.push("EditProfile");
               }}
               >
                 <Image source={require("../img/edit-button.png")}></Image>
@@ -101,7 +105,8 @@ export default function Profile({ navigation }) {
           style={{width: "70%", }}
           onPress={() => {
             // Test Login
-            navigation.navigate("Login");
+            // navigation.navigate("Login");
+            Logout()
           }}
         >
           <View

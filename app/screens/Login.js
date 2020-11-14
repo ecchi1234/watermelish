@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -10,12 +10,19 @@ import {
   StatusBar,
 } from "react-native";
 
+import { AuthContext } from "../screens/Context";
+
 import MyAppText from "../components/MyAppText";
 
 export default function Login ({ navigation }) {
+  const { Login } = React.useContext(AuthContext);
+
+  const[username, onChangeText] = useState("");
+  const[password, onChangePass] = useState("");
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: "row", alignItems: "center", }}>
           <Image source={require("../img/watermelon-login.png")} style={styles.img} />
         </View>
@@ -32,6 +39,8 @@ export default function Login ({ navigation }) {
             <TextInput
               style={styles.inputText}
               placeholder="Username"
+              onChangeText={(username) => onChangeText(username)}
+              value={username}
             />
           </View>
           <View style={styles.inputView} >
@@ -39,10 +48,17 @@ export default function Login ({ navigation }) {
               secureTextEntry
               style={styles.inputText}
               placeholder="Password"
+              onChangeText={(password) => onChangePass(password)}
+              value={password}
             />
           </View>
         </View>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={() => {
+            if (username === "nhom13" && password === "nhom13") Login()
+          }}
+        >
           <View style={styles.loginBtn}>
             <MyAppText
             content="Đăng nhập"

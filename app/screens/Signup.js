@@ -10,12 +10,16 @@ import {
   StatusBar,
 } from "react-native";
 
+import { AuthContext } from "../screens/Context";
+
 import MyAppText from "../components/MyAppText";
 
 export default function Signup ({ navigation }) {
+  // const { SignUp } = React.useContext(AuthContext);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: "row", alignItems: "center", }}>
           <Image source={require("../img/watermelon-signup.png")} style={styles.img} />
         </View>
@@ -47,7 +51,10 @@ export default function Signup ({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          // onPress={() => SignUp()}
+        >
           <View style={styles.signupBtn}>
             <MyAppText
             content="Đăng ký"

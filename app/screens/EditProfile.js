@@ -15,7 +15,7 @@ import MyAppText from "../components/MyAppText";
 export default function EditProfile ({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
           <MyAppText
             content="Chỉnh sửa thông tin"

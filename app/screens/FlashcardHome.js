@@ -21,7 +21,7 @@ export default function FlashcardHome({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/**title page */}
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
 

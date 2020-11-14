@@ -17,7 +17,7 @@ import AnswerChoice from '../components/AnswerChoice';
 export default function MultipleChoiceScreen() {
     return (
         <SafeAreaView style={StyleSheet.container}>
-            <ScrollView style={styles.scrollView} >
+            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <ScoreTime score="0" time="1:30"/>
                 <QuestionChoice question="festival"/>
                 <View>

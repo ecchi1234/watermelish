@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import {
   SafeAreaView,
   View,
@@ -15,16 +15,19 @@ import MyAppText from "../components/MyAppText";
 export default function EditProfile ({ navigation }) {
 	const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const [target, setTarget] = useState(200);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
           <MyAppText
             content="Mục tiêu hằng ngày"
             format="bold"
             style={{
               color: "#84D037",
-              paddingTop: 20,
+              paddingTop: 15,
 						}}
 						size={25}
           >
@@ -39,13 +42,18 @@ export default function EditProfile ({ navigation }) {
 				</View>
 				<View style={styles.arrow}>
 					<View style={{ flexDirection: "row"}}>
-						<TouchableOpacity onPress={() => {console.log("Increased")}}>
+						<TouchableOpacity
+              onPress={() => {
+                console.log("Increased");
+                setTarget(target + 1);
+              }}
+            >
 							<Image source={require("../img/increase-arrow.png")} />
 						</TouchableOpacity>
 					</View>
-					<View style={styles.target}>
+					<View style={styles.targetDisplay}>
 						<MyAppText
-							content="200"
+							content={target}
 							format="bold"
 							size={30}
 							style={{
@@ -56,7 +64,12 @@ export default function EditProfile ({ navigation }) {
 						</MyAppText>
 					</View>
 					<View style={{ flexDirection: "row"}}>
-						<TouchableOpacity onPress={() => {console.log("Decreased")}}>
+						<TouchableOpacity
+              onPress={() => {
+                console.log("Decreased");
+                setTarget(target - 1);
+              }}
+            >
 							<Image source={require("../img/decrease-arrow.png")} />
 						</TouchableOpacity>
 					</View>
@@ -74,12 +87,17 @@ export default function EditProfile ({ navigation }) {
 					<Switch
 						trackColor={{ false: "#DEE2E6", true: "#84D037" }}
 						thumbColor={isEnabled ? "#fff" : "#fff"}
-						ios_backgroundColor="#3e3e3e"
+						ios_backgroundColor="#DEE2E6"
 						onValueChange={toggleSwitch}
 						value={isEnabled}
 					/>
 				</View>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity 
+          style={{ alignItems: "center" }}
+          onPress={() => {
+            alert('Your target is set to ' + target + ' words per day!');
+          }}
+        >
           <View style={styles.saveBtn}>
             <MyAppText
             content="Lưu lại"
@@ -138,7 +156,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 
-	target: {
+	targetDisplay: {
 		marginTop: 20,
 		marginBottom: 20,
 		width: 200,

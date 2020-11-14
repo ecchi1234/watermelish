@@ -16,7 +16,10 @@ export default function Home({ navigation }) {
   const [value, onChangeText] = useState("");
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView
+        style={styles.scroll}
+        showsVerticalScrollIndicator={false}
+      >
         <View>
           <MyAppText
             content="Good Morning!"

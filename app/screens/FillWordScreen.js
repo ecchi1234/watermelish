@@ -14,7 +14,7 @@ import QuestionChoice from '../components/QuestionChoice';
 export default function FillWordScreen({navigation}) {
     return (
     <SafeAreaView style={StyleSheet.container}>
-        <ScrollView style={styles.scrollView} >
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             {/* <View > */}
                 <ScoreTime score="0" time="1:30"/>
                 <QuestionChoice question="festi_al"></QuestionChoice>
