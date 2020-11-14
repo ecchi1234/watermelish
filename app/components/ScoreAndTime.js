@@ -17,7 +17,7 @@ export default function ScoreAndTime(props) {
                 <Image source={Img}></Image>
             </View>
             <View style={{flex: 2}}>
-                <Text style={styles.value}>{"0:"}{props.time} </Text>
+                <Text style={styles.value}>{props.time} </Text>
             </View>
         </View>
     </View>

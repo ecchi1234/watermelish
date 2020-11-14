@@ -8,6 +8,7 @@ StyleSheet,
 SafeAreaView,
 TextInput,
 Alert,
+Card 
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
@@ -19,7 +20,7 @@ export default function FillWordScreen({navigation}) {
     const [index, setIndex] = useState(0);
     const [result, setResult] = useState("");
     const [value, onChangeText] = useState("");
-    const [time, setTime] = useState(20);
+    const [time, setTime] = useState(90);
     
     useEffect(() => {
         const timer = setInterval(() => {
@@ -44,48 +45,44 @@ export default function FillWordScreen({navigation}) {
         return time == 0;
     }
 
-    if(isTimeout()){
-        Alert.alert("Đã hết thời gian, vui lòng chuyển sang câu hỏi khác");
-        // navigation.navigate("Game");
-    }  
 
-    return (
-        <SafeAreaView style={StyleSheet.container}>
-            <ScrollView style={styles.scrollView} >
-                <ScoreTime score={point} time={time}/>
-                <View style={styles.question}>
-                    <Text style={styles.value}>{words[index].slice(0,3)}</Text>    
-                    <TextInput 
-                        style={styles.input}
-                        onChangeText={(text) => onChangeText(text)}
-                        value={value}>
-                    </TextInput>
-                    <Text style={styles.value}>{words[index].slice(4)}</Text>   
-                </View>
-        
-                <View style={styles.box}>
-                    <View style={{ flex: 1, marginRight: 55, borderRadius: 10 }}>
-                        <TouchableOpacity 
-                            style={[styles.button, styles.submit]}
-                            onPress={() =>{
-                                const test = isTrue(value);
-                                const check = isIndex(index);
-                                const checkTime = isTimeout();
-                                
-                                if(checkTime ){
-                                    setIndex((prev) => {
-                                        if (!check ){
-                                            onChangeText("");
-                                            return (prev + 1);
-                                        } 
-                                        else {
-                                            onChangeText("");
-                                            return prev;
-                                        }
-                                    });
-                                    setTime(() => setTime(20));
-                                }  
-                                else {
+    function transTime(time){
+        let p = time/60;
+        let s = time%60;
+        return  (parseInt(p) + ":" + s); 
+    }
+
+
+    // if(isTimeout()){
+    //     Alert.alert("Đã hết thời gian, vui lòng chuyển sang câu hỏi khác");
+    //     // navigation.navigate("Game");
+    // }
+    
+    const checkTime = isTimeout();
+
+    if(index <= words.length - 1 && !checkTime){
+        const test = isTrue(value);
+        const check = isIndex(index);
+    
+        return (
+            <SafeAreaView style={StyleSheet.container}>
+                <ScrollView style={styles.scrollView} >
+                    <ScoreTime score={point} time={transTime(time)}/>
+                    <View style={styles.question}>
+                        <Text style={styles.value}>{words[index].slice(0,3)}</Text>    
+                        <TextInput 
+                            style={styles.input}
+                            onChangeText={(text) => onChangeText(text)}
+                            value={value}>
+                        </TextInput>
+                        <Text style={styles.value}>{words[index].slice(4)}</Text>   
+                    </View>
+            
+                    <View style={styles.box}>
+                        <View style={{ flex: 1, marginRight: 55, borderRadius: 10 }}>
+                            <TouchableOpacity 
+                                style={[styles.button, styles.submit]}
+                                onPress={() =>{
                                     setPoint((prev) => {
                                         if (test && !checkTime) return (prev + 10);
                                         else return prev;
@@ -103,36 +100,64 @@ export default function FillWordScreen({navigation}) {
                                     setResult(() => {
                                         if (!test && !checkTime ) return "Bạn đã trả lời sai!";
                                     });
-    
-                                }
                                 if (check) navigation.navigate("Game");
-                                
-                        }}>
-                            <Text style={styles.text}>{"Submit"}</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 55, borderRadius: 10 }}>
-                        <TouchableOpacity style={[styles.button, styles.skip]}
-                            onPress={()=>{
-                                const check = isIndex(index);
-                                const checkTime = isTimeout();
-                                setIndex((prev) => {
-                                    if (!check) return (prev + 1);
-                                    else return prev;
-                                })
-                                setTime(() => setTime(20));
-                                if (check) navigation.navigate("Game");
-                                // setResult(() => {"Câu hỏi kế tiếp!"})
                             }}>
-                            <Text style={styles.text}>{"Skip"}</Text>
+                                <Text style={styles.text}>{"Submit"}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex: 1, marginLeft: 55, borderRadius: 10 }}>
+                            <TouchableOpacity style={[styles.button, styles.skip]}
+                                onPress={()=>{
+                                    setIndex((prev) => {
+                                        // if (!check) 
+                                        return (prev + 1);
+                                        // else return prev;
+                                    })
+                                    // setTime(() => setTime(20));
+                                    // if (check) navigation.navigate("Game");
+                                    // setResult(() => {"Câu hỏi kế tiếp!"})
+                                }}>
+                                <Text style={styles.text}>{"Skip"}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View><Text style={styles.result}>{result}</Text></View>
+                    
+                </ScrollView>
+            </SafeAreaView>    
+        )
+    }
+    else {
+        return (
+            <SafeAreaView style={StyleSheet.container}>
+                <ScrollView style={styles.scrollView} >
+                    <ScoreTime score={point} time={transTime(time)}/>
+                    <View style={{  flexDirection: "row",
+                                    borderWidth: 1,
+                                    borderColor: "#8E8888",
+                                    borderRadius: 10,
+                                    marginTop: 100,
+                                    marginBottom: 100,
+                                    height: 150,
+                                    justifyContent: "center",
+                                    backgroundColor: "#fff"
+                                }}>
+                        <View>
+                            <Text style={styles.result}>Game Over !!!</Text>
+                            <Text style={styles.result}>High Score:  {point}</Text>
+                        </View>
+                    </View>
+                    <View style={{flex: 1, margin: 'auto', borderRadius: 10 }}>
+                        <TouchableOpacity style={[styles.button, styles.skip]}
+                            onPress={()=> navigation.navigate("Game")}>
+                            <Text style={styles.text}>{"Go Back"}</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
-                <View><Text style={styles.result}>{result}</Text></View>
-                
-            </ScrollView>
-        </SafeAreaView>    
-    )
+                </ScrollView>
+            </SafeAreaView>    
+        )
+    }
+    
     
 }
 
@@ -201,6 +226,7 @@ const styles = StyleSheet.create({
     },
     result: {
         marginTop: 30,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: "center",
         color: "red",
