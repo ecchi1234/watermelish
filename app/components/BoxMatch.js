@@ -1,28 +1,34 @@
 import React from 'react';
-import {StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
-export default function BoxMatch(props){
+export default function QuestionChoice(props){
     return (
-      <View >
-        <Text style={styles.title}>Ghép từ</Text>
-        <View style={styles.game}>
-          <View >
-            <Image style={styles.image} source={ImgGame} />
-          </View>
-          <View >
-            <Text style={styles.textScore}>Điểm cao</Text>
-            <Text style={styles.textScore}>{props.score}</Text>
-          </View>
+        <View style={styles.question}>
+            <Text style={styles.text} >{props.value}</Text>    
         </View>
-      </View>
     );
-        
 }
 
 const styles = StyleSheet.create({
-    // box: {
-    //     border: 1px solid #000000;
-    //     boxSizing: borderBox;
-    //     border-radius: 20px;
-    // },
-});
+    question: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: "#8E8888",
+        borderRadius: 10,
+        width: '100%',
+        height: 120,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 10,
+        backgroundColor: "#999",
+        // marginRight: 30,
+    },
+    text: {
+        textAlign: 'center',
+        marginTop: 30,
+        fontSize: 20,
+        // fontWeight: 'bold',
+        color: '#2D2727',
+    }
+})
+

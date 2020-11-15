@@ -96,9 +96,9 @@ const ProfileStackScreen = () => (
 const GameStackGame = () => (
   <GameStack.Navigator>
     <GameStack.Screen name="Game" component={Game}/>
-    <GameStack.Screen name="MultipleChoiceScreen" component={MultipleChoiceScreen}/>
-    <GameStack.Screen name="MatchWordScreen" component={MatchWordScreen}/>
-    <GameStack.Screen name="FillWordScreen" component={FillWordScreen}/>
+    <GameStack.Screen name="Multiple Choice" component={MultipleChoiceScreen}/>
+    <GameStack.Screen name="Match Word" component={MatchWordScreen}/>
+    <GameStack.Screen name="Fill Word" component={FillWordScreen}/>
   </GameStack.Navigator>
 )
 

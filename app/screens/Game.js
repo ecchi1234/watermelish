@@ -14,17 +14,17 @@ export default function Game({ navigation }) {
     return (
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("MultipleChoiceScreen")}>
+              onPress={() => navigation.navigate("Multiple Choice")}>
               <MultipleChoice score="300"></MultipleChoice>
             </TouchableOpacity>
             
             <TouchableOpacity
-              onPress={() => navigation.navigate("MatchWordScreen")}>
+              onPress={() => navigation.navigate("Match Word")}>
               <MatchWord score="300"></MatchWord>
             </TouchableOpacity>
             
             <TouchableOpacity
-              onPress={() => navigation.navigate("FillWordScreen")}>
+              onPress={() => navigation.navigate("Fill Word")}>
               <FillWord score="300"></FillWord>
             </TouchableOpacity>
 
