@@ -59,7 +59,8 @@ export default function MultipleChoiceScreen({ navigation }) {
 
     function checkAnswer(a){
         const test = isTrue(a, index);
-        const check = isIndex(index);
+        //const check = isIndex(index);
+        // if(test) setTimeout(() => { console.log("success"); }, 2000);
         setPoint((prev) => {
             if (test) return (prev + 10);
             else return prev;
@@ -98,7 +99,7 @@ export default function MultipleChoiceScreen({ navigation }) {
     const checkTime = isTimeout();
     if(index <= words.length - 1 && !checkTime){
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
                     <ScoreTime score={point} time={transTime(time)}/>
                     <View style={styles.question}>
@@ -168,7 +169,7 @@ export default function MultipleChoiceScreen({ navigation }) {
     }
     else {
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
                     <ScoreTime score={point} time={transTime(time)}/>
                     <View style={{  flexDirection: "row",
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
         // flexDirection: 'row',
         justifyContent: "center",
         width: 90,
-        backgroundColor: "red",
+        backgroundColor: "#2D2727",
     },
     goback: {
         color: "#fff",

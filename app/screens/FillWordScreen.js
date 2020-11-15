@@ -65,7 +65,7 @@ export default function FillWordScreen({navigation}) {
         const check = isIndex(index);
     
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
                     <ScoreTime score={point} time={transTime(time)}/>
                     <View style={styles.question}>
@@ -88,7 +88,7 @@ export default function FillWordScreen({navigation}) {
                                         else return prev;
                                     });
                                     setIndex((prev) => {
-                                        if (test && !check ){
+                                        if (test ){
                                             onChangeText("");
                                             return (prev + 1);
                                         } 
@@ -100,7 +100,7 @@ export default function FillWordScreen({navigation}) {
                                     setResult(() => {
                                         if (!test && !checkTime ) return "Bạn đã trả lời sai!";
                                     });
-                                if (check) navigation.navigate("Game");
+                                // if (check) navigation.navigate("Game");
                             }}>
                                 <Text style={styles.text}>{"Submit"}</Text>
                             </TouchableOpacity>
@@ -115,7 +115,7 @@ export default function FillWordScreen({navigation}) {
                                     })
                                     // setTime(() => setTime(20));
                                     // if (check) navigation.navigate("Game");
-                                    // setResult(() => {"Câu hỏi kế tiếp!"})
+                                    setResult(() => {""})
                                 }}>
                                 <Text style={styles.text}>{"Skip"}</Text>
                             </TouchableOpacity>
@@ -129,7 +129,7 @@ export default function FillWordScreen({navigation}) {
     }
     else {
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
                     <ScoreTime score={point} time={transTime(time)}/>
                     <View style={{  flexDirection: "row",
@@ -148,7 +148,7 @@ export default function FillWordScreen({navigation}) {
                         </View>
                     </View>
                     <View style={{flex: 1, margin: 'auto', borderRadius: 10 }}>
-                        <TouchableOpacity style={[styles.button, styles.skip]}
+                        <TouchableOpacity style={[styles.button, styles.submit]}
                             onPress={()=> navigation.navigate("Game")}>
                             <Text style={styles.text}>{"Go Back"}</Text>
                         </TouchableOpacity>

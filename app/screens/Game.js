@@ -12,6 +12,7 @@ import FillWord from "../components/FillWord";
 
 export default function Game({ navigation }) {
     return (
+      <View style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
         <ScrollView style={styles.scrollView}>
             <TouchableOpacity
               onPress={() => navigation.navigate("Multiple Choice")}>
@@ -30,6 +31,7 @@ export default function Game({ navigation }) {
 
             <View style={{padding: 20}}></View>
         </ScrollView>
+    </View>
     );
 }
 
