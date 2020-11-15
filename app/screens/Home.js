@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
 
   scroll: {
-    padding: StatusBar.currentHeight,
+    padding: 20,
   },
 
   titleIntro: {

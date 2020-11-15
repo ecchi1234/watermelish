@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  Text
 } from "react-native";
 
 import MyAppText from "../components/MyAppText";
@@ -24,14 +25,14 @@ export default function EditProfile ({ navigation }) {
               color: "#84D037",
               paddingTop: 20,
             }}
-            size={25}
+            size={23}
           >Chỉnh sửa thông tin
           </MyAppText>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", }}>
           <Image source={require("../img/watermelon-repass.png")} style={styles.img} />
         </View>
-        <View style={{ flexDirection: "column", alignItems: "center", width: 270}}>
+        <View style={{ flexDirection: "column", alignItems: "center", width: "100%"}}>
           <View style={styles.inputView} >
             <TextInput
               style={styles.inputText}
@@ -85,7 +86,7 @@ export default function EditProfile ({ navigation }) {
               content="Thoát"
               format="italic"
               style={{ color: "#609F20" }}
-            >Thoát
+            >
             </MyAppText>
           </View>
         </TouchableOpacity>
@@ -100,10 +101,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    // padding: 20,
   },
   scroll: {
-    padding: StatusBar.currentHeight,
+    paddingHorizontal: StatusBar.currentHeight,
   },
 
   img: {

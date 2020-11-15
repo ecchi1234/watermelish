@@ -134,10 +134,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    // padding: 20,
   },
   scroll: {
-    padding: StatusBar.currentHeight,
+    paddingHorizontal: StatusBar.currentHeight,
 	},
 	
 	guide: {
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 10,
-		width: 240,
+		width: "100%",
 	},
 
 	arrow: {
