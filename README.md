@@ -19,3 +19,9 @@ App học từ vựng tiếng anh bằng phương pháp flashcard
 
 - npm start để bắt đầu chạy ứng dụng.
 
+### 3. Thông tin tài khoản để demo:
+
+- username: nhom13
+
+- password: nhom13
+
