@@ -196,8 +196,7 @@ export default function MultipleChoiceScreen({ navigation }) {
                 </ScrollView>
             </SafeAreaView>    
         )
-    }
-    
+    }    
 }
 
 const styles = StyleSheet.create({

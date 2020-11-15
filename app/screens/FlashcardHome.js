@@ -15,25 +15,26 @@ import {
 
 import font_styles from "../font/font";
 import EachCardList from "../components/EachCardList";
+import MyAppText from "../components/MyAppText";
 
 export default function FlashcardHome({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/**title page */}
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
 
-          <Text style={[font_styles.font, styles.pageTitle]}>
+          <MyAppText content="Bộ từ: Spring" format="bold" size={25} style={[styles.pageTitle]}>
             Bộ từ: Spring
-          </Text>
+          </MyAppText>
           <View style={styles.buttonHeaderGroup}>
             <View style={{ marginRight: 10, borderRadius: 10 }}>
               <TouchableOpacity
                 style={[styles.button, styles.learn]}
                 onPress={() => navigation.push("LearnFlashcard")}
               >
-                <Text style={styles.learnLabel}>{"Học"}</Text>
+                <MyAppText content="Học" format="regular" size={12} style={styles.learnLabel}></MyAppText>
               </TouchableOpacity>
             </View>
             <View>
@@ -41,25 +42,25 @@ export default function FlashcardHome({ navigation }) {
                 style={[styles.button, styles.test]}
                 onPress={() => navigation.push("TestFlashcard")}
               >
-                <Text style={styles.learnLabel}>{"Kiểm tra"}</Text>
+                <MyAppText content="Kiểm tra" format="regular" size={12} style={styles.learnLabel}></MyAppText>
               </TouchableOpacity>
             </View>
           </View>
         </View>
         <View style={styles.editButtonGroup}>
-          <Text
-            style={[font_styles.font, { fontStyle: "italic", marginRight: 10 }]}
+          <MyAppText content="Chỉnh sửa" format="italic" size={15}
+            style={[{marginRight: 10 }]}
           >
             Chỉnh sửa
-          </Text>
+          </MyAppText>
           <TouchableOpacity onPress={() => navigation.push("EditFlashcard")}>
             <Image source={require("../img/edit-button.png")}></Image>
           </TouchableOpacity>
         </View>
 
-        <View style={{ margin: 30 }}>
+        <View style={{ width: "100%", padding: 20}}>
           <Image
-            style={{ flex: 1 }}
+            style={{ width: "100%", resizeMode: "contain" }}
             source={require("../img/flashcard-back.png")}
           ></Image>
         </View>
@@ -81,8 +82,6 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     color: "#ffffff",
-    fontWeight: "bold",
-    fontSize: 25,
     position: "absolute",
     top: 30,
     marginLeft: 10,
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
   editButtonGroup: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginRight: 10,
+    marginRight: 20,
     alignItems: "center",
   },
 
@@ -129,5 +128,7 @@ const styles = StyleSheet.create({
 
   scroll: {
     // paddingTop: Platform.OS === "android" ? 20 : 0,
+    width: "100%",
+  
   },
 });

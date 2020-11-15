@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
-const InputArea = () => {
-  const [value, onChangeText] = React.useState('Spring');
+const InputArea = (props) => {
+  const [value, onChangeText] = React.useState('');
 
   return (
     <TextInput
       style={styles.inputField}
       onChangeText={text => onChangeText(text)}
       value={value}
+      placeholder={props.type}
     />
   );
 }

@@ -9,7 +9,7 @@ SafeAreaView,
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
-import BoxMatch from '../components/BoxMatch';
+// import BoxMatch from '../components/BoxMatch';
 
 
 
@@ -22,6 +22,8 @@ export default function MultipleChoiceScreen() {
         ["Idol", "Thần tượng", 4],
         ["Goodbye", "Tạm biệt", 5],
     ];
+
+
 
     const [point, setPoint] = useState(0);
     const [index, setIndex] = useState(0);

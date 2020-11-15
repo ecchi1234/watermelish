@@ -2,16 +2,21 @@ import React from 'react';
 
 import { Text, View, StyleSheet, Image } from 'react-native';
 import font_styles from '../font/font';
+import MyAppText from "../components/MyAppText";
 
 export default function EachCardList(props) {
     return(
         <View style={{justifyContent: "center", alignItems: "center"}}>
             <View style={[styles.english, styles.word]}>
-                <Text style={[font_styles.font, {color: "#fff"}]}>{props.english + "\n(n)"}</Text>
+                <View style={{alignItems: "center"}}>
+
+                <MyAppText content={props.english} format="bold" style={[styles.text]}></MyAppText>
+                <MyAppText content="(n)" format="regular" style={[styles.text]}>(n)</MyAppText>
+                </View>
                 <Image source={require("../img/sound.png")} style={styles.soundButton}></Image>
             </View>
             <View style={[styles.word, styles.vietnamese]}>
-                <Text style={[font_styles.font, {color: "#fff"}]}>{props.vietnamese}</Text>
+                <MyAppText content={props.vietnamese} format="bold" style={[styles.text]}>{props.vietnamese}</MyAppText>
             </View>
         </View>
     )
@@ -40,6 +45,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 0,
         top: 0
+    },
+    text: {
+        color: "#fff"
     }
 
 
