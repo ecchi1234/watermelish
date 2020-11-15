@@ -16,7 +16,7 @@ import BoxMatch from '../components/BoxMatch';
 export default function MultipleChoiceScreen() {
     return (
         <SafeAreaView style={StyleSheet.container}>
-            <ScrollView style={styles.scrollView} >
+            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <ScoreTime score="0" time="1:30"/>
                 <View style={styles.box}>
                     <BoxMatch value="Hello"/>

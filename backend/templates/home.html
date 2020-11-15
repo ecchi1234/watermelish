@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn API</title>
+    <link rel="shortcut icon" href="https://static.thenounproject.com/png/1981384-200.png"/>
+    <style>
+        .do {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2 class='do'>Server: http://watermelish.herokuapp.com/</h2><hr>
+
+    <h2 class='do'>Update: 28/07/2020</h2>
+    <div class = 'element'>
+        <h2>@app.route("/datmuctieu/&lt;username>/&lt;int:target>", methods=["GET"])</h2>
+        <div>Parameters: username, target</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>result</li>
+            <ul>
+                <li>"Thành công"</li>
+                <li>"Thất bại"</li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class = 'element'>
+        <h2>@app.route("/muctieuhientai/&lt;username>", methods=["GET"])</h2>
+        <div>Parameters: username</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>result</li>
+            <ul>
+                <li>Số tự nhiên</li>
+                <li>null/"Không có"</li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class = 'element'>
+        <h2>@app.route("/chinhsuathongtin", methods=["POST"])</h2>
+        <div>Parameters: username, oldpassword, newpassword, name</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>result</li>
+            <ul>
+                <li>Thành công</li>
+                <li>"Thất bại"/"Sai mật khẩu"</li>
+            </ul>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h2 class='do'>Update: 27/07/2020</h2>
+    <div class = 'element'>
+        <h2>@app.route("/timtu/&lt;username>/&lt;stringSearch>", methods=["GET"])</h2>
+        <div>ví dụ interlet ⇒ internet</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>result</li>
+            <ul>
+                <li>Một mảng các mảng 3 phần tử [tuTiengAnh, tuLoai, nghiaTiengViet]</li>
+                <li>Không tìm thấy</li>
+            </ul>
+        </ul>
+    </div>
+    <hr>
+
+
+    <h2 class='do'>Update: 26/07/2020</h2>
+    <div class = 'element'>
+        <h2>@app.route("/dangnhap", methods=["POST"])</h2>
+        <div>Parameters: username, password, ví dụ {"username": "nhom13", "password": "nhom13"}</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>_id</li>
+            <ul>
+                <li>Một string, ví dụ "5f963c2dcca964d848d80d66"</li>
+                <li>-1 ⇒ Có thể sai username hoặc password</li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class = 'element'>
+        <h2>@app.route("/kiemtrataikhoan/&lt;username&gt;", methods=["GET"])</h2>
+        <div>Mục đích: Kiểm tra xem tài khoản đã tồn tại hay chưa</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>exist_account</li>
+            <ul>
+                <li>"yes": tài khoản đã tồn tại ⇒ đăng ký không thành công</li>
+                <li>"no": tài khoản chưa tồn tại ⇒ <b>có thể</b> đăng ký username mới này</li>
+            </ul>
+        </ul>
+    </div>
+
+	<div class = 'element'>
+        <h2>@app.route("/dangky", methods=["POST"])</h2>
+        <div>Parameters: username, password, name, ví dụ {“username”: “nhom13”, “password”: “nhom13”, “name”: “aa”}</div>
+        <div>Return 1 mảng 1 phần tử</div>
+        <ul>
+            <li>result</li>
+            <ul>
+                <li>"thành công"</li>
+                <li>"thất bại"</li>
+            </ul>
+        </ul>
+    </div>
+</body>
+</html>
