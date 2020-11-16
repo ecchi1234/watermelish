@@ -1,7 +1,7 @@
 # watermelish
 App học từ vựng tiếng anh bằng phương pháp flashcard
 
-## Hướng dẫn chạy thử trên máy
+## Hướng dẫn chạy thử trên máy (lưu ý: expo client chỉ hỗ trợ cho android)
 
 ### 1. Điều kiện:
 
