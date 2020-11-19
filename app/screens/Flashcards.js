@@ -20,7 +20,7 @@ export default function Flashcards({ navigation }) {
           <MyAppText content="Thêm mới bộ từ" format="bold" style={{ color: "#84D037"}}>
             Thêm mới bộ từ
           </MyAppText>
-          <View>
+          <View style={{ marginTop: 10 }}>
             <TouchableOpacity
               onPress={() => navigation.navigate("AddFlashcard")}
             >
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
   },
 
   addButton: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
   },
 
   scrollView: {

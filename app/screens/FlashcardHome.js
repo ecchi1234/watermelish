@@ -34,7 +34,7 @@ export default function FlashcardHome({ navigation }) {
                 style={[styles.button, styles.learn]}
                 onPress={() => navigation.push("LearnFlashcard")}
               >
-                <MyAppText content="Học" format="regular" size={12} style={styles.learnLabel}></MyAppText>
+                <MyAppText content="Học" format="regular" size={15} style={styles.learnLabel}></MyAppText>
               </TouchableOpacity>
             </View>
             <View>
@@ -42,7 +42,7 @@ export default function FlashcardHome({ navigation }) {
                 style={[styles.button, styles.test]}
                 onPress={() => navigation.push("TestFlashcard")}
               >
-                <MyAppText content="Kiểm tra" format="regular" size={12} style={styles.learnLabel}></MyAppText>
+                <MyAppText content="Kiểm tra" format="regular" size={15} style={styles.learnLabel}></MyAppText>
               </TouchableOpacity>
             </View>
           </View>

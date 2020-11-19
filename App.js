@@ -103,7 +103,7 @@ const GameStackGame = () => (
 )
 
 const FlashcardStackScreen = () => (
-  <FlashcardStack.Navigator>
+  <FlashcardStack.Navigator headerMode="none">
     <FlashcardStack.Screen name="Flashcards" component={Flashcards}/>
     <FlashcardStack.Screen name="AddFlashcard" component={AddFlashcard}/>
     <FlashcardStack.Screen name="FlashcardHome" component={FlashcardHomeStackScreen}/>

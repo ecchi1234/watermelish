@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState }from "react";
 import {
   SafeAreaView,
   View,
@@ -14,6 +14,82 @@ import {
 import MyAppText from "../components/MyAppText";
 
 export default function EditProfile ({ navigation }) {
+  const [fullname, setFullname] = useState("");
+  const [oldPass, setOldPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+
+  const checkInput = () => {
+    // Có nhập password cũ
+    if (oldPass === "nhom13") {
+
+      // Chưa nhập password mới
+      if (!newPass) {
+        alert("Please enter new password");
+        return;
+      }
+
+      // Chưa nhập lại password mới
+      if (!confirmPass) {
+        alert("Please re-enter new password");
+        return;
+      }
+    } else if (oldPass && (oldPass != "nhom13")) {
+      alert("Old password is incorrect");
+      return;
+    }
+
+    // Có nhập password mới
+    if (newPass) {
+
+      // Chưa nhập password cũ
+      if (!oldPass) {
+        alert("Please enter old password");
+        return;
+      }
+
+      // Chưa nhập lại password mới
+      if (!confirmPass) {
+        alert("Please re-enter new password");
+        return;
+      }
+    }
+
+    // Có nhập lại password mới
+    if (confirmPass) {
+
+      // Chưa nhập password cũ
+      if (!oldPass) {
+        alert("Please enter old password");
+        return;
+      }
+
+      // Chưa nhập password mới
+      if (!newPass) {
+        alert("Please enter new password");
+        return;
+      }
+    }
+
+    // Password mới và nhập lại không giống
+    if (newPass != confirmPass) {
+      alert("New password and Confirm password do not match");
+      return;
+    }
+
+    // Nhập đúng đủ 3 trường password
+    if (oldPass === "nhom13" && (newPass == confirmPass)) {
+      alert("Profile saved successfully");
+      return;
+    }
+    
+    // Có nhập tên
+    if (fullname) {
+      alert("Profile saved successfully");
+      return;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -32,11 +108,13 @@ export default function EditProfile ({ navigation }) {
         <View style={{ flexDirection: "row", alignItems: "center", }}>
           <Image source={require("../img/watermelon-repass.png")} style={styles.img} />
         </View>
-        <View style={{ flexDirection: "column", alignItems: "center", width: "100%"}}>
+        <View style={{ flexDirection: "column", alignItems: "center", width: 260}}>
           <View style={styles.inputView} >
             <TextInput
               style={styles.inputText}
-              placeholder="Fullname"
+              placeholder="Tên của bạn"
+              onChangeText={(fullname) => setFullname(fullname)}
+              value={fullname}
             />
           </View>
           <View style={styles.inputView} >
@@ -44,6 +122,8 @@ export default function EditProfile ({ navigation }) {
               secureTextEntry
               style={styles.inputText}
               placeholder="Password cũ"
+              onChangeText={(oldPass) => setOldPass(oldPass)}
+              value={oldPass}
             />
           </View>
           <View style={styles.inputView} >
@@ -51,6 +131,8 @@ export default function EditProfile ({ navigation }) {
               secureTextEntry
               style={styles.inputText}
               placeholder="Password mới"
+              onChangeText={(newPass) => setNewPass(newPass)}
+              value={newPass}
             />
           </View>
           <View style={styles.inputView} >
@@ -58,19 +140,25 @@ export default function EditProfile ({ navigation }) {
               secureTextEntry
               style={styles.inputText}
               placeholder="Nhập lại password mới"
+              onChangeText={(confirmPass) => setConfirmPass(confirmPass)}
+              value={confirmPass}
             />
           </View>
         </View>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={checkInput}
+        >
           <View style={styles.saveBtn}>
             <MyAppText
-            content="Lưu lại"
-            format="bold"
-            style={{
-              color: "#fff",
-              paddingTop: 10,
-              paddingBottom: 10
-            }}
+              content="Lưu lại"
+              format="bold"
+              style={{
+                color: "#fff",
+                paddingTop: 10,
+                paddingBottom: 10
+              }}
+              size={22}
             >
               Lưu lại
             </MyAppText>
@@ -86,6 +174,7 @@ export default function EditProfile ({ navigation }) {
               content="Thoát"
               format="italic"
               style={{ color: "#609F20" }}
+              size={19}
             >
             </MyAppText>
           </View>

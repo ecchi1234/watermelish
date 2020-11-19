@@ -45,7 +45,7 @@ export default function EditProfile ({ navigation }) {
 						<TouchableOpacity
               onPress={() => {
                 console.log("Increased");
-                setTarget(target + 1);
+                setTarget(target + 5);
               }}
             >
 							<Image source={require("../img/increase-arrow.png")} />
@@ -67,7 +67,7 @@ export default function EditProfile ({ navigation }) {
 						<TouchableOpacity
               onPress={() => {
                 console.log("Decreased");
-                setTarget(target - 1);
+                setTarget(target - 5);
               }}
             >
 							<Image source={require("../img/decrease-arrow.png")} />
@@ -89,7 +89,8 @@ export default function EditProfile ({ navigation }) {
 						thumbColor={isEnabled ? "#fff" : "#fff"}
 						ios_backgroundColor="#DEE2E6"
 						onValueChange={toggleSwitch}
-						value={isEnabled}
+            value={isEnabled}
+            style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
 					/>
 				</View>
         <TouchableOpacity 
@@ -107,6 +108,7 @@ export default function EditProfile ({ navigation }) {
               paddingTop: 10,
               paddingBottom: 10
             }}
+            size={22}
             />
           </View>
         </TouchableOpacity>
@@ -120,6 +122,7 @@ export default function EditProfile ({ navigation }) {
               content="Thoát"
               format="italic"
               style={{ color: "#609F20" }}
+              size={19}
             />
           </View>
         </TouchableOpacity>

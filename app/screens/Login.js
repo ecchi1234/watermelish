@@ -56,7 +56,9 @@ export default function Login ({ navigation }) {
         <TouchableOpacity
           style={{ alignItems: "center" }}
           onPress={() => {
-            if (username === "nhom13" && password === "nhom13") Login()
+            if (username === "nhom13" && password === "nhom13") {
+              Login()
+            } else alert("Username or Password is incorrect");
           }}
         >
           <View style={styles.loginBtn}>
@@ -68,6 +70,7 @@ export default function Login ({ navigation }) {
               paddingTop: 10,
               paddingBottom: 10
             }}
+            size={22}
             />
           </View>
         </TouchableOpacity>
@@ -81,6 +84,7 @@ export default function Login ({ navigation }) {
               content="Đăng ký"
               format="italic"
               style={{ color: "#609F20" }}
+              size={19}
             />
           </View>
         </TouchableOpacity>
