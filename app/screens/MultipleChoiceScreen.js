@@ -9,17 +9,19 @@ SafeAreaView,
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
+import MyAppText from '../components/MyAppText';
 // import AnswerChoice from '../components/AnswerChoice';
 
 
 
 export default function MultipleChoiceScreen({ navigation }) {
-    let words =["festival", "today", "english", "treasure"];
+    let words =["festival", "today", "sunday", "english", "treasure",];
     let answer=[
-        ["lễ hội", "chúc mừng năm mới", "hoa đào", "A" ],
-        ["ngày mai", "hôm qua", "hôm nay","C" ],
+        ["Lễ Hội", "Chúc Mừng Năm Mới", "Hoa Đào", "A" ],
+        ["Ngày Mai", "Hôm Qua", "Hôm Nay","C" ],
+        ["Chủ Nhật", "Thứ Bảy", "Thứ Năm", "A"],
         ["Nước Anh", "Tiếng Anh", "Người Anh", "B" ],
-        ["Châu Báu", "Kho báu", "Của cải", "B" ]
+        ["Châu Báu", "Kho Báu", "Của Cải", "B" ],
     ];
 
     const [point, setPoint] = useState(0);
@@ -59,7 +61,8 @@ export default function MultipleChoiceScreen({ navigation }) {
 
     function checkAnswer(a){
         const test = isTrue(a, index);
-        const check = isIndex(index);
+        //const check = isIndex(index);
+        // if(test) setTimeout(() => { console.log("success"); }, 2000);
         setPoint((prev) => {
             if (test) return (prev + 10);
             else return prev;
@@ -98,9 +101,19 @@ export default function MultipleChoiceScreen({ navigation }) {
     const checkTime = isTimeout();
     if(index <= words.length - 1 && !checkTime){
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
                     <ScoreTime score={point} time={transTime(time)}/>
+                    <View style= {{marginTop: 20, marginBottom:10, marginLeft: 10,}}>
+                        <MyAppText content={"Question: " + (index+1) + "/" + words.length} format="italic"
+                            style={{
+                                color: "black",
+                                position: "absolute",
+                                right: 30,
+                            }}
+                        />
+                    </View>
+                    
                     <View style={styles.question}>
                         <Text style={styles.value}>{words[index]}</Text>     
                     </View>    
@@ -168,9 +181,9 @@ export default function MultipleChoiceScreen({ navigation }) {
     }
     else {
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
-                    <ScoreTime score={point} time={transTime(time)}/>
+                    {/* <ScoreTime score={point} time={transTime(time)}/> */}
                     <View style={{  flexDirection: "row",
                                     borderWidth: 1,
                                     borderColor: "#8E8888",
@@ -186,11 +199,23 @@ export default function MultipleChoiceScreen({ navigation }) {
                             <Text style={styles.result}>High Score:  {point}</Text>
                         </View>
                     </View>
-                    <View style={{flex: 1, margin: 'auto', borderRadius: 10 }}>
-                        <TouchableOpacity style={styles.button}
-                            onPress={()=> navigation.navigate("Game")}>
-                            <Text style={styles.goback}>{"Go Back"}</Text>
-                        </TouchableOpacity>
+                    <View style={{flexDirection: "row", marginLeft: 10}}>
+                        <View style={{flex: 1, marginRight: 55, borderRadius: 10 }}>
+                            <TouchableOpacity style={styles.button}
+                                onPress={()=> navigation.navigate("Game")}>
+                                <Text style={styles.goback}>{"BACK"}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex: 1, marginLeft: 55 , borderRadius: 10 }}>
+                            <TouchableOpacity style={styles.button}
+                                onPress={()=> {
+                                    setTime(() => setTime(90));
+                                    setIndex(() => setIndex(0));
+                                    setPoint(() =>setPoint(0));
+                                }}>
+                                <Text style={styles.goback}>{"RESET"}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>    
@@ -274,7 +299,7 @@ const styles = StyleSheet.create({
         // flexDirection: 'row',
         justifyContent: "center",
         width: 90,
-        backgroundColor: "red",
+        backgroundColor: "#2D2727",
     },
     goback: {
         color: "#fff",

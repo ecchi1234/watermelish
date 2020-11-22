@@ -12,10 +12,12 @@ Card
 } from 'react-native';
 
 import ScoreTime from '../components/ScoreAndTime';
+import MyAppText from '../components/MyAppText';
+import { color } from 'react-native-reanimated';
 // import QuestionChoice from '../components/QuestionChoice';
 
 export default function FillWordScreen({navigation}) {
-    let words =["festival", "today", "english", "treasure"];
+    let words =["festival", "love", "use", "english", "treasure", "bigbang", "design", "sunday"];
     const [point, setPoint] = useState(0);
     const [index, setIndex] = useState(0);
     const [result, setResult] = useState("");
@@ -32,8 +34,9 @@ export default function FillWordScreen({navigation}) {
 
 
     function isTrue(v) {
-        let a = words[index][3];
-        let A = words[index][3].toUpperCase();
+        let i = words[index].length/2;
+        let a = words[index][parseInt(i)];
+        let A = words[index][parseInt(i)].toUpperCase();
         return (v === a) ||(v === A);
     }
 
@@ -65,17 +68,39 @@ export default function FillWordScreen({navigation}) {
         const check = isIndex(index);
     
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
                     <ScoreTime score={point} time={transTime(time)}/>
-                    <View style={styles.question}>
-                        <Text style={styles.value}>{words[index].slice(0,3)}</Text>    
+                    <View style= {{marginTop: 20, marginBottom:10, marginLeft: 10,}}>
+                        <MyAppText content={"Question: " + (index+1) + "/" + words.length} format="italic"
+                            style={{
+                                color: "black",
+                                position: "absolute",
+                                right: 30,
+                            }}
+                        />
+                    </View>
+                    <View style={styles.question }>
+                        <MyAppText content={words[index].slice(0,parseInt(words[index].length/2))} format="bold" size={30} style={{}}/>
+                        <TextInput
+                            style={{
+                                fontSize: 30,
+                                fontWeight: "bold",
+                                borderBottomWidth: 2,
+                                borderBottomColor: "black",
+                                color: "#E84118"
+                            }}
+                            onChangeText={(text) => onChangeText(text)}
+                            value={value}
+                        ></TextInput>
+                        <MyAppText content={words[index].slice(parseInt(words[index].length/2)+1)} format="bold" size={30} style={{ }}/>
+                        {/* <Text style={styles.value}>{words[index].slice(0,3)}</Text>    
                         <TextInput 
                             style={styles.input}
                             onChangeText={(text) => onChangeText(text)}
                             value={value}>
                         </TextInput>
-                        <Text style={styles.value}>{words[index].slice(4)}</Text>   
+                        <Text style={styles.value}>{words[index].slice(4)}</Text>    */}
                     </View>
             
                     <View style={styles.box}>
@@ -88,7 +113,7 @@ export default function FillWordScreen({navigation}) {
                                         else return prev;
                                     });
                                     setIndex((prev) => {
-                                        if (test && !check ){
+                                        if (test ){
                                             onChangeText("");
                                             return (prev + 1);
                                         } 
@@ -98,9 +123,10 @@ export default function FillWordScreen({navigation}) {
                                         }
                                     });
                                     setResult(() => {
-                                        if (!test && !checkTime ) return "Bạn đã trả lời sai!";
+                                        if (value == "") return "Vui lòng nhập câu trả lời";
+                                        else if (!test && !checkTime ) return "Bạn đã trả lời sai";
                                     });
-                                if (check) navigation.navigate("Game");
+                                // if (check) navigation.navigate("Game");
                             }}>
                                 <Text style={styles.text}>{"Submit"}</Text>
                             </TouchableOpacity>
@@ -115,13 +141,14 @@ export default function FillWordScreen({navigation}) {
                                     })
                                     // setTime(() => setTime(20));
                                     // if (check) navigation.navigate("Game");
-                                    // setResult(() => {"Câu hỏi kế tiếp!"})
+                                    onChangeText("");
+                                    setResult(() => {""})
                                 }}>
                                 <Text style={styles.text}>{"Skip"}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View><Text style={styles.result}>{result}</Text></View>
+                    <View><Text style={[styles.result, styles.review]}>{result}</Text></View>
                     
                 </ScrollView>
             </SafeAreaView>    
@@ -129,9 +156,9 @@ export default function FillWordScreen({navigation}) {
     }
     else {
         return (
-            <SafeAreaView style={StyleSheet.container}>
+            <SafeAreaView style={StyleSheet.container, {flex: 1, backgroundColor: "#fff"}}>
                 <ScrollView style={styles.scrollView} >
-                    <ScoreTime score={point} time={transTime(time)}/>
+                    {/* <ScoreTime score={point} time={transTime(time)}/> */}
                     <View style={{  flexDirection: "row",
                                     borderWidth: 1,
                                     borderColor: "#8E8888",
@@ -143,15 +170,27 @@ export default function FillWordScreen({navigation}) {
                                     backgroundColor: "#fff"
                                 }}>
                         <View>
-                            <Text style={styles.result}>Game Over !!!</Text>
-                            <Text style={styles.result}>High Score:  {point}</Text>
+                            <Text style={[styles.result, styles.gameover]}>Game Over !!!</Text>
+                            <Text style={[styles.result, styles.gameover]}>High Score:  {point}</Text>
                         </View>
                     </View>
-                    <View style={{flex: 1, margin: 'auto', borderRadius: 10 }}>
-                        <TouchableOpacity style={[styles.button, styles.skip]}
-                            onPress={()=> navigation.navigate("Game")}>
-                            <Text style={styles.text}>{"Go Back"}</Text>
-                        </TouchableOpacity>
+                    <View style={{flexDirection: "row", marginLeft: 10}}>
+                        <View style={{flex: 1, marginRight: 55, borderRadius: 10 }}>
+                            <TouchableOpacity style={[styles.button, styles.submit]}
+                                onPress={()=> navigation.navigate("Game")}>
+                                <Text style={styles.text}>{"BACK"}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{flex: 1, marginLeft: 55 , borderRadius: 10 }}>
+                            <TouchableOpacity style={[styles.button, styles.submit]}
+                                onPress={()=> {
+                                    setTime(() => setTime(90));
+                                    setIndex(() => setIndex(0));
+                                    setPoint(() =>setPoint(0));
+                                }}>
+                                <Text style={styles.text}>{"RESET"}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </ScrollView>
             </SafeAreaView>    
@@ -172,34 +211,32 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     question:{
-        flex: 1,
-        flexDirection: "row",
+        flexDirection: "row", 
+        marginTop: 40,
+        marginBottom: 20,
+        width: "100%",
+        height: 157,
         borderWidth: 1,
-        borderColor: "#8E8888",
-        borderRadius: 10,
-        width: '100%',
-        height: 150,
-        marginTop: 30,
-        marginBottom: 30,
-        // marginLeft: 30,
-        marginRight: 30,
-        justifyContent: "center"
+        borderRadius: 15,
+        borderColor: "black",
+        justifyContent: "center",
+        alignItems: "center", 
     },
-    input:{
-        fontSize: 30,
-        fontWeight: "bold",
-        // borderBottomWidth: 2,
-        // borderBottomColor: "black",
-        color: "#E84118",
-    },
+    // input:{
+    //     fontSize: 30,
+    //     fontWeight: "bold",
+    //     // borderBottomWidth: 2,
+    //     // borderBottomColor: "black",
+    //     color: "#E84118",
+    // },
 
-    value: {
-        textAlign: 'center',
-        marginTop: 50,
-        fontSize: 30,
-        // fontWeight: 'bold',
-        color: '#2D2727',
-    },
+    // value: {
+    //     textAlign: 'center',
+    //     marginTop: 50,
+    //     fontSize: 30,
+    //     // fontWeight: 'bold',
+    //     color: '#2D2727',
+    // },
     box: {
         marginLeft: 10,
         flex: 4,
@@ -226,9 +263,15 @@ const styles = StyleSheet.create({
     },
     result: {
         marginTop: 30,
-        fontSize: 25,
         fontWeight: 'bold',
         textAlign: "center",
-        color: "red",
+    },
+    review:{
+        fontSize: 20,
+        color: "#ddd"
+    },
+    gameover:{
+        fontSize: 25,
+        color:  "red"
     }
 })
