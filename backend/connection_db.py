@@ -1,4 +1,4 @@
-import pymongo
+import pymongo, ast, random
 from pymongo import MongoClient
 import pandas as pd
 import numpy as np
@@ -6,6 +6,12 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process 
 import os
 import threading
+from datetime import datetime
+import time
+
+def getTime():
+    now = datetime.now()
+    return now.strftime("%d/%m/%Y")
 
 def getDB():
     MONGO_URL = os.environ.get('MONGO_URL')
@@ -50,7 +56,8 @@ def signup(db, username, password, name):
         # db = getDB()
         if checkAccount(db, username) == "yes":
             return "thất bại"
-        db.watermelishCollection.insert({"username": username, "password": password, "name": name})
+        currentDay = getTime()
+        db.watermelishCollection.insert({"username": username, "password": password, "name": name, "word_sets": {}, "game1": 0, "game2": 0, "game3": 0, "today": currentDay, "nowWord": 0, "totalScore": 250, "totalWord": 0})
         return "thành công"
     except:
         return "thất bại"
@@ -105,6 +112,188 @@ def editAccount(db, username, old_password, new_password, name):
     except:
         return "Thất bại"
 
+def getListGroupCard(db, username):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True})
+        word_sets = [x["word_sets"] for x in result][0]
+        return list(word_sets.keys())
+    except:
+        return "Không có"
+    
+def getListCard(db, username, botu):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True})
+        word_sets = [x["word_sets"] for x in result][0]
+        word_set = word_sets[botu]
+        return word_set
+    except:
+        return "Không có"
+    
+def createListCard(db, username, tenbotu, listWord):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True, "totalScore": True})
+        totalScore = [x["totalScore"] for x in result][0] 
+        if totalScore < 50:
+            return "Thất bại"
+        word_sets = [x["word_sets"] for x in result][0] 
+        if tenbotu in list(word_sets.keys()):
+            return "Tên bộ từ trùng lặp"
+        db.watermelishCollection.update({"username": username}, {"$set": {"word_sets." + tenbotu: list(ast.literal_eval(listWord))}})
+        db.watermelishCollection.update({"username": username}, {"$inc": {"totalScore": -50}})
+        return "Thành công"
+    except:
+        return "Thất bại"
+    
+def updateListCard(db, username, tenbotucu, tenbotumoi, listWord):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True})
+        word_sets = [x["word_sets"] for x in result][0] 
+        if tenbotucu not in list(word_sets.keys()):
+            return "Bộ từ không tồn tại"
+        db.watermelishCollection.update({"username": username}, {"$unset": {"word_sets." + tenbotucu: ""}})
+        db.watermelishCollection.update({"username": username}, {"$set": {"word_sets." + tenbotumoi: list(ast.literal_eval(listWord))}})
+        return "Thành công" 
+    except:
+        return "Thất bại"
+
+def randomGame1(db, username):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True})
+        word_sets = [x["word_sets"] for x in result][0]
+        word_sets_name = list(word_sets.keys())
+        data = []
+        word_set_name = word_sets_name[random.randint(0, len(word_sets_name) - 1)]
+        word_set = word_sets[word_set_name]
+        word = word_set[random.randint(0, len(word_set) - 1)]
+        data.append([word[0] + " (" + word[1] + ")"])
+        answer = []
+        answer.append([word[2], 1])
+        word_set_name = word_sets_name[random.randint(0, len(word_sets_name) - 1)]
+        word_set = word_sets[word_set_name]
+        word = word_set[random.randint(0, len(word_set) - 1)]
+        answer.append([word[2], 0])
+        word_set_name = word_sets_name[random.randint(0, len(word_sets_name) - 1)]
+        word_set = word_sets[word_set_name]
+        word = word_set[random.randint(0, len(word_set) - 1)]
+        answer.append([word[2], 0])
+        random.shuffle(answer)
+        data.append(answer)
+        return data 
+    except:
+        return "Thiếu từ"
+    
+def randomGame2(db, username):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True})
+        word_sets = [x["word_sets"] for x in result][0]
+        word_sets_name = list(word_sets.keys())
+        data = []
+        for i in range(3):
+            word_set_name = word_sets_name[random.randint(0, len(word_sets_name) - 1)]
+            word_set = word_sets[word_set_name]
+            word = word_set[random.randint(0, len(word_set) - 1)]
+            data.append([word[0] + " (" + word[1] + ")", i])
+            data.append([word[2], i])
+        random.shuffle(data)
+        return data 
+    except:
+        return "Thiếu từ"
+    
+def randomGame3(db, username):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"word_sets": True})
+        word_sets = [x["word_sets"] for x in result][0]
+        word_sets_name = list(word_sets.keys())
+        word_set_name = word_sets_name[random.randint(0, len(word_sets_name) - 1)]
+        word_set = word_sets[word_set_name]
+        word = [""]
+        while len(word[0]) < 4:
+            word = word_set[random.randint(0, len(word_set) - 1)]
+        random_index = random.randint(1, len(word[0]) - 2)
+        data = [word[0][:random_index], word[0][random_index + 2:], word[0], word[1], word[2]]
+        return data 
+    except:
+        return "Thiếu từ"
+   
+def maxScoreGame(db, username):
+    result = db.watermelishCollection.find({"username": username}, {"game1": True, "game2": True, "game3": True})
+    for x in result:
+        return [x["game1"], x["game2"], x["game3"]]
+ 
+def resultGame(db, username, game, score):
+    if score > 0:
+        db.watermelishCollection.update({"username": username}, {"$inc": {"totalScore": score}})
+    result = db.watermelishCollection.find({"username": username}, {"game1": True, "game2": True, "game3": True})
+    indexGame = {"gametracnghiem": "game1", "gameghepcap": "game2", "gamedientu": "game3"}[game]
+    maxScore = [x[indexGame] for x in result][0]
+    if maxScore < score:
+        db.watermelishCollection.update({"username": username}, {"$set": {indexGame: score}})
+        return score
+    return maxScore
+
+def learnWordSet(db, username, tenbotu):
+    result = db.watermelishCollection.find({"username": username}, {"word_sets." + tenbotu: True})
+    word_set = [x["word_sets"][tenbotu] for x in result][0]
+    game = ["gametracnghiem", "gameghepcap", "gamedientu"][random.randint(0, 2)] 
+    data = []
+    if game == "gametracnghiem":
+        word = word_set[random.randint(0, len(word_set) - 1)]
+        data.append([word[0] + " (" + word[1] + ")"])
+        answer = []
+        answer.append([word[2], 1])
+        word = word_set[random.randint(0, len(word_set) - 1)]
+        answer.append([word[2], 0])
+        word = word_set[random.randint(0, len(word_set) - 1)]
+        answer.append([word[2], 0])
+        random.shuffle(answer)
+        data.append(answer)
+    elif game == "gameghepcap":
+        for i in range(3):
+            word = word_set[random.randint(0, len(word_set) - 1)]
+            data.append([word[0] + " (" + word[1] + ")", i])
+            data.append([word[2], i])
+        random.shuffle(data)
+    else:
+        word = [""]
+        while len(word[0]) < 4:
+            word = word_set[random.randint(0, len(word_set) - 1)]
+        random_index = random.randint(1, len(word[0]) - 2)
+        data = [word[0][:random_index], word[0][random_index + 2:], word[0], word[1], word[2]]  
+    return [game, data]
+
+def verifyLearnWord(db, username):
+    result = db.watermelishCollection.find({"username": username}, {"today": True})
+    nowDay = getTime()
+    if nowDay != [x["today"] for x in result][0]:
+        db.watermelishCollection.update({"username": username}, {"$set": {"today": nowDay, "nowWord": 1}})
+    db.watermelishCollection.update({"username": username}, {"$inc": {"totalWord": 1, "nowWord": 1}})
+
+def statistical(db, username):
+    nowDay = getTime()
+    result = db.watermelishCollection.find({"username": username}, {"today": True})
+    if nowDay != [x["today"] for x in result][0]:
+        db.watermelishCollection.update({"username": username}, {"$set": {"today": nowDay, "nowWord": 0}})
+    result = db.watermelishCollection.find({"username": username}, {"today": True, "totalScore": True, "totalWord": True, "nowWord": True, "target": True})
+    for x in result:
+        return [x["today"], x["totalScore"], x["totalWord"], x["nowWord"], x["target"]]
+    
+def checkCreateWordSet(db, username):
+    try:
+        result = db.watermelishCollection.find({"username": username}, {"totalScore": True})
+        totalScore = [x["totalScore"] for x in result][0] 
+        if totalScore < 50:
+            return "Không được"
+        return "Có thể"
+    except:
+        return "Không được"
+
+def deleteWordSet(db, username, tenbotu):
+    try:
+        db.watermelishCollection.update({"username": username}, {"$unset": {"word_sets." + tenbotu: ""}})
+        db.watermelishCollection.update({"username": username}, {"$inc": {"totalScore": 50}})
+        return "Thành công"
+    except:
+        return "Thất bại"
 # print(searchWord("nhom13", "interlet"))
 
 # db = getDB()
