@@ -16,7 +16,6 @@ import MyAppText from '../components/MyAppText';
 
 export default function MultipleChoiceScreen({navigation}) {
     let words =[
-        // ["Festival", "lễ hội"],["Love", "Yêu"],["Design", "Thiết kế"],
         ["Hello", "Xin chào"],["Watermelon", "Dưa hấu"],["Goodbye", "Tạm biệt"],
         ["User", "Người dùng"],["Result", "Kết quả"],["English", "Tiếng Anh"],
         ["Circle", "Hình tròn"],["Help", "Giúp đỡ"],["Idol", "Thần tượng"],
@@ -40,10 +39,7 @@ export default function MultipleChoiceScreen({navigation}) {
     const [point, setPoint] = useState(0);
     const [index, setIndex] = useState(0);
     const [count, setCount] = useState(1);
-    // const [fisrt, setFisrt] = useState(-1);
-    // const [second, setSecond] = useState(-1);
-
-    // const [result, setResult] = useState("");
+    // const [check, setCheck] =  useState(0);
     
     const [stylebox00, setStylebox00]= useState(styles.nomalbox);
     const [styletext00, setStyletext00]= useState(styles.nomaltext);
@@ -299,8 +295,11 @@ export default function MultipleChoiceScreen({navigation}) {
                             style={{flexDirection: "column", width: '40%', marginRight: 40}}
                             onPress= {()=> {
                                 checkFail();
-                                if (stylebox01 == styles.onPress || stylebox10 == styles.onPress || 
-                                    stylebox11 == styles.onPress || stylebox20 == styles.onPress) {
+                                if(stylebox00 == styles.changebox){
+                                    console.log(1);
+                                }
+                                else if (stylebox01 == styles.onPress || stylebox10 == styles.onPress || 
+                                    stylebox11 == styles.onPress || stylebox20 == styles.onPress ) {
                                     setStylebox00(() => setStylebox00(styles.failbox));
                                     setStyletext00(() => setStyletext00(styles.changtext));
                                 }
@@ -315,10 +314,10 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setStylebox00(() => setStylebox00(styles.onPress));
                                     setStyletext00(() => setStyletext00(styles.changtext));
                                 }
-                                else{
-                                    setStylebox00(() => setStylebox00(styles.onPress));
-                                    setStyletext00(() => setStyletext00(styles.changtext));
-                                }
+                                // else{
+                                //     setStylebox00(() => setStylebox00(styles.onPress));
+                                //     setStyletext00(() => setStyletext00(styles.changtext));
+                                // }
                             }}
                         >
                             <View style={[styles.question, stylebox00 ]}>
@@ -329,7 +328,10 @@ export default function MultipleChoiceScreen({navigation}) {
                             style={{flexDirection: "column", width: '40%', marginRight: 40}}
                             onPress= {()=> {
                                 checkFail();
-                                if (stylebox00 == styles.onPress || stylebox11 == styles.onPress || 
+                                if(stylebox01 == styles.changebox){
+                                    console.log(1);
+                                }
+                                else if (stylebox00 == styles.onPress || stylebox11 == styles.onPress || 
                                     stylebox20 == styles.onPress || stylebox21 == styles.onPress) {
                                     setStylebox01(() => setStylebox01(styles.failbox));
                                     setStyletext01(() => setStyletext01(styles.changtext));
@@ -345,10 +347,10 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setStylebox01(() => setStylebox01(styles.onPress));
                                     setStyletext01(() => setStyletext01(styles.changtext));
                                 }
-                                else {
-                                    setStylebox01(() => setStylebox01(styles.onPress));
-                                    setStyletext01(() => setStyletext01(styles.changtext));
-                                }
+                                // else {
+                                //     setStylebox01(() => setStylebox01(styles.onPress));
+                                //     setStyletext01(() => setStyletext01(styles.changtext));
+                                // }
                             }}
                             
                         >
@@ -364,10 +366,13 @@ export default function MultipleChoiceScreen({navigation}) {
                             style={{flexDirection: "column", width: '40%', marginRight: 40}}
                             onPress= {()=> {
                                 checkFail();
-                                if (stylebox00 == styles.onPress || stylebox11 == styles.onPress || 
+                                if(stylebox10 == styles.changebox){
+                                    console.log(1);
+                                }
+                                else if (stylebox00 == styles.onPress || stylebox11 == styles.onPress || 
                                     stylebox20 == styles.onPress || stylebox21 == styles.onPress){
                                     setStylebox10(() => setStylebox10(styles.failbox));
-                                    setStyletext10(() => setStyletext10(styles.changtext))
+                                    setStyletext10(() => setStyletext10(styles.changtext));
                                 }
                                 else if(stylebox01 == styles.onPress){
                                     setStylebox01(() => setStylebox01(styles.changebox));
@@ -380,10 +385,10 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setStylebox10(() => setStylebox10(styles.onPress));
                                     setStyletext10(() => setStyletext10(styles.changtext));
                                 }
-                                else {
-                                    setStylebox10(() => setStylebox10(styles.onPress));
-                                    setStyletext10(() => setStyletext10(styles.changtext));
-                                }
+                                // else {
+                                //     setStylebox10(() => setStylebox10(styles.onPress));
+                                //     setStyletext10(() => setStyletext10(styles.changtext));
+                                // }
                             }}
                         >
                             <View style={[styles.question, stylebox10 ]}>
@@ -394,7 +399,10 @@ export default function MultipleChoiceScreen({navigation}) {
                             style={{flexDirection: "column", width: '40%', marginRight: 40}}
                             onPress= {()=> {
                                 checkFail();
-                                if (stylebox00 == styles.onPress || stylebox01 == styles.onPress || 
+                                if(stylebox11 == styles.changebox){
+                                    console.log(1);
+                                }
+                                else if (stylebox00 == styles.onPress || stylebox01 == styles.onPress || 
                                     stylebox10 == styles.onPress || stylebox21 == styles.onPress){
                                     setStylebox11(() => setStylebox11(styles.failbox));
                                     setStyletext11(() => setStyletext11(styles.changtext));
@@ -410,10 +418,10 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setStylebox11(() => setStylebox11(styles.onPress));
                                     setStyletext11(() => setStyletext11(styles.changtext));
                                 }
-                                else {
-                                    setStylebox11(() => setStylebox11(styles.onPress));
-                                    setStyletext11(() => setStyletext11(styles.changtext));
-                                }
+                                // else {
+                                //     setStylebox11(() => setStylebox11(styles.onPress));
+                                //     setStyletext11(() => setStyletext11(styles.changtext));
+                                // }
                             }}
                         >
                             <View style={[styles.question, stylebox11 ]}>
@@ -427,7 +435,10 @@ export default function MultipleChoiceScreen({navigation}) {
                             style={{flexDirection: "column", width: '40%', marginRight: 40}}
                             onPress= {()=> {
                                 checkFail();
-                                if (stylebox00 == styles.onPress || stylebox01 == styles.onPress || 
+                                if(stylebox20 == styles.changebox){
+                                    console.log(1);
+                                }
+                                else if (stylebox00 == styles.onPress || stylebox01 == styles.onPress || 
                                     stylebox10 == styles.onPress || stylebox21 == styles.onPress){
                                     setStylebox20(() => setStylebox20(styles.failbox));
                                     setStyletext20(() => setStyletext20(styles.changtext));
@@ -442,10 +453,10 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setStylebox20(() => setStylebox20(styles.onPress));
                                     setStyletext20(() => setStyletext20(styles.changtext));
                                 }
-                                else {
-                                    setStylebox20(() => setStylebox20(styles.onPress));
-                                    setStyletext20(() => setStyletext20(styles.changtext));
-                                }
+                                // else {
+                                //     setStylebox20(() => setStylebox20(styles.onPress));
+                                //     setStyletext20(() => setStyletext20(styles.changtext));
+                                // }
                             }}
                         >
                             <View style={[styles.question, stylebox20 ]}>
@@ -456,7 +467,10 @@ export default function MultipleChoiceScreen({navigation}) {
                             style={{flexDirection: "column", width: '40%', marginRight: 40}}
                             onPress= {()=> {
                                 checkFail();
-                                if ((stylebox01 == styles.onPress || stylebox10 == styles.onPress || 
+                                if(stylebox21 == styles.changebox){
+                                    console.log(1);
+                                }
+                                else if ((stylebox01 == styles.onPress || stylebox10 == styles.onPress || 
                                     stylebox11 == styles.onPress || stylebox20 == styles.onPress) ) {
                                     setStylebox21(() => setStylebox21(styles.failbox));
                                     setStyletext21(() => setStyletext21(styles.changtext));
@@ -472,10 +486,10 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setStylebox21(() => setStylebox21(styles.onPress));
                                     setStyletext21(() => setStyletext21(styles.changtext));
                                 }
-                                else {
-                                    setStylebox21(() => setStylebox21(styles.onPress));
-                                    setStyletext21(() => setStyletext21(styles.changtext));
-                                }
+                                // else {
+                                //     setStylebox21(() => setStylebox21(styles.onPress));
+                                //     setStyletext21(() => setStyletext21(styles.changtext));
+                                // }
                             }}
                         >
                             <View style={[styles.question, stylebox21 ]}>
@@ -540,7 +554,7 @@ export default function MultipleChoiceScreen({navigation}) {
                                     setTime(() => setTime(90));
                                     setCount(() => setCount(1));
                                     setIndex(() => setIndex(0));
-                                    // setPoint(() =>setPoint(0));
+                                    setPoint(() =>setPoint(0));
                                 }}>
                                 <Text style={styles.goback}>{"RESET"}</Text>
                             </TouchableOpacity>
