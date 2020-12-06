@@ -63,12 +63,12 @@ const TabsScreen = () => (
         }
 
         // You can return any component that you like here!
-        return <Image source={iconName} style={{width: 27, height: 27}}/>;
+        return <Image source={iconName} style={{ width: 27, height: 27 }} />;
       },
     })}
     tabBarOptions={{
-      activeTintColor: '#84D037',
-      inactiveTintColor: 'gray',
+      activeTintColor: "#84D037",
+      inactiveTintColor: "gray",
     }}
   >
     <Tabs.Screen name="Home" component={HomeStackScreen} />
@@ -76,57 +76,121 @@ const TabsScreen = () => (
     <Tabs.Screen name="Game" component={GameStackGame} />
     <Tabs.Screen name="Profile" component={ProfileStackScreen} />
   </Tabs.Navigator>
-)
+);
 
 const LoginStackScreen = () => (
   <LoginStack.Navigator>
-    <LoginStack.Screen name="Login" component={Login}/>
-    <LoginStack.Screen name="Signup" component={Signup}/>
+    <LoginStack.Screen
+      name="Login"
+      component={Login}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <LoginStack.Screen
+      name="Signup"
+      component={Signup}
+      options={{
+        headerShown: false,
+      }}
+    />
   </LoginStack.Navigator>
-)
+);
 
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile}/>
-    <ProfileStack.Screen name="EditProfile" component={EditProfile}/>
-    <ProfileStack.Screen name="SetTarget" component={SetTarget}/>
+    <ProfileStack.Screen
+      name="Profile"
+      component={Profile}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <ProfileStack.Screen
+      name="EditProfile"
+      component={EditProfile}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <ProfileStack.Screen name="SetTarget" component={SetTarget} />
   </ProfileStack.Navigator>
-)
+);
 
 const GameStackGame = () => (
   <GameStack.Navigator>
-    <GameStack.Screen name="Game" component={Game}/>
-    <GameStack.Screen name="Multiple Choice" component={MultipleChoiceScreen}/>
-    <GameStack.Screen name="Match Word" component={MatchWordScreen}/>
-    <GameStack.Screen name="Fill Word" component={FillWordScreen}/>
+    <GameStack.Screen
+      name="Game"
+      component={Game}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <GameStack.Screen
+      name="Multiple Choice"
+      component={MultipleChoiceScreen}
+      options={{
+        title: "Trắc nghiệm",
+        headerTintColor: "#84D037",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerShown: false,
+      }}
+    />
+    <GameStack.Screen
+      name="Match Word"
+      component={MatchWordScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <GameStack.Screen
+      name="Fill Word"
+      component={FillWordScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
   </GameStack.Navigator>
-)
+);
 
 const FlashcardStackScreen = () => (
   <FlashcardStack.Navigator headerMode="none">
-    <FlashcardStack.Screen name="Flashcards" component={Flashcards}/>
-    <FlashcardStack.Screen name="AddFlashcard" component={AddFlashcard}/>
-    <FlashcardStack.Screen name="FlashcardHome" component={FlashcardHomeStackScreen}/>
-    <FlashcardStack.Screen name="LearnFlashcard" component={LearnFlashcard}/>
+    <FlashcardStack.Screen name="Flashcards" component={Flashcards} />
+    <FlashcardStack.Screen name="AddFlashcard" component={AddFlashcard} />
+    <FlashcardStack.Screen
+      name="FlashcardHome"
+      component={FlashcardHomeStackScreen}
+    />
+    <FlashcardStack.Screen name="LearnFlashcard" component={LearnFlashcard} />
   </FlashcardStack.Navigator>
-)
+);
 
 const FlashcardHomeStackScreen = () => (
-  
   <FlashcardHomeStack.Navigator>
     <FlashcardHomeStack.Screen name="FlashcardHome" component={FlashcardHome} />
-    <FlashcardHomeStack.Screen name="LearnFlashcard" component={LearnFlashcard}/>
-    <FlashcardHomeStack.Screen name="EditFlashcard" component={EditFlashcard}/>
-    <FlashcardHomeStack.Screen name="TestFlashcard" component={TestFlashcard}/>
+    <FlashcardHomeStack.Screen
+      name="LearnFlashcard"
+      component={LearnFlashcard}
+    />
+    <FlashcardHomeStack.Screen name="EditFlashcard" component={EditFlashcard} />
+    <FlashcardHomeStack.Screen name="TestFlashcard" component={TestFlashcard} />
   </FlashcardHomeStack.Navigator>
-)
+);
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={Home}/>
-    <HomeStack.Screen name="Result" component={Result}/>
+    <HomeStack.Screen
+      name="Home"
+      component={Home}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <HomeStack.Screen name="Result" component={Result} />
   </HomeStack.Navigator>
-)
+);
 
 export default function App() {
   const [userToken, setUserToken] = useState(null);
@@ -141,14 +205,14 @@ export default function App() {
       // },
       Logout: () => {
         setUserToken(null);
-      }
+      },
     };
   }, []);
 
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {userToken ? <TabsScreen/> : <LoginStackScreen/>}
+        {userToken ? <TabsScreen /> : <LoginStackScreen />}
       </NavigationContainer>
     </AuthContext.Provider>
   );
@@ -162,5 +226,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-

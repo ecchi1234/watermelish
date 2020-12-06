@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+const fetch = require("node-fetch");
 import {
   View,
   Text,
@@ -8,16 +9,41 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
+
 import FlashcardRow from "../components/FlashcardRow";
 import MyAppText from "../components/MyAppText";
+import {toCapitalCase} from "../services/convertString"
+import { setFlashcardNames } from "../../globalVariable";
 
-export default function Flashcards({ navigation }) {
+export default function Flashcards({ route, navigation }) {
+  const [isLoading, setLoading] = useState(true);
+  const [flashcardArray, setFlashcardArray] = useState([]);
+  useEffect(() => {
+    fetch("http://watermelish.herokuapp.com/danhsachcacbotu/nhom13")
+      .then((response) => response.json())
+      .then((json) => {
+        setFlashcardArray(json[0].result);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={{ marginBottom: 20 }}>
-          <MyAppText content="Thêm mới bộ từ" format="bold" style={{ color: "#84D037"}}>
+          <MyAppText
+            content="Thêm mới bộ từ"
+            format="bold"
+            style={{ color: "#84D037" }}
+          >
             Thêm mới bộ từ
           </MyAppText>
           <View style={{ marginTop: 10 }}>
@@ -32,30 +58,31 @@ export default function Flashcards({ navigation }) {
           </View>
         </View>
         <View>
-          <MyAppText content="Các bộ từ" format="bold" style={{ color: "#84D037"}}>
+          <MyAppText
+            content="Các bộ từ"
+            format="bold"
+            style={{ color: "#84D037" }}
+          >
             Các bộ từ
           </MyAppText>
           <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FlashcardHome")}
-            >
-              <FlashcardRow name="Spring"></FlashcardRow>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FlashcardHome")}
-            >
-              <FlashcardRow name="Spring"></FlashcardRow>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FlashcardHome")}
-            >
-              <FlashcardRow name="Spring"></FlashcardRow>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("FlashcardHome")}
-            >
-              <FlashcardRow name="Spring"></FlashcardRow>
-            </TouchableOpacity>
+            {isLoading ? (
+              <ActivityIndicator />
+            ) : (
+              flashcardArray.map((card, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      setFlashcardNames(card);
+                      navigation.navigate("FlashcardHome");
+                    }}
+                  >
+                    <FlashcardRow name={toCapitalCase(card)}></FlashcardRow>
+                  </TouchableOpacity>
+                );
+              })
+            )}
           </View>
         </View>
       </ScrollView>
@@ -69,6 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff",
     alignItems: "center",
+    paddingTop: StatusBar.currentHeight,
   },
 
   addButton: {
@@ -79,6 +107,6 @@ const styles = StyleSheet.create({
   scrollView: {
     // padding: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     width: "100%",
-    padding: 20,
+    paddingHorizontal: 20,
   },
 });

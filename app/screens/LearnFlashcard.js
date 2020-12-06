@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Swiper from "react-native-web-swiper";
 import {
   View,
   Text,
@@ -37,7 +37,12 @@ export default function LearnFlashcard() {
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
 
-          <MyAppText content="Bộ từ: Spring" format="bold" size={25} style={[styles.pageTitle]}>
+          <MyAppText
+            content="Bộ từ: Spring"
+            format="bold"
+            size={25}
+            style={[styles.pageTitle]}
+          >
             Bộ từ: Spring
           </MyAppText>
         </View>
@@ -45,7 +50,7 @@ export default function LearnFlashcard() {
           <View style={{ margin: 30 }}>
             <Image
               resizeMode="contain"
-              style={[styles.imageBackground, {}]} 
+              style={[styles.imageBackground, {}]}
               source={require("../img/flashcard-back.png")}
             ></Image>
           </View>
@@ -64,14 +69,21 @@ export default function LearnFlashcard() {
             friction={8}
           >
             <View style={[styles.english, styles.word]}>
-              <MyAppText content="festival" format="bold"
-                style={[
-                  { color: "#fff"},
-                ]}
+              <MyAppText
+                content="festival"
+                format="bold"
+                style={[{ color: "#fff" }]}
               >
                 festival
               </MyAppText>
-              <MyAppText content="(n)" format="regular" size={15} style={[{ color: "#fff" }]}>(n)</MyAppText>
+              <MyAppText
+                content="(n)"
+                format="regular"
+                size={15}
+                style={[{ color: "#fff" }]}
+              >
+                (n)
+              </MyAppText>
               <TouchableOpacity
                 style={styles.soundButton}
                 onPress={() => playSound()}
@@ -81,10 +93,10 @@ export default function LearnFlashcard() {
             </View>
 
             <View style={[styles.vietnamese, styles.word]}>
-              <MyAppText content="lễ hội" format="bold" 
-                style={[
-                  { color: "#fff",},
-                ]}
+              <MyAppText
+                content="lễ hội"
+                format="bold"
+                style={[{ color: "#fff" }]}
               >
                 lễ hội
               </MyAppText>
@@ -107,14 +119,29 @@ export default function LearnFlashcard() {
           </View>
         </View>
 
-        <View style={{margin: 20, flexWrap: "wrap", alignContent: "center"}}>
-          <MyAppText content="Nhấn mũi tên để di chuyển qua các thẻ" format="italic" size={15} style={{alignSelf: "center"}}>
+        <View style={{ margin: 20, flexWrap: "wrap", alignContent: "center" }}>
+          <MyAppText
+            content="Nhấn mũi tên để di chuyển qua các thẻ"
+            format="italic"
+            size={15}
+            style={{ alignSelf: "center" }}
+          >
             Nhấn mũi tên để di chuyển qua các thẻ
           </MyAppText>
-          <MyAppText content="Nhấn loa để nghe phát âm" format="italic" size={15} style={{}}>
+          <MyAppText
+            content="Nhấn loa để nghe phát âm"
+            format="italic"
+            size={15}
+            style={{}}
+          >
             Nhấn loa để nghe phát âm
           </MyAppText>
-          <MyAppText content="Nhấn vào thẻ để lật thẻ" format="italic" size={15} style={{}}>
+          <MyAppText
+            content="Nhấn vào thẻ để lật thẻ"
+            format="italic"
+            size={15}
+            style={{}}
+          >
             Nhấn vào thẻ để lật thẻ
           </MyAppText>
         </View>
@@ -172,6 +199,24 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "contain",
   },
+  container2: {
+    flex: 1,
+  },
 
-  
+  slideContainer: {
+    flex: 1,
+    width: 200,
+    height: 200,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  slide1: {
+    backgroundColor: "red",
+  },
+  slide2: {
+    backgroundColor: "blue",
+  },
+  slide3: {
+    backgroundColor: "green",
+  },
 });

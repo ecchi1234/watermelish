@@ -1,4 +1,4 @@
-import React, { useState }from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -8,12 +8,12 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
-  Text
+  Text,
 } from "react-native";
 
 import MyAppText from "../components/MyAppText";
 
-export default function EditProfile ({ navigation }) {
+export default function EditProfile({ navigation }) {
   const [fullname, setFullname] = useState("");
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
@@ -22,7 +22,6 @@ export default function EditProfile ({ navigation }) {
   const checkInput = () => {
     // Có nhập password cũ
     if (oldPass === "nhom13") {
-
       // Chưa nhập password mới
       if (!newPass) {
         alert("Please enter new password");
@@ -34,14 +33,13 @@ export default function EditProfile ({ navigation }) {
         alert("Please re-enter new password");
         return;
       }
-    } else if (oldPass && (oldPass != "nhom13")) {
+    } else if (oldPass && oldPass != "nhom13") {
       alert("Old password is incorrect");
       return;
     }
 
     // Có nhập password mới
     if (newPass) {
-
       // Chưa nhập password cũ
       if (!oldPass) {
         alert("Please enter old password");
@@ -57,7 +55,6 @@ export default function EditProfile ({ navigation }) {
 
     // Có nhập lại password mới
     if (confirmPass) {
-
       // Chưa nhập password cũ
       if (!oldPass) {
         alert("Please enter old password");
@@ -78,11 +75,11 @@ export default function EditProfile ({ navigation }) {
     }
 
     // Nhập đúng đủ 3 trường password
-    if (oldPass === "nhom13" && (newPass == confirmPass)) {
+    if (oldPass === "nhom13" && newPass == confirmPass) {
       alert("Profile saved successfully");
       return;
     }
-    
+
     // Có nhập tên
     if (fullname) {
       alert("Profile saved successfully");
@@ -93,7 +90,13 @@ export default function EditProfile ({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <MyAppText
             content="Chỉnh sửa thông tin"
             format="bold"
@@ -102,14 +105,25 @@ export default function EditProfile ({ navigation }) {
               paddingTop: 20,
             }}
             size={23}
-          >Chỉnh sửa thông tin
+          >
+            Chỉnh sửa thông tin
           </MyAppText>
         </View>
-        <View style={{ flexDirection: "row", alignItems: "center", }}>
-          <Image source={require("../img/watermelon-repass.png")} style={styles.img} />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Image
+            source={require("../img/watermelon-repass.png")}
+            style={styles.img}
+          />
         </View>
-        <View style={{ flexDirection: "column", alignItems: "center", width: 260}}>
-          <View style={styles.inputView} >
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 300,
+          }}
+        >
+          <View style={styles.inputView}>
             <TextInput
               style={styles.inputText}
               placeholder="Tên của bạn"
@@ -117,7 +131,7 @@ export default function EditProfile ({ navigation }) {
               value={fullname}
             />
           </View>
-          <View style={styles.inputView} >
+          <View style={styles.inputView}>
             <TextInput
               secureTextEntry
               style={styles.inputText}
@@ -126,7 +140,7 @@ export default function EditProfile ({ navigation }) {
               value={oldPass}
             />
           </View>
-          <View style={styles.inputView} >
+          <View style={styles.inputView}>
             <TextInput
               secureTextEntry
               style={styles.inputText}
@@ -135,7 +149,7 @@ export default function EditProfile ({ navigation }) {
               value={newPass}
             />
           </View>
-          <View style={styles.inputView} >
+          <View style={styles.inputView}>
             <TextInput
               secureTextEntry
               style={styles.inputText}
@@ -145,10 +159,7 @@ export default function EditProfile ({ navigation }) {
             />
           </View>
         </View>
-        <TouchableOpacity
-          style={{ alignItems: "center" }}
-          onPress={checkInput}
-        >
+        <TouchableOpacity style={{ alignItems: "center" }} onPress={checkInput}>
           <View style={styles.saveBtn}>
             <MyAppText
               content="Lưu lại"
@@ -156,7 +167,7 @@ export default function EditProfile ({ navigation }) {
               style={{
                 color: "#fff",
                 paddingTop: 10,
-                paddingBottom: 10
+                paddingBottom: 10,
               }}
               size={22}
             >
@@ -175,8 +186,7 @@ export default function EditProfile ({ navigation }) {
               format="italic"
               style={{ color: "#609F20" }}
               size={19}
-            >
-            </MyAppText>
+            ></MyAppText>
           </View>
         </TouchableOpacity>
       </ScrollView>
@@ -191,6 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // padding: 20,
+    width: "100%",
   },
   scroll: {
     paddingHorizontal: StatusBar.currentHeight,
@@ -212,7 +223,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#609F20",
     justifyContent: "center",
     marginBottom: 20,
-    padding: 5
+    padding: 5,
+    flex: 1,
   },
   inputText: {
     height: 28,
@@ -225,11 +237,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#609F20",
     borderRadius: 50,
     shadowColor: "0 4 4 rgba(0, 0, 0, 0.25)",
-    marginBottom: 20
+    marginBottom: 20,
   },
 
   escapeBtn: {
     alignItems: "center",
   },
-
 });
