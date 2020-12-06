@@ -14,12 +14,11 @@ import MyAppText from "../components/MyAppText";
 
 export default function Home({ navigation }) {
   const [value, onChangeText] = useState("");
+  
+
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scroll}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <MyAppText
             content="Good Morning!"
@@ -41,8 +40,8 @@ export default function Home({ navigation }) {
             onPress={() => {
               if (value === "Festival") {
                 navigation.push("Result");
-              }else {
-                  console.log("false");
+              } else {
+                console.log("false");
               }
             }}
           >
@@ -110,6 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     // justifyContent: "center",
     // alignItems: "center",
+    paddingTop: StatusBar.currentHeight,
   },
 
   inputField: {

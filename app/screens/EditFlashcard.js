@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+const fetch = require("node-fetch");
 
 import {
   View,
@@ -16,6 +17,7 @@ import InputArea from "../components/InputArea";
 import EachWordRow from "../components/EachWordRow";
 import font_styles from "../font/font";
 import MyAppText from "../components/MyAppText";
+import { flashcardNames } from "../../globalVariable";
 
 export default function EditFlashcard({navigation}) {
   return (

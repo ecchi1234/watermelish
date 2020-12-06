@@ -103,7 +103,7 @@ export default function Donut({
         defaultValue="0"
         style={[
           StyleSheet.absoluteFillObject,
-          { fontSize: radius / 2, color: "red" },
+          { fontSize: radius / 2, color: "#000" },
           styles.text,
         ]}
       />

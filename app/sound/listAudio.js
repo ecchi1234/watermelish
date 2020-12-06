@@ -1,0 +1,18 @@
+export const listAudio = {
+  festival: require("../sound/festival.mp3"),
+  "peach blossom": require("../sound/peach-blossom.mp3"),
+  breeze: require("../sound/breeze.mp3"),
+  rose: require("../sound/rose.mp3"),
+  thaw: require("../sound/thaw.mp3"),
+  spring: require("../sound/spring.mp3"),
+  cold: require("../sound/cold.mp3"),
+  humid: require("../sound/humid.mp3"),
+  shower: require("../sound/shower.mp3"),
+  bird: require("../sound/bird.mp3"),
+  rain: require("../sound/rain.mp3"),
+  nest: require("../sound/nest.mp3"),
+  narcissus: require("../sound/narcissus.mp3"),
+  season: require("../sound/season.mp3"),
+  sunshine: require("../sound/sunshine.mp3"),
+  blossom: require("../sound/blossom.mp3"),
+};
