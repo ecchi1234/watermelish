@@ -9,7 +9,7 @@ import MyAppText from "../components/MyAppText";
 // module lấy chỗ khác
 import DropDownPicker from "react-native-dropdown-picker";
 
-export default function EachWordRow({ row, deleteRow, getValue }) {
+export default function EachWordRow({ row, deleteRow, getValue, vietnamese, english, type }) {
   function handleDeleteButton() {
     deleteRow(row.id);
   }
@@ -32,7 +32,7 @@ export default function EachWordRow({ row, deleteRow, getValue }) {
        */}
 
       <View>
-        <InputArea type="Tieng anh" row={row} getValue={getValue}></InputArea>
+        <InputArea type="Tieng anh" row={row} getValue={getValue} english={english}></InputArea>
         <DropDownPicker
           items={[
             { label: "Danh từ", value: "n" },
@@ -40,7 +40,7 @@ export default function EachWordRow({ row, deleteRow, getValue }) {
             { label: "Tính từ", value: "adj" },
             { label: "Trạng từ", value: "adv" },
           ]}
-          defaultNull
+          defaultValue={type}
           placeholder="Chọn loại từ cho từ vựng"
           containerStyle={{ height: 40 }}
           onChangeItem={(item) => {
@@ -48,7 +48,7 @@ export default function EachWordRow({ row, deleteRow, getValue }) {
             console.log(item.label, item.value);
           }}
         />
-        <InputArea type="Tieng viet" row={row} getValue={getValue}></InputArea>
+        <InputArea type="Tieng viet" row={row} getValue={getValue} vietnamese={vietnamese}></InputArea>
       </View>
     </View>
   );

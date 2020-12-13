@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TextInput, StyleSheet } from "react-native";
 
 const InputArea = (props) => {
-  const [value, onChangeText] = React.useState("");
+  const [value, onChangeText] = React.useState(props.vietnamese ? props.vietnamese : props.english);
 
   const handleInputValue = () => {
     if (props.type==="Tieng anh") {
@@ -21,11 +21,10 @@ const InputArea = (props) => {
       style={styles.inputField}
       onChangeText={(text) => {
         onChangeText(text);
-        // handleInputValue();
       }}
       value={value}
       placeholder={props.type}
-      onBlur={() => {
+      onSubmitEditing={() => {
         handleInputValue();
       }}
     />

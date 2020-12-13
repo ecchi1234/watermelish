@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  Image,
 } from "react-native";
 
 import ScoreTime from "../components/ScoreAndTime";
@@ -28,6 +29,8 @@ export default function MultipleChoiceScreen({ navigation }) {
   const [selected, setSelected] = useState("");
   const [point, setPoint] = useState(0);
   const [index, setIndex] = useState(0);
+  const [maxScore, setMaxScore] = useState(0);
+  const [isLoading, setLoading] = useState(true);
   const [textColorA, setTextColorA] = useState("#000");
   const [textColorB, setTextColorB] = useState("#000");
   const [textColorC, setTextColorC] = useState("#000");
@@ -37,6 +40,33 @@ export default function MultipleChoiceScreen({ navigation }) {
   const [stylec, setStylec] = useState("#E5E5E5");
   const [time, setTime] = useState(90);
   // const [isTrue, setIsTrue] = useState(false);
+
+  const getMaxScore = (currentScore) => {
+    fetch(
+      "http://watermelish.herokuapp.com/ketquagame/nhom13/gametracnghiem/" +
+        currentScore
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        setMaxScore(json[0].result);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const learnedAWord = () => {
+    fetch("http://watermelish.herokuapp.com/xacnhanhocmottu/nhom13")
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json[0].result);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -127,9 +157,14 @@ export default function MultipleChoiceScreen({ navigation }) {
     //const check = isIndex(index);
     // if(test) setTimeout(() => { console.log("success"); }, 2000);
     setPoint((prev) => {
-      if (test) return prev + 10;
-      else return prev;
+      if (test) {
+        return prev + 10;
+      } else return prev;
     });
+
+    if (test) {
+      learnedAWord();
+    }
     // setIndex((prev) => {
     //   if (test) {
     //     // setTimeout(() => { console.log("success"); }, 2000);
@@ -289,6 +324,7 @@ export default function MultipleChoiceScreen({ navigation }) {
                 onPress={() => {
                   setTrueSelection(index);
                   checkAnswer(selected);
+                  getMaxScore(point);
                   setTimeout(() => {
                     moveToNext(selected);
                     console.log("ahihi");
@@ -321,68 +357,139 @@ export default function MultipleChoiceScreen({ navigation }) {
     );
   } else {
     return (
-      <SafeAreaView
-        style={(StyleSheet.container, { flex: 1, backgroundColor: "#fff" })}
-      >
-        <ScrollView style={styles.scrollView}>
-          {/* <ScoreTime score={point} time={transTime(time)}/> */}
-          <View
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Image
+            source={require("../img/watermelon-signup.png")}
+            style={styles.img}
+          />
+        </View>
+        <View>
+          <MyAppText
+            content="Kết quả"
+            format="bold"
+            size={25}
+            style={{ color: "#609F20" }}
+          ></MyAppText>
+        </View>
+        <View>
+          <MyAppText
+            content={`Số điểm bạn đã đạt được: ${point}`}
+            format="regular"
+            size={15}
+            style={{ textAlign: "center" }}
+          ></MyAppText>
+        </View>
+        <View>
+          <MyAppText
+            content={`Số điểm cao nhất: ${maxScore}`}
+            format="regular"
+            size={15}
+            style={{ textAlign: "center" }}
+          ></MyAppText>
+        </View>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={() => navigation.navigate("Game")}
+        >
+          <View style={styles.signupBtn}>
+            <MyAppText
+              content="Trở về"
+              format="bold"
+              size={15}
+              style={{
+                color: "#fff",
+                paddingTop: 10,
+                paddingBottom: 10,
+              }}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ alignItems: "center" }}
+          onPress={() => {
+            setTime(() => setTime(90));
+            setIndex(() => setIndex(0));
+            setPoint(() => setPoint(0));
+            setLoading(() => true);
+          }}
+        >
+          <MyAppText
+            content="Chơi lại"
+            format="italic"
+            size={15}
             style={{
-              flexDirection: "row",
-              borderWidth: 1,
-              borderColor: "#8E8888",
-              borderRadius: 10,
-              marginTop: 100,
-              marginBottom: 100,
-              height: 150,
-              justifyContent: "center",
-              backgroundColor: "#fff",
+              color: "#609F20",
+              // paddingTop: 10,
+              // paddingBottom: 10,
             }}
-          >
-            <View>
-              <Text style={styles.result}>Game Over !!!</Text>
-              <Text style={styles.result}>High Score: {point}</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginLeft: 10 }}>
-            <View style={{ flex: 1, marginRight: 55, borderRadius: 10 }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate("Game")}
-              >
-                <MyAppText
-                  content="BACK"
-                  format="regular"
-                  size={13}
-                  style={styles.goback}
-                >
-                  {"RESET"}
-                </MyAppText>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 1, marginLeft: 55, borderRadius: 10 }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  setTime(() => setTime(90));
-                  setIndex(() => setIndex(0));
-                  setPoint(() => setPoint(0));
-                }}
-              >
-                <MyAppText
-                  content="RESET"
-                  format="regular"
-                  size={13}
-                  style={styles.goback}
-                >
-                  {"RESET"}
-                </MyAppText>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
+          />
+        </TouchableOpacity>
       </SafeAreaView>
     );
+    // return (
+    //   <SafeAreaView
+    //     style={(StyleSheet.container, { flex: 1, backgroundColor: "#fff" })}
+    //   >
+    //     <ScrollView style={styles.scrollView}>
+    //       {/* <ScoreTime score={point} time={transTime(time)}/> */}
+    //       <View
+    //         style={{
+    //           flexDirection: "row",
+    //           borderWidth: 1,
+    //           borderColor: "#8E8888",
+    //           borderRadius: 10,
+    //           marginTop: 100,
+    //           marginBottom: 100,
+    //           height: 150,
+    //           justifyContent: "center",
+    //           backgroundColor: "#fff",
+    //         }}
+    //       >
+    //         <View>
+    //           <Text style={styles.result}>Game Over !!!</Text>
+    //           <Text style={styles.result}>High Score: {point}</Text>
+    //         </View>
+    //       </View>
+    //       <View style={{ flexDirection: "row", marginLeft: 10 }}>
+    //         <View style={{ flex: 1, marginRight: 55, borderRadius: 10 }}>
+    //           <TouchableOpacity
+    //             style={styles.button}
+    //             onPress={() => navigation.navigate("Game")}
+    //           >
+    //             <MyAppText
+    //               content="BACK"
+    //               format="regular"
+    //               size={13}
+    //               style={styles.goback}
+    //             >
+    //               {"RESET"}
+    //             </MyAppText>
+    //           </TouchableOpacity>
+    //         </View>
+    //         <View style={{ flex: 1, marginLeft: 55, borderRadius: 10 }}>
+    //           <TouchableOpacity
+    //             style={styles.button}
+    //             onPress={() => {
+    //               setTime(() => setTime(90));
+    //               setIndex(() => setIndex(0));
+    //               setPoint(() => setPoint(0));
+    //             }}
+    //           >
+    //             <MyAppText
+    //               content="RESET"
+    //               format="regular"
+    //               size={13}
+    //               style={styles.goback}
+    //             >
+    //               {"RESET"}
+    //             </MyAppText>
+    //           </TouchableOpacity>
+    //         </View>
+    //       </View>
+    //     </ScrollView>
+    //   </SafeAreaView>
+    // );
   }
 }
 
@@ -468,5 +575,21 @@ const styles = StyleSheet.create({
   goback: {
     color: "#fff",
     textAlign: "center",
+  },
+
+  img: {
+    marginTop: 20,
+    marginBottom: 30,
+    height: 160,
+    resizeMode: "contain",
+  },
+
+  signupBtn: {
+    width: 186,
+    alignItems: "center",
+    backgroundColor: "#609F20",
+    borderRadius: 50,
+    marginBottom: 20,
+    marginTop: 20,
   },
 });
