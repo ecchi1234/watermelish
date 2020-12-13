@@ -19,7 +19,11 @@ App học từ vựng tiếng anh bằng phương pháp flashcard
 
 - npm start để bắt đầu chạy ứng dụng.
 
-### 3. Thông tin tài khoản để demo:
+### 3. Link demo: làm theo các hướng dẫn tại link (lưu ý chỉ có máy android chạy được)
+
+https://expo.io/@ecchi123/projects/Watermelish
+
+### 4. Thông tin tài khoản để demo:
 
 - username: nhom13
 
