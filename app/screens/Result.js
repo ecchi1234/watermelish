@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+
 import MyAppText from "../components/MyAppText";
 import { wordFound } from "../../globalVariable";
 import { setWordFound } from "../../globalVariable";
@@ -17,6 +18,7 @@ import { wordEnter } from "../../globalVariable";
 import { setWordEnter } from "../../globalVariable";
 
 export default function Result({ navigation }) {
+  const [isLoading, setLoading] = useState(false);
   const findWord = () => {
     return new Promise((resolve, reject) => {
       fetch("http://watermelish.herokuapp.com/timtu/nhom13/" + value)

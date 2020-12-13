@@ -1,6 +1,13 @@
-
 import React, { useState, useEffect, useReducer } from "react";
-import { StyleSheet, Text, View, Image, ActivityIndicator, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+  StatusBar,
+} from "react-native";
+import AnimatedLoader from "react-native-animated-loader";
 
 import { AppLoading } from "expo";
 import {
@@ -19,13 +26,12 @@ import {
   Roboto_900Black_Italic,
 } from "@expo-google-fonts/roboto";
 
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { AuthContext } from "./app/components/Context";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 import AddFlashcard from "./app/screens/AddFlashcard";
 import FlashcardHome from "./app/screens/FlashcardHome";
@@ -300,7 +306,6 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic,
   });
-  
 
   const initialLoginState = {
     isLoading: true,
@@ -309,21 +314,21 @@ export default function App() {
   };
 
   const loginReducer = (prevState, action) => {
-    switch(action.type) {
-      case 'RETRIEVE_TOKEN':
+    switch (action.type) {
+      case "RETRIEVE_TOKEN":
         return {
           ...prevState,
           userToken: action.token,
           isLoading: false,
         };
-      case 'LOGIN':
+      case "LOGIN":
         return {
           ...prevState,
           username: action.id,
           userToken: action.token,
           isLoading: false,
         };
-      case 'LOGOUT':
+      case "LOGOUT":
         return {
           ...prevState,
           username: null,
@@ -335,60 +340,63 @@ export default function App() {
 
   const [loginState, dispatch] = useReducer(loginReducer, initialLoginState);
 
-  const authContext = React.useMemo(() => ({
-    signIn: async(username, password) => {
-      let userToken;
-      userToken = null;
-      fetch('http://watermelish.herokuapp.com/dangnhap', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      })
-      .then(response => response.json())
-      .then(async(json) => {
-        if (json[0]._id == -1) {
-          alert("Username or Password is incorrect");
-        } else {
-          // signIn(json[0]._id);
-          try {
-            userToken = 'abc';
-            await AsyncStorage.setItem('userToken', userToken);
-          } catch (e) {
-            console.error(e);
-          }
-          dispatch({ type: 'LOGIN', id: username, token: userToken });
-          console.log('Signed in successfully');
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async (username, password) => {
+        let userToken;
+        userToken = null;
+        fetch("http://watermelish.herokuapp.com/dangnhap", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
+        })
+          .then((response) => response.json())
+          .then(async (json) => {
+            if (json[0]._id == -1) {
+              alert("Username or Password is incorrect");
+            } else {
+              // signIn(json[0]._id);
+              try {
+                userToken = "abc";
+                await AsyncStorage.setItem("userToken", userToken);
+              } catch (e) {
+                console.error(e);
+              }
+              dispatch({ type: "LOGIN", id: username, token: userToken });
+              console.log("Signed in successfully");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      },
+      signOut: async () => {
+        try {
+          await AsyncStorage.removeItem("userToken");
+        } catch (e) {
+          console.error(e);
         }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    },
-    signOut: async() => {
-      try {
-        await AsyncStorage.removeItem('userToken');
-      } catch (e) {
-        console.error(e);
-      }
-      dispatch({ type: 'LOGOUT' });
-    },
-  }), []);
+        dispatch({ type: "LOGOUT" });
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
-    setTimeout(async() => {
+    setTimeout(async () => {
       let userToken;
       userToken = null;
       try {
-        userToken = await AsyncStorage.getItem('userToken');
+        userToken = await AsyncStorage.getItem("userToken");
       } catch (e) {
         console.error(e);
       }
-      dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
+      dispatch({ type: "RETRIEVE_TOKEN", token: userToken });
     }, 1000);
   }, []);
 
@@ -403,21 +411,21 @@ export default function App() {
       >
         <ActivityIndicator size='large'/>
       </View>
+
     );
-  }
-  
+  };
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-       <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        {loginState.userToken ? <TabsScreen /> : <LoginStackScreen />}
-      </NavigationContainer>
-    </AuthContext.Provider>
+      <AuthContext.Provider value={authContext}>
+        <NavigationContainer>
+          {loginState.userToken ? <TabsScreen /> : <LoginStackScreen />}
+        </NavigationContainer>
+      </AuthContext.Provider>
     );
   }
-
 }
 
 const styles = StyleSheet.create({

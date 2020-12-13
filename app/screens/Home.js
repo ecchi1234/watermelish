@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import AnimatedLoader from "react-native-animated-loader";
 
 import MyAppText from "../components/MyAppText";
 import { setWordFound } from "../../globalVariable";
@@ -16,24 +17,32 @@ import { setWordEnter } from "../../globalVariable";
 
 export default function Home({ navigation }) {
   const [value, onChangeText] = useState("");
-
+  const [isLoading, setLoading] = useState(false);
   const findWord = () => {
     return new Promise((resolve, reject) => {
 
       fetch("http://watermelish.herokuapp.com/timtu/nhom13/" + value)
         .then((response) => response.json())
         .then((json) => {
+          setLoading(false);
           setWordFound(json[0].result);
           resolve();
         })
         .catch((error) => {
           console.error(error);
           reject(error);
-        });
+        })
+        .finally(() => setLoading(false));
     })
   };
 
-  return (
+  return isLoading ? (<AnimatedLoader
+    visible={true}
+    overlayColor="rgba(255,255,255,0.75)"
+    source={require("../img/loading-effect/pre-load.json")}
+    animationStyle={{ width: 100, height: 100 }}
+    speed={1}
+  />) : (
     <View style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
@@ -55,6 +64,7 @@ export default function Home({ navigation }) {
           <TouchableOpacity
             style={styles.seachButton}
             onPress={() => {
+              setLoading(true);
               setWordEnter(value);
               findWord().then(() => {
                 setWordEnter(value);
