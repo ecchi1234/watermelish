@@ -16,14 +16,14 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-import { AuthContext } from "../screens/Context";
+import { AuthContext } from "../components/Context";
 
 import MyAppText from "../components/MyAppText";
 import DonutChart from "../components/DonutChart";
 import RadioButton from "../components/RadioButton";
 
 export default function Profile({ navigation }) {
-  const { Logout } = React.useContext(AuthContext);
+  const { signOut } = React.useContext(AuthContext);
   const target_array = ["10 từ", "15 từ", "20 từ", "25 từ"];
   const [modalVisible, setModalVisible] = useState(false);
   const [selectTarget, setTargetSelected] = useState(0);
@@ -388,7 +388,7 @@ export default function Profile({ navigation }) {
               onPress={() => {
                 // Test Login
                 // navigation.navigate("Login");
-                Logout();
+                signOut();
               }}
             >
               <View

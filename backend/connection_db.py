@@ -57,7 +57,7 @@ def signup(db, username, password, name):
         if checkAccount(db, username) == "yes":
             return "thất bại"
         currentDay = getTime()
-        db.watermelishCollection.insert({"username": username, "password": password, "name": name, "word_sets": {}, "game1": 0, "game2": 0, "game3": 0, "today": currentDay, "nowWord": 0, "totalScore": 250, "totalWord": 0})
+        db.watermelishCollection.insert({"username": username, "password": password, "name": name, "target": 0, "word_sets": {}, "game1": 0, "game2": 0, "game3": 0, "today": currentDay, "nowWord": 0, "totalScore": 250, "totalWord": 0})
         return "thành công"
     except:
         return "thất bại"

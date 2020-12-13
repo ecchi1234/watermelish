@@ -10,12 +10,12 @@ import {
   StatusBar,
 } from "react-native";
 
-import { AuthContext } from "../screens/Context";
+import { AuthContext } from "../components/Context";
 
 import MyAppText from "../components/MyAppText";
 
 export default function Login ({ navigation }) {
-  const { Login } = React.useContext(AuthContext);
+  const { signIn } = React.useContext(AuthContext);
 
   const[username, onChangeText] = useState("");
   const[password, onChangePass] = useState("");
@@ -56,9 +56,7 @@ export default function Login ({ navigation }) {
         <TouchableOpacity
           style={{ alignItems: "center" }}
           onPress={() => {
-            if (username === "nhom13" && password === "nhom13") {
-              Login()
-            } else alert("Username or Password is incorrect");
+            signIn(username, password);
           }}
         >
           <View style={styles.loginBtn}>
