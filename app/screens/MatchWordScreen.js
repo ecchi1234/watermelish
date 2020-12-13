@@ -323,7 +323,9 @@ export default function MultipleChoiceScreen({ navigation }) {
               style={{ flexDirection: "column", width: "40%", marginRight: 40 }}
               onPress={() => {
                 checkFail();
-                if (
+                if (stylebox00 == styles.changebox) {
+                  console.log(1);
+                } else if (
                   stylebox01 == styles.onPress ||
                   stylebox10 == styles.onPress ||
                   stylebox11 == styles.onPress ||
@@ -340,10 +342,11 @@ export default function MultipleChoiceScreen({ navigation }) {
                 } else if (stylebox21 == styles.nomalbox) {
                   setStylebox00(() => setStylebox00(styles.onPress));
                   setStyletext00(() => setStyletext00(styles.changtext));
-                } else {
-                  setStylebox00(() => setStylebox00(styles.onPress));
-                  setStyletext00(() => setStyletext00(styles.changtext));
                 }
+                // else{
+                //     setStylebox00(() => setStylebox00(styles.onPress));
+                //     setStyletext00(() => setStyletext00(styles.changtext));
+                // }
               }}
             >
               <View style={[styles.question, stylebox00]}>
@@ -356,7 +359,9 @@ export default function MultipleChoiceScreen({ navigation }) {
               style={{ flexDirection: "column", width: "40%", marginRight: 40 }}
               onPress={() => {
                 checkFail();
-                if (
+                if (stylebox01 == styles.changebox) {
+                  console.log(1);
+                } else if (
                   stylebox00 == styles.onPress ||
                   stylebox11 == styles.onPress ||
                   stylebox20 == styles.onPress ||
@@ -373,10 +378,11 @@ export default function MultipleChoiceScreen({ navigation }) {
                 } else if (stylebox10 == styles.nomalbox) {
                   setStylebox01(() => setStylebox01(styles.onPress));
                   setStyletext01(() => setStyletext01(styles.changtext));
-                } else {
-                  setStylebox01(() => setStylebox01(styles.onPress));
-                  setStyletext01(() => setStyletext01(styles.changtext));
                 }
+                // else {
+                //     setStylebox01(() => setStylebox01(styles.onPress));
+                //     setStyletext01(() => setStyletext01(styles.changtext));
+                // }
               }}
             >
               <View style={[styles.question, stylebox01]}>
@@ -392,7 +398,9 @@ export default function MultipleChoiceScreen({ navigation }) {
               style={{ flexDirection: "column", width: "40%", marginRight: 40 }}
               onPress={() => {
                 checkFail();
-                if (
+                if (stylebox10 == styles.changebox) {
+                  console.log(1);
+                } else if (
                   stylebox00 == styles.onPress ||
                   stylebox11 == styles.onPress ||
                   stylebox20 == styles.onPress ||
@@ -409,10 +417,11 @@ export default function MultipleChoiceScreen({ navigation }) {
                 } else if (stylebox01 == styles.nomalbox) {
                   setStylebox10(() => setStylebox10(styles.onPress));
                   setStyletext10(() => setStyletext10(styles.changtext));
-                } else {
-                  setStylebox10(() => setStylebox10(styles.onPress));
-                  setStyletext10(() => setStyletext10(styles.changtext));
                 }
+                // else {
+                //     setStylebox10(() => setStylebox10(styles.onPress));
+                //     setStyletext10(() => setStyletext10(styles.changtext));
+                // }
               }}
             >
               <View style={[styles.question, stylebox10]}>
@@ -425,7 +434,9 @@ export default function MultipleChoiceScreen({ navigation }) {
               style={{ flexDirection: "column", width: "40%", marginRight: 40 }}
               onPress={() => {
                 checkFail();
-                if (
+                if (stylebox11 == styles.changebox) {
+                  console.log(1);
+                } else if (
                   stylebox00 == styles.onPress ||
                   stylebox01 == styles.onPress ||
                   stylebox10 == styles.onPress ||
@@ -442,10 +453,11 @@ export default function MultipleChoiceScreen({ navigation }) {
                 } else if (stylebox20 == styles.nomalbox) {
                   setStylebox11(() => setStylebox11(styles.onPress));
                   setStyletext11(() => setStyletext11(styles.changtext));
-                } else {
-                  setStylebox11(() => setStylebox11(styles.onPress));
-                  setStyletext11(() => setStyletext11(styles.changtext));
                 }
+                // else {
+                //     setStylebox11(() => setStylebox11(styles.onPress));
+                //     setStyletext11(() => setStyletext11(styles.changtext));
+                // }
               }}
             >
               <View style={[styles.question, stylebox11]}>
@@ -460,7 +472,9 @@ export default function MultipleChoiceScreen({ navigation }) {
               style={{ flexDirection: "column", width: "40%", marginRight: 40 }}
               onPress={() => {
                 checkFail();
-                if (
+                if (stylebox20 == styles.changebox) {
+                  console.log(1);
+                } else if (
                   stylebox00 == styles.onPress ||
                   stylebox01 == styles.onPress ||
                   stylebox10 == styles.onPress ||
@@ -477,10 +491,11 @@ export default function MultipleChoiceScreen({ navigation }) {
                 } else if (stylebox11 == styles.nomalbox) {
                   setStylebox20(() => setStylebox20(styles.onPress));
                   setStyletext20(() => setStyletext20(styles.changtext));
-                } else {
-                  setStylebox20(() => setStylebox20(styles.onPress));
-                  setStyletext20(() => setStyletext20(styles.changtext));
                 }
+                // else {
+                //     setStylebox20(() => setStylebox20(styles.onPress));
+                //     setStyletext20(() => setStyletext20(styles.changtext));
+                // }
               }}
             >
               <View style={[styles.question, stylebox20]}>
@@ -493,7 +508,9 @@ export default function MultipleChoiceScreen({ navigation }) {
               style={{ flexDirection: "column", width: "40%", marginRight: 40 }}
               onPress={() => {
                 checkFail();
-                if (
+                if (stylebox21 == styles.changebox) {
+                  console.log(1);
+                } else if (
                   stylebox01 == styles.onPress ||
                   stylebox10 == styles.onPress ||
                   stylebox11 == styles.onPress ||
@@ -510,10 +527,11 @@ export default function MultipleChoiceScreen({ navigation }) {
                 } else if (stylebox00 == styles.nomalbox) {
                   setStylebox21(() => setStylebox21(styles.onPress));
                   setStyletext21(() => setStyletext21(styles.changtext));
-                } else {
-                  setStylebox21(() => setStylebox21(styles.onPress));
-                  setStyletext21(() => setStyletext21(styles.changtext));
                 }
+                // else {
+                //     setStylebox21(() => setStylebox21(styles.onPress));
+                //     setStyletext21(() => setStyletext21(styles.changtext));
+                // }
               }}
             >
               <View style={[styles.question, stylebox21]}>

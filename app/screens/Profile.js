@@ -24,7 +24,6 @@ import DonutChart from "../components/DonutChart";
 import RadioButton from "../components/RadioButton";
 
 export default function Profile({ navigation }) {
-
   const { signOut } = React.useContext(AuthContext);
 
   // pull to refresh function
@@ -418,7 +417,7 @@ export default function Profile({ navigation }) {
               style={{ alignItems: "center", marginTop: 5, marginBottom: 5 }}
             >
               <DonutChart
-                max={20}
+                max={target}
                 radius={80}
                 percentage={isLoading ? 0 : information[3]}
                 style={styles.donutChart}
