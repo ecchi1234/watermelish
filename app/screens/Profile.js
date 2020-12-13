@@ -14,6 +14,7 @@ import {
   Modal,
   Alert,
   TouchableHighlight,
+  RefreshControl,
 } from "react-native";
 
 import { AuthContext } from "../components/Context";
@@ -23,7 +24,21 @@ import DonutChart from "../components/DonutChart";
 import RadioButton from "../components/RadioButton";
 
 export default function Profile({ navigation }) {
+
   const { signOut } = React.useContext(AuthContext);
+
+  // pull to refresh function
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getInformation().then(() => {
+      setRefreshing(false);
+    });
+
+    // wait(2000).then(() => setRefreshing(false));
+  }, []);
+  const { Logout } = React.useContext(AuthContext);
+
   const target_array = ["10 từ", "15 từ", "20 từ", "25 từ"];
   const [modalVisible, setModalVisible] = useState(false);
   const [selectTarget, setTargetSelected] = useState(0);
@@ -31,6 +46,21 @@ export default function Profile({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [information, setInformation] = useState([]);
   const [target, setTarget] = useState(0);
+
+  const getInformation = () => {
+    return new Promise((resolve, reject) => {
+      fetch("http://watermelish.herokuapp.com/thongke/nhom13")
+        .then((response) => response.json())
+        .then((json) => {
+          setInformation(json[0].result);
+          setTarget(json[0].result[4]);
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
 
   useEffect(() => {
     fetch("http://watermelish.herokuapp.com/thongke/nhom13")
@@ -78,7 +108,13 @@ export default function Profile({ navigation }) {
           { backgroundColor: modalVisible ? "#ccc" : "#fff" },
         ]}
       >
-        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={true}>
+        <ScrollView
+          style={styles.scroll}
+          showsVerticalScrollIndicator={true}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <Modal
             animationType="fade"
             transparent={true}
@@ -144,21 +180,6 @@ export default function Profile({ navigation }) {
                   <View>
                     <TouchableOpacity
                       onPress={() => {
-                        changeTarget();
-                        setModalVisible(!modalVisible);
-                      }}
-                    >
-                      <MyAppText
-                        content="OK"
-                        format="regular"
-                        size={15}
-                        style={{ color: "#84D037" }}
-                      ></MyAppText>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => {
                         setModalVisible(!modalVisible);
                       }}
                     >
@@ -167,6 +188,24 @@ export default function Profile({ navigation }) {
                         format="regular"
                         size={15}
                         style={{ color: "#9B9797" }}
+                      ></MyAppText>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        changeTarget();
+                        setModalVisible(!modalVisible);
+                        getInformation().then(() => {
+                          console.log("changed!");
+                        });
+                      }}
+                    >
+                      <MyAppText
+                        content="OK"
+                        format="regular"
+                        size={15}
+                        style={{ color: "#84D037" }}
                       ></MyAppText>
                     </TouchableOpacity>
                   </View>
@@ -267,12 +306,12 @@ export default function Profile({ navigation }) {
                   <MyAppText
                     content={information[2]}
                     format="regular"
-                    size={15}
+                    size={16}
                   ></MyAppText>
                   <MyAppText
                     content=" từ"
                     format="regular"
-                    size={10}
+                    size={12}
                     style={{ color: "#C1B8B8" }}
                   ></MyAppText>
                 </View>
@@ -281,7 +320,7 @@ export default function Profile({ navigation }) {
                   <MyAppText
                     content="Số từ"
                     format="bold"
-                    size={20}
+                    size={15}
                     style={{ color: "#84D037" }}
                   ></MyAppText>
                 </View>
@@ -308,12 +347,12 @@ export default function Profile({ navigation }) {
                   <MyAppText
                     content={information[1]}
                     format="regular"
-                    size={15}
+                    size={16}
                   ></MyAppText>
                   <MyAppText
                     content=" điểm"
                     format="regular"
-                    size={10}
+                    size={12}
                     style={{ color: "#C1B8B8" }}
                   ></MyAppText>
                 </View>
@@ -322,7 +361,7 @@ export default function Profile({ navigation }) {
                   <MyAppText
                     content="Số điểm"
                     format="bold"
-                    size={20}
+                    size={15}
                     style={{ color: "#84D037" }}
                   ></MyAppText>
                 </View>
@@ -343,7 +382,7 @@ export default function Profile({ navigation }) {
                   content="Mục tiêu hằng ngày"
                   format="bold"
                   size={15}
-                  style={{ color: "#609F20", position: "absolute" }}
+                  style={{ color: "#609F20" }}
                 ></MyAppText>
               </View>
               <View>
@@ -367,7 +406,17 @@ export default function Profile({ navigation }) {
               <MyAppText content="155" format="bold" size={15}></MyAppText>
             </View>
           </View> */}
-            <View style={{ alignItems: "center", margin: 20 }}>
+            <View>
+              <MyAppText
+                content={`Mục tiêu của bạn là: ${target} từ`}
+                format="regular"
+                size={13}
+                style={{ color: "#A09E9E" }}
+              ></MyAppText>
+            </View>
+            <View
+              style={{ alignItems: "center", marginTop: 5, marginBottom: 5 }}
+            >
               <DonutChart
                 max={20}
                 radius={80}
@@ -422,11 +471,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff",
     // alignItems: "center",
-    // padding: 20,
+    paddingTop: StatusBar.currentHeight,
   },
   scroll: {
     paddingHorizontal: 20,
-    paddingTop: StatusBar.currentHeight,
   },
 
   signOutText: {

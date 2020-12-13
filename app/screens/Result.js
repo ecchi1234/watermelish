@@ -11,9 +11,28 @@ import {
 } from "react-native";
 
 import MyAppText from "../components/MyAppText";
+import { wordFound } from "../../globalVariable";
+import { setWordFound } from "../../globalVariable";
+import { wordEnter } from "../../globalVariable";
+import { setWordEnter } from "../../globalVariable";
 
 export default function Result({ navigation }) {
-  const [value, onChangeText] = useState("Festival");
+  const findWord = () => {
+    return new Promise((resolve, reject) => {
+      fetch("http://watermelish.herokuapp.com/timtu/nhom13/" + value)
+        .then((response) => response.json())
+        .then((json) => {
+          setWordFound(json[0].result);
+          resolve();
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error);
+        });
+    });
+  };
+
+  const [value, onChangeText] = useState("");
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
@@ -30,6 +49,8 @@ export default function Result({ navigation }) {
             style={styles.inputField}
             onChangeText={(text) => onChangeText(text)}
             value={value}
+            placeholder="I'm looking for... "
+            placeholderTextColor="grey"
           />
           <TouchableOpacity
             style={styles.seachButton}
@@ -54,21 +75,50 @@ export default function Result({ navigation }) {
               style={styles.titleIntro}
             ></MyAppText>
           </View>
-          <View style={{marginBottom: 20}}>
+          <View style={{ marginBottom: 20 }}>
             <MyAppText
-              content="Đã tìm thấy 1 kết quả gần đúng!"
+              content={`Đã tìm thấy ${wordFound.words.length} kết quả gần đúng!`}
               format="regular"
               size={15}
             ></MyAppText>
           </View>
-          <View style={{widt: "100%"}}>
-            <MyAppText
+          <View style={{ width: "100%" }}>
+            {/* <MyAppText
               content="Spring"
               format="bold"
               size={15}
               style={styles.titleDetail}
-            ></MyAppText>
-            <View
+            ></MyAppText> */}
+            {wordFound.words.map((e, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    height: 154,
+                    backgroundColor: "#84D037",
+                    borderRadius: 20,
+                  }}
+                >
+                  <MyAppText
+                    content={e[0]}
+                    format="bold"
+                    style={styles.word}
+                  ></MyAppText>
+                  <MyAppText
+                    content={`(${e[1]})`}
+                    format="regular"
+                    style={styles.word}
+                  ></MyAppText>
+                  <TouchableOpacity style={styles.soundButton}>
+                    <Image source={require("../img/sound.png")}></Image>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+            {/* <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -91,7 +141,7 @@ export default function Result({ navigation }) {
               <TouchableOpacity style={styles.soundButton}>
                 <Image source={require("../img/sound.png")}></Image>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>

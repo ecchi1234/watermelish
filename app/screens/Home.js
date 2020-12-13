@@ -11,10 +11,27 @@ import {
 } from "react-native";
 
 import MyAppText from "../components/MyAppText";
+import { setWordFound } from "../../globalVariable";
+import { setWordEnter } from "../../globalVariable";
 
 export default function Home({ navigation }) {
   const [value, onChangeText] = useState("");
-  
+
+  const findWord = () => {
+    return new Promise((resolve, reject) => {
+
+      fetch("http://watermelish.herokuapp.com/timtu/nhom13/" + value)
+        .then((response) => response.json())
+        .then((json) => {
+          setWordFound(json[0].result);
+          resolve();
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error);
+        });
+    })
+  };
 
   return (
     <View style={styles.container}>
@@ -38,11 +55,18 @@ export default function Home({ navigation }) {
           <TouchableOpacity
             style={styles.seachButton}
             onPress={() => {
-              if (value === "Festival") {
+              setWordEnter(value);
+              findWord().then(() => {
+                setWordEnter(value);
                 navigation.push("Result");
-              } else {
-                console.log("false");
-              }
+              });
+
+              // navigation.push("Result");
+              // if (value === "Festival") {
+              //   navigation.push("Result");
+              // } else {
+              //   console.log("false");
+              // }
             }}
           >
             <Image source={require("../img/search.png")}></Image>

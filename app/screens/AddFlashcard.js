@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AnimatedLoader from "react-native-animated-loader";
 const fetch = require("node-fetch");
 import {
   View,
@@ -11,6 +12,7 @@ import {
   ScrollView,
   Alert,
   StatusBar,
+  TextInput,
 } from "react-native";
 
 import InputArea from "../components/InputArea";
@@ -20,10 +22,9 @@ import MyAppText from "../components/MyAppText";
 import { flashcardNames } from "../../globalVariable";
 
 export default function AddFlashcard({ navigation }) {
-  // danh sach cac tu trong bo tu
-  const [newFlashcard, setNewFlashcard] = useState("");
-  // ten bo tu
-  const [nameFlashcard, setName] = useState("");
+  const [value, onChangeText] = React.useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
   // danh sach cac input co tren man hinh
   const [numberOfWord, setNumberOfWord] = useState([
     { id: 1, english: "", type: "", vietnamese: "" },
@@ -37,12 +38,6 @@ export default function AddFlashcard({ navigation }) {
     setNumberOfWord(newNumberWord);
   };
 
-  // get name of flashcard
-  const getNameFlashcard = (value) => {
-    console.log(value);
-    setName(value);
-  }
-
   //add row function
   const addRow = () => {
     setMax(max + 1);
@@ -55,8 +50,6 @@ export default function AddFlashcard({ navigation }) {
   //get value from input
 
   const getValue = (id, value, property) => {
-    console.log(value);
-    console.log(property);
     let newFlashcard = numberOfWord.map((e) => {
       if (e.id == id) {
         if (property === "english") {
@@ -69,47 +62,63 @@ export default function AddFlashcard({ navigation }) {
       }
       return e;
     });
-    console.log(newFlashcard);
-    setNumberOfWord(newFlashcard);
+    setNumberOfWord(() => newFlashcard);
+    console.log(numberOfWord);
   };
 
   // make string to send to server
   const makeString = () => {
     let flashcard = numberOfWord
       .map((e) => {
-        return "[" + [e.english, e.type, e.vietnamese].join(",") + "]";
+        return (
+          "[" +
+          [e.english, e.type, e.vietnamese]
+            .map((element) => {
+              return "'" + element + "'";
+            })
+            .join(",") +
+          "]"
+        );
       })
       .join(",");
-    setNewFlashcard(flashcard);
+    return flashcard;
   };
 
   // send request to api
   const makeNewFlashcard = () => {
-    makeString();
     let formData = new FormData();
-    formData.append('listword', newFlashcard);
-    fetch(`http://watermelish.herokuapp.com/thembotumoi/nhom13/${nameFlashcard}`, {
-      method: 'GET',
+    formData.append("listword", makeString());
+    console.log(formData);
+    console.log(value);
+    fetch(`http://watermelish.herokuapp.com/thembotumoi/nhom13/${value}`, {
+      method: "POST",
       body: formData,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded '
-      }
     })
-    .then(response => response.json())
-    .then((json) => {
-      console.log(json[0].result);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    console.log(newFlashcard);
-    console.log(typeof newFlashcard);
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json[0].result);
+      })
+      .then(() => {
+        setModalVisible(() => false);
+        navigation.navigate("AfterAddFlashcard");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+  // chương trình bắt đầu
 
   return (
     <View style={styles.container}>
       {/**title page */}
       <ScrollView showsVerticalScrollIndicator={false}>
+        <AnimatedLoader
+          visible={modalVisible}
+          overlayColor="rgba(255,255,255,0.75)"
+          source={require("../img/loading-effect/pre-load.json")}
+          animationStyle={{ width: 100, height: 100 }}
+          speed={1}
+        />
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
           <MyAppText
@@ -132,17 +141,23 @@ export default function AddFlashcard({ navigation }) {
           ></MyAppText>
           <TouchableOpacity
             onPress={() => {
-              makeNewFlashcard();
-              // return Alert.alert("Thông báo", "Bạn đã thêm thành công", [
-              //   {
-              //     text: "Back to home",
-              //     onPress: () => navigation.goBack(),
-              //   },
-              //   {
-              //     text: "Cancel",
-              //     onPress: () => console.log("cancel"),
-              //   },
-              // ]);
+              return Alert.alert(
+                "Xác nhận thêm bộ từ",
+                `Bạn đang thực hiện thêm bộ từ ${value}. Bạn có chắc chắn không?`,
+                [
+                  {
+                    text: "Xác nhận",
+                    onPress: () => {
+                      setModalVisible(true);
+                      makeNewFlashcard();
+                    },
+                  },
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("cancel"),
+                  },
+                ]
+              );
             }}
           >
             <Image
@@ -162,7 +177,14 @@ export default function AddFlashcard({ navigation }) {
               size={15}
               style={[styles.titleText]}
             ></MyAppText>
-            <InputArea type="Ten bo tu" getNameFlashcard={getNameFlashcard}></InputArea>
+            <TextInput
+              style={styles.inputField}
+              onChangeText={(text) => {
+                onChangeText(text);
+              }}
+              value={value}
+              placeholder="Ten bo tu"
+            />
           </View>
           {/** choose display image of flashcard */}
           <View style={{ marginBottom: 10 }}>
@@ -228,7 +250,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffff",
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
   },
   pageTitle: {
     position: "absolute",
@@ -260,5 +282,13 @@ const styles = StyleSheet.create({
   },
   saveText: {
     // fontStyle: "italic",
+  },
+  inputField: {
+    height: 40,
+    backgroundColor: "#f1f1f1",
+    borderRadius: 5,
+    marginVertical: 10,
+    padding: 5,
+    fontSize: 15,
   },
 });

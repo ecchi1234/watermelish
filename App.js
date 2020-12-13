@@ -1,6 +1,24 @@
-import { StatusBar } from "expo-status-bar";
+
 import React, { useState, useEffect, useReducer } from "react";
-import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, Image, ActivityIndicator, StatusBar } from "react-native";
+
+import { AppLoading } from "expo";
+import {
+  useFonts,
+  Roboto_100Thin,
+  Roboto_100Thin_Italic,
+  Roboto_300Light,
+  Roboto_300Light_Italic,
+  Roboto_400Regular,
+  Roboto_400Regular_Italic,
+  Roboto_500Medium,
+  Roboto_500Medium_Italic,
+  Roboto_700Bold,
+  Roboto_700Bold_Italic,
+  Roboto_900Black,
+  Roboto_900Black_Italic,
+} from "@expo-google-fonts/roboto";
+
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,6 +33,8 @@ import Flashcards from "./app/screens/Flashcards";
 import LearnFlashcard from "./app/screens/LearnFlashcard";
 import EditFlashcard from "./app/screens/EditFlashcard";
 import TestFlashcard from "./app/screens/TestFlashcard";
+import AfterAddFlashcard from "./app/screens/AfterAddFlashcard";
+import AfterEditFlashcard from "./app/screens/AfterEditFlashcard";
 
 import MultipleChoiceScreen from "./app/screens/MultipleChoiceScreen";
 import MatchWordScreen from "./app/screens/MatchWordScreen";
@@ -37,6 +57,7 @@ const GameStack = createStackNavigator();
 const FlashcardStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const FlashcardHomeStack = createStackNavigator();
+const AddFlashcardStack = createStackNavigator();
 
 const Tabs = createBottomTabNavigator();
 const TabsScreen = () => (
@@ -159,25 +180,96 @@ const GameStackGame = () => (
 const FlashcardStackScreen = () => (
   <FlashcardStack.Navigator headerMode="none">
     <FlashcardStack.Screen name="Flashcards" component={Flashcards} />
-    <FlashcardStack.Screen name="AddFlashcard" component={AddFlashcard} />
+    <FlashcardStack.Screen
+      name="AddFlashcard"
+      component={AddFlashcardStackScreen}
+    />
     <FlashcardStack.Screen
       name="FlashcardHome"
       component={FlashcardHomeStackScreen}
     />
-    <FlashcardStack.Screen name="LearnFlashcard" component={LearnFlashcard} />
   </FlashcardStack.Navigator>
 );
 
 const FlashcardHomeStackScreen = () => (
   <FlashcardHomeStack.Navigator>
-    <FlashcardHomeStack.Screen name="FlashcardHome" component={FlashcardHome} />
+    <FlashcardHomeStack.Screen
+      name="FlashcardHome"
+      component={FlashcardHome}
+      options={{
+        title: "",
+        headerTitleStyle: {
+          fontFamily: "Roboto_400Regular",
+          fontSize: 14,
+        },
+        headerStyle: {
+          height: 65,
+        },
+      }}
+    />
     <FlashcardHomeStack.Screen
       name="LearnFlashcard"
       component={LearnFlashcard}
+      options={{
+        title: "",
+        headerTitleStyle: {
+          fontFamily: "Roboto_400Regular",
+          fontSize: 14,
+        },
+        headerStyle: {
+          height: 65,
+        },
+      }}
     />
-    <FlashcardHomeStack.Screen name="EditFlashcard" component={EditFlashcard} />
+    <FlashcardHomeStack.Screen
+      name="EditFlashcard"
+      component={EditFlashcard}
+      options={{
+        title: "Thoát",
+        headerTitleStyle: {
+          fontFamily: "Roboto_400Regular",
+          fontSize: 14,
+        },
+        headerStyle: {
+          height: 65,
+        },
+      }}
+    />
     <FlashcardHomeStack.Screen name="TestFlashcard" component={TestFlashcard} />
+    <FlashcardHomeStack.Screen
+      name="AfterEditFlashcard"
+      component={AfterEditFlashcard}
+      options={{
+        headerShown: false,
+      }}
+    />
   </FlashcardHomeStack.Navigator>
+);
+
+const AddFlashcardStackScreen = () => (
+  <AddFlashcardStack.Navigator>
+    <AddFlashcardStack.Screen
+      name="AddFlashcard"
+      component={AddFlashcard}
+      options={{
+        title: "",
+        headerTitleStyle: {
+          fontFamily: "Roboto_400Regular",
+          fontSize: 14,
+        },
+        headerStyle: {
+          height: 65,
+        },
+      }}
+    />
+    <AddFlashcardStack.Screen
+      name="AfterAddFlashcard"
+      component={AfterAddFlashcard}
+      options={{
+        headerShown: false,
+      }}
+    />
+  </AddFlashcardStack.Navigator>
 );
 
 const HomeStackScreen = () => (
@@ -194,6 +286,21 @@ const HomeStackScreen = () => (
 );
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Roboto_100Thin,
+    Roboto_100Thin_Italic,
+    Roboto_300Light,
+    Roboto_300Light_Italic,
+    Roboto_400Regular,
+    Roboto_400Regular_Italic,
+    Roboto_500Medium,
+    Roboto_500Medium_Italic,
+    Roboto_700Bold,
+    Roboto_700Bold_Italic,
+    Roboto_900Black,
+    Roboto_900Black_Italic,
+  });
+  
 
   const initialLoginState = {
     isLoading: true,
@@ -298,14 +405,19 @@ export default function App() {
       </View>
     );
   }
-
-  return (
-    <AuthContext.Provider value={authContext}>
+  
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+       <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {loginState.userToken ? <TabsScreen /> : <LoginStackScreen />}
       </NavigationContainer>
     </AuthContext.Provider>
-  );
+    );
+  }
+
 }
 
 const styles = StyleSheet.create({

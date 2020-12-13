@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import AnimatedLoader from "react-native-animated-loader";
 
+import { AntDesign } from "@expo/vector-icons";
 
 import {
   View,
@@ -24,13 +26,18 @@ import FlipCard from "react-native-flip-card";
 import { Audio } from "expo-av";
 import { listAudio } from "../sound/listAudio";
 
-import {flashcardNames} from "../../globalVariable";
-import {toCapitalCase} from '../services/convertString';
+import { flashcardNames } from "../../globalVariable";
+import { toCapitalCase } from "../services/convertString";
+import { setFlashcardNames } from "../../globalVariable";
+import { color } from "react-native-reanimated";
 export default function FlashcardHome({ route, navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [flashcardWords, setFlashcardWords] = useState([]);
   useEffect(() => {
-    fetch("http://watermelish.herokuapp.com/danhsachbotu/nhom13/" + flashcardNames.name)
+    fetch(
+      "http://watermelish.herokuapp.com/danhsachbotu/nhom13/" +
+        flashcardNames.name
+    )
       .then((response) => response.json())
       .then((json) => {
         setFlashcardWords(json[0].result);
@@ -54,12 +61,22 @@ export default function FlashcardHome({ route, navigation }) {
     }
   }
 
-  return (
+  return isLoading ? (
+    <AnimatedLoader
+      visible={true}
+      overlayColor="rgba(255,255,255,0.75)"
+      source={require("../img/loading-effect/pre-load.json")}
+      animationStyle={{ width: 100, height: 100 }}
+      speed={1}
+    />
+  ) : (
     <SafeAreaView style={styles.container}>
       {/**title page */}
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
+
+          <View></View>
 
           <MyAppText
             content={`Bộ từ: ${toCapitalCase(flashcardNames.name)}`}
@@ -98,16 +115,21 @@ export default function FlashcardHome({ route, navigation }) {
             </View>
           </View>
         </View>
-        <View style={styles.editButtonGroup}>
-          <MyAppText
-            content="Chỉnh sửa"
-            format="italic"
-            size={15}
-            style={[{ marginRight: 10 }]}
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push("EditFlashcard");
+            }}
+            style={styles.editButtonGroup}
           >
-            Chỉnh sửa
-          </MyAppText>
-          <TouchableOpacity onPress={() => navigation.push("EditFlashcard")}>
+            <MyAppText
+              content="Chỉnh sửa"
+              format="italic"
+              size={15}
+              style={[{ marginRight: 10 }]}
+            >
+              Chỉnh sửa
+            </MyAppText>
             <Image source={require("../img/edit-button.png")}></Image>
           </TouchableOpacity>
         </View>
@@ -187,6 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     justifyContent: "center",
     alignItems: "center",
+    // paddingTop: StatusBar.currentHeight
   },
   pageTitle: {
     color: "#ffffff",
