@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, StatusBar } from "react-native";
+
+import React, { useState, useEffect, useReducer } from "react";
+import { StyleSheet, Text, View, Image, ActivityIndicator, StatusBar } from "react-native";
 
 import { AppLoading } from "expo";
 import {
@@ -18,11 +19,13 @@ import {
   Roboto_900Black_Italic,
 } from "@expo-google-fonts/roboto";
 
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { AuthContext } from "./app/screens/Context";
+import { AuthContext } from "./app/components/Context";
+import AsyncStorage from '@react-native-community/async-storage';
 
 import AddFlashcard from "./app/screens/AddFlashcard";
 import FlashcardHome from "./app/screens/FlashcardHome";
@@ -297,33 +300,124 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic,
   });
-  const [userToken, setUserToken] = useState(null);
+  
 
-  const authContext = React.useMemo(() => {
-    return {
-      Login: () => {
-        setUserToken(true);
-      },
-      // SignUp: () => {
-      //   setUserToken(true);
-      // },
-      Logout: () => {
-        setUserToken(null);
-      },
-    };
+  const initialLoginState = {
+    isLoading: true,
+    username: null,
+    userToken: null,
+  };
+
+  const loginReducer = (prevState, action) => {
+    switch(action.type) {
+      case 'RETRIEVE_TOKEN':
+        return {
+          ...prevState,
+          userToken: action.token,
+          isLoading: false,
+        };
+      case 'LOGIN':
+        return {
+          ...prevState,
+          username: action.id,
+          userToken: action.token,
+          isLoading: false,
+        };
+      case 'LOGOUT':
+        return {
+          ...prevState,
+          username: null,
+          userToken: null,
+          isLoading: false,
+        };
+    }
+  };
+
+  const [loginState, dispatch] = useReducer(loginReducer, initialLoginState);
+
+  const authContext = React.useMemo(() => ({
+    signIn: async(username, password) => {
+      let userToken;
+      userToken = null;
+      fetch('http://watermelish.herokuapp.com/dangnhap', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+      .then(response => response.json())
+      .then(async(json) => {
+        if (json[0]._id == -1) {
+          alert("Username or Password is incorrect");
+        } else {
+          // signIn(json[0]._id);
+          try {
+            userToken = 'abc';
+            await AsyncStorage.setItem('userToken', userToken);
+          } catch (e) {
+            console.error(e);
+          }
+          dispatch({ type: 'LOGIN', id: username, token: userToken });
+          console.log('Signed in successfully');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
+    signOut: async() => {
+      try {
+        await AsyncStorage.removeItem('userToken');
+      } catch (e) {
+        console.error(e);
+      }
+      dispatch({ type: 'LOGOUT' });
+    },
+  }), []);
+
+  useEffect(() => {
+    setTimeout(async() => {
+      let userToken;
+      userToken = null;
+      try {
+        userToken = await AsyncStorage.getItem('userToken');
+      } catch (e) {
+        console.error(e);
+      }
+      dispatch({ type: 'RETRIEVE_TOKEN', token: userToken });
+    }, 1000);
   }, []);
 
+  if (loginState.isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <ActivityIndicator size='large'/>
+      </View>
+    );
+  }
+  
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-      <AuthContext.Provider value={authContext}>
-        <NavigationContainer>
-          {userToken ? <TabsScreen /> : <LoginStackScreen />}
-        </NavigationContainer>
-      </AuthContext.Provider>
+       <AuthContext.Provider value={authContext}>
+      <NavigationContainer>
+        {loginState.userToken ? <TabsScreen /> : <LoginStackScreen />}
+      </NavigationContainer>
+    </AuthContext.Provider>
     );
   }
+
 }
 
 const styles = StyleSheet.create({
