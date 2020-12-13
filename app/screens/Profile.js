@@ -417,7 +417,7 @@ export default function Profile({ navigation }) {
               style={{ alignItems: "center", marginTop: 5, marginBottom: 5 }}
             >
               <DonutChart
-                max={target}
+                max={isLoading ? 1 : target}
                 radius={80}
                 percentage={isLoading ? 0 : information[3]}
                 style={styles.donutChart}
