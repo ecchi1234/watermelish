@@ -114,6 +114,8 @@ function getMaskedElement_2() {
 }
 
 export default function Flashcards({ route, navigation }) {
+  const [offset, setOffset] = useState(1);
+
   // pull to refresh function
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
@@ -122,8 +124,6 @@ export default function Flashcards({ route, navigation }) {
       setFlashcardArray(newFlashcardArray);
       setRefreshing(false);
     });
-
-    // wait(2000).then(() => setRefreshing(false));
   }, []);
 
   const MaskedElement = getMaskedElement_2();
@@ -133,11 +133,17 @@ export default function Flashcards({ route, navigation }) {
   const [flashcardArray, setFlashcardArray] = useState([]);
   const [isLoadingWhenDelete, setLoadingWhenDelete] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  // function call when pull to refresh
   const getListFlashcard = () => {
     return new Promise((resolve, reject) => {
-      fetch("http://watermelish.herokuapp.com/danhsachcacbotu/nhom13")
+      setOffset(1);
+      fetch(
+        `http://watermelish.herokuapp.com/danhsachcacbotu/nhom13/5/${offset}`
+      )
         .then((response) => response.json())
         .then((json) => {
+          setLoading(false);
+          setOffset(offset + 1);
           resolve(json[0].result);
           // setFlashcardArray(json[0].result);
         })
@@ -147,19 +153,29 @@ export default function Flashcards({ route, navigation }) {
     });
   };
 
-  useEffect(() => {
-    fetch("http://watermelish.herokuapp.com/danhsachcacbotu/nhom13")
+  // function to call when load more
+  const getFlashcards = () => {
+    console.log("get flashcards");
+    setLoading(true);
+    fetch(`http://watermelish.herokuapp.com/danhsachcacbotu/nhom13/5/${offset}`)
       .then((response) => response.json())
       .then((json) => {
-        setFlashcardArray(json[0].result);
+        setOffset(offset + 1);
+        setFlashcardArray([...flashcardArray, ...json[0].result]);
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    getFlashcards();
   }, []);
 
   const deleteFlashcard = (nameFlashcard) => {
+    setLoadingWhenDelete(true);
     fetch(`http://watermelish.herokuapp.com/xoabotu/nhom13/${nameFlashcard}`)
       .then((response) => response.json())
       .then((json) => {
@@ -175,7 +191,7 @@ export default function Flashcards({ route, navigation }) {
       });
   };
 
-  return isLoading ? (
+  return isLoading && offset == 1 ? (
     <View style={styles.container}>
       <ContentLoader MaskedElement={MaskedElement} />
     </View>
@@ -247,84 +263,89 @@ export default function Flashcards({ route, navigation }) {
             Các bộ từ
           </MyAppText>
           <View>
-            {isLoading ? (
-              <AnimatedLoader
-                visible={true}
-                overlayColor="rgba(255,255,255,0.75)"
-                source={require("../img/loading-effect/pre-load.json")}
-                animationStyle={{ width: 100, height: 100 }}
-                speed={1}
-              />
-            ) : (
-              flashcardArray.map((card, index) => {
-                return (
-                  <View key={index}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <View>
-                        <MyAppText
-                          content={toCapitalCase(card)}
-                          format="bold"
-                          size={15}
-                          style={{}}
-                        ></MyAppText>
-                      </View>
-                      <View>
-                        <TouchableOpacity
-                          onPress={() => {
-                            return Alert.alert(
-                              "Xác nhận xóa",
-                              `Bạn đang chuẩn bị xóa bộ từ ${toCapitalCase(
-                                card
-                              )}. Bạn có chắc chắn?`,
-                              [
-                                {
-                                  text: "Hủy",
-                                  onPress: () => {
-                                    console.log("Thoát");
-                                  },
-                                  style: "cancel",
-                                },
-                                {
-                                  text: "OK",
-                                  onPress: () => {
-                                    setLoadingWhenDelete(true);
-                                    deleteFlashcard(card);
-                                  },
-                                  style: "default",
-                                },
-                              ],
-                              { cancelable: false }
-                            );
-                          }}
-                        >
-                          <MaterialIcons
-                            name="delete"
-                            size={24}
-                            color="#609F20"
-                          />
-                        </TouchableOpacity>
-                      </View>
+            {flashcardArray.map((card, index) => {
+              return (
+                <View key={index}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <View>
+                      <MyAppText
+                        content={toCapitalCase(card)}
+                        format="bold"
+                        size={15}
+                        style={{}}
+                      ></MyAppText>
                     </View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setFlashcardNames(card);
-                        navigation.navigate("FlashcardHome");
-                      }}
-                    >
-                      <FlashcardRow name={toCapitalCase(card)}></FlashcardRow>
-                    </TouchableOpacity>
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          return Alert.alert(
+                            "Xác nhận xóa",
+                            `Bạn đang chuẩn bị xóa bộ từ ${toCapitalCase(
+                              card
+                            )}. Bạn có chắc chắn?`,
+                            [
+                              {
+                                text: "Hủy",
+                                onPress: () => {
+                                  console.log("Thoát");
+                                },
+                                style: "cancel",
+                              },
+                              {
+                                text: "OK",
+                                onPress: () => {
+                                  setLoadingWhenDelete(true);
+                                  deleteFlashcard(card);
+                                },
+                                style: "default",
+                              },
+                            ],
+                            { cancelable: false }
+                          );
+                        }}
+                      >
+                        <MaterialIcons
+                          name="delete"
+                          size={24}
+                          color="#609F20"
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                );
-              })
-            )}
+                  <TouchableOpacity
+                    onPress={() => {
+                      setFlashcardNames(card);
+                      navigation.navigate("FlashcardHome");
+                    }}
+                  >
+                    <FlashcardRow name={toCapitalCase(card)}></FlashcardRow>
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
           </View>
         </View>
+        {flashcardArray.length >= 5 ? (
+          <View style={styles.footer}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={getFlashcards}
+              //On Click of button load more data
+              style={styles.loadMoreBtn}
+            >
+              <Text style={styles.btnText}>Xem thêm</Text>
+              {isLoading ? (
+                <ActivityIndicator color="white" style={{ marginLeft: 8 }} />
+              ) : null}
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   );
@@ -411,6 +432,26 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    textAlign: "center",
+  },
+
+  footer: {
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: "#000",
+    borderRadius: 4,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    color: "white",
+    fontSize: 15,
     textAlign: "center",
   },
 });

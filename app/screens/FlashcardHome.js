@@ -29,23 +29,35 @@ import { listAudio } from "../sound/listAudio";
 import { flashcardNames } from "../../globalVariable";
 import { toCapitalCase } from "../services/convertString";
 import { setFlashcardNames } from "../../globalVariable";
-import { color } from "react-native-reanimated";
+
 export default function FlashcardHome({ route, navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [flashcardWords, setFlashcardWords] = useState([]);
-  useEffect(() => {
+  const [offset, setOffset] = useState(1);
+  const getWordsInFlashcard = () => {
+    console.log("get data");
+    setLoading(true);
+    console.log(
+      `http://watermelish.herokuapp.com/danhsachbotu/nhom13/${flashcardNames.name}/5/${offset}`
+    );
+    console.log(offset);
     fetch(
-      "http://watermelish.herokuapp.com/danhsachbotu/nhom13/" +
-        flashcardNames.name
+      `http://watermelish.herokuapp.com/danhsachbotu/nhom13/${flashcardNames.name}/5/${offset}`
     )
       .then((response) => response.json())
       .then((json) => {
-        setFlashcardWords(json[0].result);
+        setOffset(offset + 1);
+        setFlashcardWords([...flashcardWords, ...json[0].result]);
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    getWordsInFlashcard();
   }, []);
 
   async function playSound(linkAudio) {
@@ -61,7 +73,7 @@ export default function FlashcardHome({ route, navigation }) {
     }
   }
 
-  return isLoading ? (
+  return isLoading && offset == 1 ? (
     <AnimatedLoader
       visible={true}
       overlayColor="rgba(255,255,255,0.75)"
@@ -143,61 +155,66 @@ export default function FlashcardHome({ route, navigation }) {
 
         <View>
           {/* <EachCardList english="festival" vietnamese="hoa đào"></EachCardList> */}
-          {isLoading ? (
-            <ActivityIndicator />
-          ) : (
-            flashcardWords.map((word, index) => {
-              return (
-                <FlipCard
-                  key={index}
-                  style={{ alignItems: "center" }}
-                  flipVertical={true}
-                  friction={8}
-                >
-                  <View style={[styles.english, styles.word]}>
-                    <MyAppText
-                      content={word[0]}
-                      format="bold"
-                      style={[{ color: "#fff" }]}
-                    >
-                      festival
-                    </MyAppText>
-                    <MyAppText
-                      content={`(${word[1]})`}
-                      format="regular"
-                      size={15}
-                      style={[{ color: "#fff" }]}
-                    >
-                      (n)
-                    </MyAppText>
-                    <TouchableOpacity
-                      style={styles.soundButton}
-                      onPress={() =>
-                        playSound(
-                          listAudio[word[0]]
-                            ? listAudio[word[0]]
-                            : require("../sound/peach-blossom.mp3")
-                        )
-                      }
-                    >
-                      <Image source={require("../img/sound.png")}></Image>
-                    </TouchableOpacity>
-                  </View>
+          {flashcardWords.map((word, index) => {
+            return (
+              <FlipCard
+                key={index}
+                style={{ alignItems: "center" }}
+                flipVertical={true}
+                friction={8}
+              >
+                <View style={[styles.english, styles.word]}>
+                  <MyAppText
+                    content={word[0]}
+                    format="bold"
+                    style={[{ color: "#fff" }]}
+                  ></MyAppText>
+                  <MyAppText
+                    content={`(${word[1]})`}
+                    format="regular"
+                    size={15}
+                    style={[{ color: "#fff" }]}
+                  ></MyAppText>
+                  <TouchableOpacity
+                    style={styles.soundButton}
+                    onPress={() =>
+                      playSound(
+                        listAudio[word[0]]
+                          ? listAudio[word[0]]
+                          : require("../sound/peach-blossom.mp3")
+                      )
+                    }
+                  >
+                    <Image source={require("../img/sound.png")}></Image>
+                  </TouchableOpacity>
+                </View>
 
-                  <View style={[styles.vietnamese, styles.word]}>
-                    <MyAppText
-                      content={word[2]}
-                      format="bold"
-                      style={[{ color: "#fff" }]}
-                    >
-                      lễ hội
-                    </MyAppText>
-                  </View>
-                </FlipCard>
-              );
-            })
-          )}
+                <View style={[styles.vietnamese, styles.word]}>
+                  <MyAppText
+                    content={word[2]}
+                    format="bold"
+                    style={[{ color: "#fff" }]}
+                  ></MyAppText>
+                </View>
+              </FlipCard>
+            );
+          })}
         </View>
+        {flashcardWords.length >= 5 ? (
+          <View style={styles.footer}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={() => getWordsInFlashcard()}
+              //On Click of button load more data
+              style={styles.loadMoreBtn}
+            >
+              <Text style={styles.btnText}>Xem thêm</Text>
+              {isLoading ? (
+                <ActivityIndicator color="white" style={{ marginLeft: 8 }} />
+              ) : null}
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
@@ -288,5 +305,25 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
+  },
+
+  footer: {
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: "#000",
+    borderRadius: 4,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    color: "white",
+    fontSize: 15,
+    textAlign: "center",
   },
 });

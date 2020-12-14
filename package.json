@@ -25,6 +25,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-animated-loader": "0.0.8",
+    "react-native-animated-pagination-dot": "^0.1.8",
     "react-native-card-flip": "^1.0.7",
     "react-native-dropdown-picker": "^3.7.1",
     "react-native-flip-card": "^3.5.6",
