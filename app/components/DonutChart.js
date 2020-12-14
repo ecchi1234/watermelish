@@ -1,3 +1,4 @@
+import { RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX } from "expo-av/build/Audio";
 import * as React from "react";
 import {
   Easing,
@@ -45,9 +46,10 @@ export default function Donut({
         const maxPerc = (100 * v.value) / max;
         const strokeDashoffset =
           circumference - (circumference * maxPerc) / 100;
+          console.log(maxPerc);
         if (inputRef?.current) {
           inputRef.current.setNativeProps({
-            text: `${Math.round(v.value)}`,
+            text: `${Math.round(v.value)}%`,
           });
         }
         if (circleRef?.current) {
@@ -103,10 +105,11 @@ export default function Donut({
         defaultValue="0"
         style={[
           StyleSheet.absoluteFillObject,
-          { fontSize: radius / 2, color: "#000" },
+          { fontSize: radius / 4, color: "#000" },
           styles.text,
         ]}
       />
+      
     </View>
   );
 }
