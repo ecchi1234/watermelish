@@ -407,7 +407,9 @@ export default function Profile({ navigation }) {
           </View> */}
             <View>
               <MyAppText
-                content={`Bạn đã học được: ${information[3]}/${target} từ`}
+                content={`Bạn đã học được: ${
+                  information[3] ? information[3] : 0
+                }/${target} từ`}
                 format="regular"
                 size={13}
                 style={{ color: "#A09E9E" }}
