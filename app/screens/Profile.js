@@ -407,7 +407,7 @@ export default function Profile({ navigation }) {
           </View> */}
             <View>
               <MyAppText
-                content={`Mục tiêu của bạn là: ${target} từ`}
+                content={`Bạn đã học được: ${information[3]}/${target} từ`}
                 format="regular"
                 size={13}
                 style={{ color: "#A09E9E" }}
@@ -419,7 +419,13 @@ export default function Profile({ navigation }) {
               <DonutChart
                 max={100}
                 radius={80}
-                percentage={isLoading ? 0 : Math.round(information[3] * 100 / target) > 100 ? 100 : Math.round(information[3] * 100 / target)}
+                percentage={
+                  isLoading
+                    ? 0
+                    : Math.round((information[3] * 100) / target) > 100
+                    ? 100
+                    : Math.round((information[3] * 100) / target)
+                }
                 style={styles.donutChart}
               />
             </View>

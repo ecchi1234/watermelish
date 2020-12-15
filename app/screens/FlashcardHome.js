@@ -15,6 +15,7 @@ import {
   Platform,
   StatusBar,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 
 import font_styles from "../font/font";
@@ -31,9 +32,32 @@ import { toCapitalCase } from "../services/convertString";
 import { setFlashcardNames } from "../../globalVariable";
 
 export default function FlashcardHome({ route, navigation }) {
+  const [value, onChangeText] = useState("");
+  const [isLoadingWhenSearch, setLoadingWhenSearch] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [flashcardWords, setFlashcardWords] = useState([]);
   const [offset, setOffset] = useState(1);
+  const [isSearching, setIsSearching] = useState(false);
+  const [wordFound, setWordFound] = useState([]);
+
+  const findWord = () => {
+    return new Promise((resolve, reject) => {
+      setIsSearching(true);
+      setLoadingWhenSearch(true);
+      fetch("http://watermelish.herokuapp.com/timtu/nhom13/" + value)
+        .then((response) => response.json())
+        .then((json) => {
+          setLoadingWhenSearch(false);
+          resolve(json[0].result);
+        })
+        .catch((error) => {
+          console.error(error);
+          reject(error);
+        })
+        .finally(() => setLoading(false));
+    });
+  };
+
   const getWordsInFlashcard = () => {
     console.log("get data");
     setLoading(true);
@@ -88,7 +112,34 @@ export default function FlashcardHome({ route, navigation }) {
         <View>
           <Image source={require("../img/green-texture.png")}></Image>
 
-          <View></View>
+          <View style={[styles.pageTitle]}>
+            <MyAppText
+              content={`Bộ từ: ${toCapitalCase(flashcardNames.name)}`}
+              format="bold"
+              size={25}
+              style={[]}
+            >
+              Bộ từ: Spring
+            </MyAppText>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push("EditFlashcard");
+                }}
+                style={styles.editButtonGroup}
+              >
+                {/* <MyAppText
+                  content="Chỉnh sửa"
+                  format="italic"
+                  size={15}
+                  style={[{ marginRight: 10 }]}
+                >
+                  Chỉnh sửa
+                </MyAppText> */}
+                <Image source={require("../img/edit-button.png")}></Image>
+              </TouchableOpacity>
+            </View>
+          </View>
 
           <MyAppText
             content={`Bộ từ: ${toCapitalCase(flashcardNames.name)}`}
@@ -98,6 +149,7 @@ export default function FlashcardHome({ route, navigation }) {
           >
             Bộ từ: Spring
           </MyAppText>
+
           <View style={styles.buttonHeaderGroup}>
             <View style={{ marginRight: 10, borderRadius: 10 }}>
               <TouchableOpacity
@@ -127,7 +179,7 @@ export default function FlashcardHome({ route, navigation }) {
             </View>
           </View>
         </View>
-        <View>
+        {/* <View>
           <TouchableOpacity
             onPress={() => {
               navigation.push("EditFlashcard");
@@ -144,7 +196,7 @@ export default function FlashcardHome({ route, navigation }) {
             </MyAppText>
             <Image source={require("../img/edit-button.png")}></Image>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={{ width: "100%", padding: 20 }}>
           <Image
@@ -153,67 +205,170 @@ export default function FlashcardHome({ route, navigation }) {
           ></Image>
         </View>
 
-        <View>
-          {/* <EachCardList english="festival" vietnamese="hoa đào"></EachCardList> */}
-          {flashcardWords.map((word, index) => {
-            return (
-              <FlipCard
-                key={index}
-                style={{ alignItems: "center" }}
-                flipVertical={true}
-                friction={8}
-              >
-                <View style={[styles.english, styles.word]}>
-                  <MyAppText
-                    content={word[0]}
-                    format="bold"
-                    style={[{ color: "#fff" }]}
-                  ></MyAppText>
-                  <MyAppText
-                    content={`(${word[1]})`}
-                    format="regular"
-                    size={15}
-                    style={[{ color: "#fff" }]}
-                  ></MyAppText>
-                  <TouchableOpacity
-                    style={styles.soundButton}
-                    onPress={() =>
-                      playSound(
-                        listAudio[word[0]]
-                          ? listAudio[word[0]]
-                          : require("../sound/peach-blossom.mp3")
-                      )
-                    }
-                  >
-                    <Image source={require("../img/sound.png")}></Image>
-                  </TouchableOpacity>
-                </View>
+        <View style={{ marginHorizontal: 20 }}>
+          <TextInput
+            style={styles.inputField}
+            onChangeText={(text) => onChangeText(text)}
+            value={value}
+            placeholder="Tìm kiếm thẻ từ... "
+            placeholderTextColor="grey"
+          />
+          <TouchableOpacity
+            style={styles.seachButton}
+            onPress={() => {
+              setLoadingWhenSearch(true);
+              findWord().then((wordFind) => {
+                if (wordFind.length > 0) {
+                  setWordFound(wordFind);
+                  console.log("found!");
+                } else {
+                  console.log("not found!");
+                }
+              });
 
-                <View style={[styles.vietnamese, styles.word]}>
-                  <MyAppText
-                    content={word[2]}
-                    format="bold"
-                    style={[{ color: "#fff" }]}
-                  ></MyAppText>
-                </View>
-              </FlipCard>
-            );
-          })}
+              // navigation.push("Result");
+              // if (value === "Festival") {
+              //   navigation.push("Result");
+              // } else {
+              //   console.log("false");
+              // }
+            }}
+          >
+            <Image source={require("../img/search.png")}></Image>
+          </TouchableOpacity>
+          {value && !isLoadingWhenSearch ? (
+            <TouchableOpacity
+              onPress={() => {
+                setIsSearching(false);
+                onChangeText("");
+                setWordFound([]);
+              }}
+              style={{ position: "absolute", right: 50, top: 7 }}
+            >
+              <View>
+                <AntDesign name="closecircle" size={24} color="black" />
+              </View>
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        <View>
+          {isLoadingWhenSearch ? (
+            <ActivityIndicator color="black" style={{ marginLeft: 8 }} />
+          ) : isSearching ? (
+            wordFound.length === 0 ? (
+              <Text style={{ textAlign: "center" }}>
+                Không tìm thấy từ vựng trong bộ từ này!
+              </Text>
+            ) : (
+              wordFound.map((word, index) => {
+                return (
+                  <FlipCard
+                    key={index}
+                    style={{ alignItems: "center" }}
+                    flipVertical={true}
+                    friction={8}
+                  >
+                    <View style={[styles.english, styles.word]}>
+                      <MyAppText
+                        content={word[0]}
+                        format="bold"
+                        style={[{ color: "#fff" }]}
+                      ></MyAppText>
+                      <MyAppText
+                        content={`(${word[1]})`}
+                        format="regular"
+                        size={15}
+                        style={[{ color: "#fff" }]}
+                      ></MyAppText>
+                      <TouchableOpacity
+                        style={styles.soundButton}
+                        onPress={() =>
+                          playSound(
+                            listAudio[word[0]]
+                              ? listAudio[word[0]]
+                              : require("../sound/peach-blossom.mp3")
+                          )
+                        }
+                      >
+                        <Image source={require("../img/sound.png")}></Image>
+                      </TouchableOpacity>
+                    </View>
+
+                    <View style={[styles.vietnamese, styles.word]}>
+                      <MyAppText
+                        content={word[2]}
+                        format="bold"
+                        style={[{ color: "#fff" }]}
+                      ></MyAppText>
+                    </View>
+                  </FlipCard>
+                );
+              })
+            )
+          ) : (
+            flashcardWords.map((word, index) => {
+              return (
+                <FlipCard
+                  key={index}
+                  style={{ alignItems: "center" }}
+                  flipVertical={true}
+                  friction={8}
+                >
+                  <View style={[styles.english, styles.word]}>
+                    <MyAppText
+                      content={word[0]}
+                      format="bold"
+                      style={[{ color: "#fff" }]}
+                    ></MyAppText>
+                    <MyAppText
+                      content={`(${word[1]})`}
+                      format="regular"
+                      size={15}
+                      style={[{ color: "#fff" }]}
+                    ></MyAppText>
+                    <TouchableOpacity
+                      style={styles.soundButton}
+                      onPress={() =>
+                        playSound(
+                          listAudio[word[0]]
+                            ? listAudio[word[0]]
+                            : require("../sound/peach-blossom.mp3")
+                        )
+                      }
+                    >
+                      <Image source={require("../img/sound.png")}></Image>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={[styles.vietnamese, styles.word]}>
+                    <MyAppText
+                      content={word[2]}
+                      format="bold"
+                      style={[{ color: "#fff" }]}
+                    ></MyAppText>
+                  </View>
+                </FlipCard>
+              );
+            })
+          )}
         </View>
         {flashcardWords.length >= 5 ? (
-          <View style={styles.footer}>
-            <TouchableOpacity
-              activeOpacity={0.9}
-              onPress={() => getWordsInFlashcard()}
-              //On Click of button load more data
-              style={styles.loadMoreBtn}
-            >
-              <Text style={styles.btnText}>Xem thêm</Text>
-              {isLoading ? (
-                <ActivityIndicator color="white" style={{ marginLeft: 8 }} />
-              ) : null}
-            </TouchableOpacity>
-          </View>
+          isSearching ? null : (
+            <View style={styles.footer}>
+              <TouchableOpacity
+                activeOpacity={0.9}
+                onPress={() => getWordsInFlashcard()}
+                //On Click of button load more data
+                style={styles.loadMoreBtn}
+              >
+                <Text style={styles.btnText}>Xem thêm</Text>
+                {isLoading ? (
+                  <ActivityIndicator color="white" style={{ marginLeft: 8 }} />
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          )
         ) : null}
       </ScrollView>
     </SafeAreaView>
@@ -233,6 +388,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     marginLeft: 10,
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   editButtonGroup: {
@@ -325,5 +482,21 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     textAlign: "center",
+  },
+
+  inputField: {
+    height: 40,
+    backgroundColor: "#f1f1f1",
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 5,
+    fontSize: 15,
+    color: "#7A6666",
+  },
+
+  seachButton: {
+    position: "absolute",
+    right: 5,
+    top: 5,
   },
 });

@@ -55,7 +55,11 @@ export default function AfterAddFlashcard({ navigation }) {
       </View>
       <TouchableOpacity
         style={{ alignItems: "center" }}
-        onPress={() => navigation.navigate("Flashcards")}
+        onPress={() =>
+          navigation.navigate("Flashcards", {
+            added: true,
+          })
+        }
       >
         <View style={styles.signupBtn}>
           <MyAppText

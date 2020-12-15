@@ -290,7 +290,7 @@ export default function MultipleChoiceScreen({ navigation }) {
         <ScrollView style={styles.scrollView}>
           <View style={{ marginBottom: 5 }}>
             <MyAppText
-              content="Trắc nghiệm"
+              content="Ghép cặp"
               format="bold"
               style={{ color: "#84D037" }}
             />

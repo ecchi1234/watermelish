@@ -99,10 +99,22 @@ const TabsScreen = () => (
       inactiveTintColor: "gray",
     }}
   >
-    <Tabs.Screen name="Home" component={HomeStackScreen} />
+    <Tabs.Screen
+      name="Home"
+      component={HomeStackScreen}
+      options={{
+        title: "Nhà",
+      }}
+    />
     <Tabs.Screen name="Flashcard" component={FlashcardStackScreen} />
     <Tabs.Screen name="Game" component={GameStackGame} />
-    <Tabs.Screen name="Profile" component={ProfileStackScreen} />
+    <Tabs.Screen
+      name="Profile"
+      component={ProfileStackScreen}
+      options={{
+        title: "Hồ sơ",
+      }}
+    />
   </Tabs.Navigator>
 );
 
@@ -227,6 +239,7 @@ const FlashcardHomeStackScreen = () => (
         },
       }}
     />
+
     <FlashcardHomeStack.Screen
       name="EditFlashcard"
       component={EditFlashcard}
@@ -241,7 +254,18 @@ const FlashcardHomeStackScreen = () => (
         },
       }}
     />
-    <FlashcardHomeStack.Screen name="TestFlashcard" component={TestFlashcard} />
+    <FlashcardHomeStack.Screen
+      name="TestFlashcard"
+      component={TestFlashcard}
+      options={{
+        title: "Trắc nghiệm",
+        headerTintColor: "#84D037",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerShown: false,
+      }}
+    />
     <FlashcardHomeStack.Screen
       name="AfterEditFlashcard"
       component={AfterEditFlashcard}
@@ -405,15 +429,14 @@ export default function App() {
       <View
         style={{
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center'
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <ActivityIndicator size='large'/>
+        <ActivityIndicator size="large" />
       </View>
-
     );
-  };
+  }
 
   if (!fontsLoaded) {
     return <AppLoading />;

@@ -40,7 +40,7 @@ export default function Result({ navigation }) {
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <MyAppText
-            content="Good Morning!"
+            content="Chào buổi chiều!"
             format="bold"
             size={25}
             style={styles.greet}
@@ -51,7 +51,7 @@ export default function Result({ navigation }) {
             style={styles.inputField}
             onChangeText={(text) => onChangeText(text)}
             value={value}
-            placeholder="I'm looking for... "
+            placeholder="Tôi đang tìm... "
             placeholderTextColor="grey"
           />
           <TouchableOpacity

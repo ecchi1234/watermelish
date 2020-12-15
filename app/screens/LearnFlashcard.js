@@ -17,6 +17,46 @@ import { Audio } from "expo-av";
 import font_styles from "../font/font";
 import MyAppText from "../components/MyAppText";
 
+class Screen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Swiper
+          from={1}
+          minDistanceForAction={0.1}
+          controlsProps={{
+            dotsTouchable: true,
+            prevPos: "left",
+            nextPos: "right",
+            nextTitle: ">",
+            nextTitleStyle: { color: "red", fontSize: 24, fontWeight: "500" },
+            PrevComponent: ({ onPress }) => (
+              <TouchableOpacity onPress={onPress}>
+                <Text
+                  style={{ color: "white", fontSize: 24, fontWeight: "500" }}
+                >
+                  {"<"}
+                </Text>
+              </TouchableOpacity>
+            ),
+          }}
+        >
+          <View style={[styles.slideContainer, styles.slide1]}>
+            <Text>Slide 1</Text>
+          </View>
+          <View style={[styles.slideContainer, styles.slide2]}>
+            <Text>Slide 2</Text>
+          </View>
+          <View style={[styles.slideContainer, styles.slide3]}>
+            <Text>Slide 3</Text>
+          </View>
+        </Swiper>
+        <Text>hello??</Text>
+      </View>
+    );
+  }
+}
+
 export default function LearnFlashcard() {
   async function playSound() {
     const soundObject = new Audio.Sound();

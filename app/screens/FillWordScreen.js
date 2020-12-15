@@ -114,7 +114,7 @@ export default function FillWordScreen({ navigation }) {
         <ScrollView style={styles.scrollView}>
           <View style={{ marginBottom: 5 }}>
             <MyAppText
-              content="Trắc nghiệm"
+              content="Điền từ"
               format="bold"
               style={{ color: "#84D037" }}
             />

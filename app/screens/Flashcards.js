@@ -24,6 +24,7 @@ import FlashcardRow from "../components/FlashcardRow";
 import MyAppText from "../components/MyAppText";
 import { toCapitalCase } from "../services/convertString";
 import { setFlashcardNames } from "../../globalVariable";
+import { added, setAdd } from "../../globalVariable";
 // pull to refresh function
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -114,12 +115,14 @@ function getMaskedElement_2() {
 }
 
 export default function Flashcards({ route, navigation }) {
+  // console.log(route.params.added);
   const [offset, setOffset] = useState(1);
 
   // pull to refresh function
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    setOffset(1);
     getListFlashcard().then((newFlashcardArray) => {
       setFlashcardArray(newFlashcardArray);
       setRefreshing(false);
@@ -133,17 +136,16 @@ export default function Flashcards({ route, navigation }) {
   const [flashcardArray, setFlashcardArray] = useState([]);
   const [isLoadingWhenDelete, setLoadingWhenDelete] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  // function call when pull to refresh
+
+  // function call when pull to refresh/when delete
   const getListFlashcard = () => {
     return new Promise((resolve, reject) => {
-      setOffset(1);
-      fetch(
-        `http://watermelish.herokuapp.com/danhsachcacbotu/nhom13/5/${offset}`
-      )
+      fetch(`http://watermelish.herokuapp.com/danhsachcacbotu/nhom13/5/1`)
         .then((response) => response.json())
         .then((json) => {
+          console.log(json[0].result);
           setLoading(false);
-          setOffset(offset + 1);
+          // setOffset(offset + 1);
           resolve(json[0].result);
           // setFlashcardArray(json[0].result);
         })
@@ -172,6 +174,11 @@ export default function Flashcards({ route, navigation }) {
 
   useEffect(() => {
     getFlashcards();
+    // return function cleanFunction() {
+    //   getListFlashcard().then((value) => {
+    //     setFlashcardArray(value);
+    //   });
+    // };
   }, []);
 
   const deleteFlashcard = (nameFlashcard) => {
@@ -181,9 +188,7 @@ export default function Flashcards({ route, navigation }) {
       .then((json) => {
         setLoadingWhenDelete(false);
         setModalVisible(true);
-        getListFlashcard().then((value) => {
-          setFlashcardArray(value);
-        });
+
         console.log(json[0].result);
       })
       .catch((error) => {
@@ -228,6 +233,11 @@ export default function Flashcards({ route, navigation }) {
                 style={{ ...styles.openButton, backgroundColor: "#84D037" }}
                 onPress={() => {
                   setModalVisible(!modalVisible);
+
+                  getListFlashcard().then((value) => {
+                    console.log(value);
+                    setFlashcardArray(value);
+                  });
                 }}
               >
                 <Text style={styles.textStyle}>Quay về</Text>
@@ -298,7 +308,7 @@ export default function Flashcards({ route, navigation }) {
                                 style: "cancel",
                               },
                               {
-                                text: "OK",
+                                text: "Xác nhận",
                                 onPress: () => {
                                   setLoadingWhenDelete(true);
                                   deleteFlashcard(card);

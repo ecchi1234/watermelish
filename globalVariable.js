@@ -3,6 +3,7 @@ export const flashcardNames =
     name: "spring"
 };
 
+export var added = false;
 export const newFlashcardName = {
   name: ""
 }
@@ -25,4 +26,8 @@ export const setWordFound = (newWordFound) => {
 
 export const setWordEnter = (newWordEnter) => {
   wordEnter.word = newFlashcardName;
+}
+
+export const setAdd = (value) => {
+  added = value;
 }

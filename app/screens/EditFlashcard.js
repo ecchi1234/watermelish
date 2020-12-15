@@ -178,15 +178,21 @@ export default function EditFlashcard({ navigation }) {
                 `Bạn đang thực hiện chỉnh sửa bộ từ ${flashcardNames.name}? Bạn có chắc chắn?`,
                 [
                   {
+                    text: "Quay lại",
+                    onPress: () => console.log("cancel"),
+                    style: {
+                      color: "#000",
+                    },
+                  },
+                  {
                     text: "Xác nhận",
                     onPress: () => {
                       setModalVisible(true);
                       editFlashcard(value);
                     },
-                  },
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("cancel"),
+                    style: {
+                      color: "#609F20",
+                    },
                   },
                 ]
               );

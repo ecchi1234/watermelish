@@ -20,7 +20,6 @@ export default function Home({ navigation }) {
   const [isLoading, setLoading] = useState(false);
   const findWord = () => {
     return new Promise((resolve, reject) => {
-
       fetch("http://watermelish.herokuapp.com/timtu/nhom13/" + value)
         .then((response) => response.json())
         .then((json) => {
@@ -33,21 +32,23 @@ export default function Home({ navigation }) {
           reject(error);
         })
         .finally(() => setLoading(false));
-    })
+    });
   };
 
-  return isLoading ? (<AnimatedLoader
-    visible={true}
-    overlayColor="rgba(255,255,255,0.75)"
-    source={require("../img/loading-effect/pre-load.json")}
-    animationStyle={{ width: 100, height: 100 }}
-    speed={1}
-  />) : (
+  return isLoading ? (
+    <AnimatedLoader
+      visible={true}
+      overlayColor="rgba(255,255,255,0.75)"
+      source={require("../img/loading-effect/pre-load.json")}
+      animationStyle={{ width: 100, height: 100 }}
+      speed={1}
+    />
+  ) : (
     <View style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View>
           <MyAppText
-            content="Good Morning!"
+            content="Chào buổi chiều!"
             format="bold"
             size={25}
             style={styles.greet}
@@ -58,7 +59,7 @@ export default function Home({ navigation }) {
             style={styles.inputField}
             onChangeText={(text) => onChangeText(text)}
             value={value}
-            placeholder="I'm looking for... "
+            placeholder="Tôi muốn tìm... "
             placeholderTextColor="grey"
           />
           <TouchableOpacity

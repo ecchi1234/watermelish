@@ -146,16 +146,16 @@ export default function AddFlashcard({ navigation }) {
                 `Bạn đang thực hiện thêm bộ từ ${value}. Bạn có chắc chắn không?`,
                 [
                   {
+                    text: "Quay lại",
+                    onPress: () => console.log("cancel"),
+                  },
+                  {
                     text: "Xác nhận",
                     onPress: () => {
                       setModalVisible(true);
                       makeNewFlashcard();
                     },
-                  },
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("cancel"),
-                  },
+                  }
                 ]
               );
             }}
