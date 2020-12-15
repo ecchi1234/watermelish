@@ -26,7 +26,7 @@ export default function AfterEditFlashcard({ navigation }) {
       </View>
       <View>
         <MyAppText
-          content="Success!"
+          content="Thành công!"
           format="bold"
           size={25}
           style={{ color: "#609F20" }}
